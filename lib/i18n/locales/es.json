@@ -1,0 +1,51 @@
+{
+  "common": {
+    "back": "Atrás",
+    "continue": "Continuar",
+    "loading": "Cargando…"
+  },
+  "actions": {
+    "generate_plan": "Generar mi plan con IA",
+    "get_started": "Empezar",
+    "save_program": "Guardar mi programa",
+    "send_magic_link": "Enviar enlace mágico"
+  },
+  "welcome": {
+    "headline_line_1": "Entrenamiento de rendimiento,",
+    "headline_line_2": "diseñado por IA",
+    "subtitle": "GRNDN crea protocolos adaptativos para tu cuerpo, horario y objetivos.",
+    "feature_ai_plans": "Planes IA",
+    "feature_adaptive": "Adaptativo",
+    "feature_pro_results": "Resultados Pro",
+    "setup_time": "Solo toma 2 minutos configurarlo"
+  },
+  "onboarding": {
+    "height": {
+      "title": "Altura",
+      "description": "Ingresa tu altura en centímetros.",
+      "label": "Altura (cm)",
+      "hint": "Rango {{min}}–{{max}} cm · admite incrementos de 0,5"
+    },
+    "weight": {
+      "title": "Peso corporal",
+      "description": "Ingresa tu peso actual en kilogramos.",
+      "label": "Peso (kg)",
+      "hint": "Rango {{min}}–{{max}} kg · admite decimales"
+    }
+  },
+  "results": {
+    "your_protocol": "Tu protocolo",
+    "overview": "Resumen",
+    "workout_split": "División de entrenamiento",
+    "training_week": "Semana de entrenamiento de {{count}} días",
+    "progression": "Progresión",
+    "notes": "Notas",
+    "my_programs": "Mis programas"
+  },
+  "auth": {
+    "save_title": "Guarda tu protocolo GRNDN",
+    "save_description": "Ingresa tu email y te enviaremos un enlace mágico seguro. Sin contraseña ni configuración de cuenta.",
+    "check_inbox": "Revisa tu bandeja de entrada",
+    "magic_link_sent": "Abre el enlace mágico en este dispositivo y tu programa actual se guardará automáticamente."
+  }
+}
