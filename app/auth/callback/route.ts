@@ -1,6 +1,8 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
+import { getSupabasePublicEnv } from '@/lib/supabase/config'
+
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url)
   const code = requestUrl.searchParams.get('code')
@@ -13,8 +15,7 @@ export async function GET(request: NextRequest) {
   }
 
   const response = NextResponse.redirect(redirectUrl)
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const { url, key } = getSupabasePublicEnv()
 
   if (!url || !key || !code) {
     return response
