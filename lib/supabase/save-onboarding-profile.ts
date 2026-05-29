@@ -1,7 +1,8 @@
 import type { OnboardingData } from '@/components/onboarding/onboarding-context'
 import { persistOnboardingProfile } from '@/lib/onboarding/persist'
 
-import { createClient, isSupabaseConfigured } from './client'
+import { createClient } from './client'
+import { isSupabaseConfigured } from './config'
 import { tryResolveSupabaseUser } from './ensure-session'
 
 /** Optionally sync onboarding answers to Supabase. Failures are logged and never thrown. */

@@ -1,15 +1,14 @@
+'use client'
+
 import { createBrowserClient } from '@supabase/ssr'
 
-export function isSupabaseConfigured(): boolean {
-  return Boolean(
-    process.env.NEXT_PUBLIC_SUPABASE_URL &&
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  )
-}
+import { getSupabasePublicEnv, isSupabaseConfigured } from './config'
 
+export { isSupabaseConfigured }
+
+/** Browser-only Supabase client (anon key). Never use the service role in the browser. */
 export function createClient() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const { url, key } = getSupabasePublicEnv()
   if (!url || !key) {
     throw new Error(
       'Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY'
