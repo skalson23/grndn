@@ -142,46 +142,58 @@ export default function ResultsPage() {
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(127,29,29,0.16),transparent_34%),radial-gradient(circle_at_10%_20%,rgba(255,255,255,0.06),transparent_22%)]"
       />
       <header className="sticky top-0 z-10 border-b border-border/80 bg-background/90 backdrop-blur-xl">
-        <div className="mx-auto flex w-full max-w-2xl items-center gap-3 pl-5 pr-4 py-4 sm:gap-4">
-          <Button variant="ghost" size="icon" className="shrink-0 rounded-xl" asChild>
-            <Link href="/" aria-label={tNav('back')}>
-              <ChevronLeft className="size-5" />
-            </Link>
-          </Button>
-          <BrandLogo
-            size="nav"
-            variant="horizontal"
-            glow="soft"
-            className="shrink-0 items-center"
-          />
-          <div className="min-w-0 flex-1 pl-0.5">
-            <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
+        <div className="mx-auto flex w-full max-w-6xl flex-nowrap items-center gap-3 px-4 py-3 sm:gap-4 sm:px-6 sm:py-4">
+          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+            <Button variant="ghost" size="icon" className="shrink-0 rounded-xl" asChild>
+              <Link href="/" aria-label={tNav('back')}>
+                <ChevronLeft className="size-5" />
+              </Link>
+            </Button>
+            <BrandLogo
+              size="nav"
+              variant="horizontal"
+              glow="soft"
+              className="shrink-0 items-center"
+            />
+          </div>
+
+          <div className="min-w-0 flex-1 basis-0 px-0.5 sm:px-1">
+            <p className="whitespace-nowrap text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
               {t('your_protocol')}
             </p>
-            <h1 className="truncate text-base font-semibold leading-tight tracking-tight sm:text-lg">
+            <h1 className="truncate text-base font-semibold leading-tight tracking-tight lg:truncate-none sm:text-lg">
               {plan.planTitle}
             </h1>
           </div>
-          <div className="hidden shrink-0 items-center gap-2 sm:flex">
-            <LanguageSwitcher />
+
+          <div className="hidden shrink-0 flex-nowrap items-center gap-2 lg:flex lg:gap-2.5">
+            <LanguageSwitcher className="shrink-0" />
             <Button
               variant="outline"
               size="icon"
-              className="size-11 rounded-2xl border-border bg-card/80"
+              className="size-11 shrink-0 rounded-2xl border-border bg-card/80"
               asChild
             >
               <Link href="/my-programs" aria-label={tNav('myPrograms')}>
                 <Library className="size-4" />
               </Link>
             </Button>
-            <ExportPdfButton plan={plan} profile={profile} />
-            <SaveProgramButton plan={plan} profile={profile} />
+            <ExportPdfButton
+              plan={plan}
+              profile={profile}
+              className="shrink-0 whitespace-nowrap"
+            />
+            <SaveProgramButton
+              plan={plan}
+              profile={profile}
+              className="shrink-0 whitespace-nowrap"
+            />
           </div>
         </div>
       </header>
 
       <main className="relative mx-auto flex w-full max-w-2xl flex-col gap-8 px-4 pt-8">
-        <div className="grid grid-cols-1 gap-3 sm:hidden">
+        <div className="grid grid-cols-1 gap-3 lg:hidden">
           <div className="flex justify-end">
             <LanguageSwitcher />
           </div>
