@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { FileDown } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { toast } from 'sonner'
 
 import type { OnboardingData } from '@/components/onboarding/onboarding-context'
@@ -18,16 +19,18 @@ type ExportPdfButtonProps = {
 }
 
 export function ExportPdfButton({ plan, profile, className }: ExportPdfButtonProps) {
+  const t = useTranslations('workout')
+  const tActions = useTranslations('actions')
   const [isExporting, setIsExporting] = useState(false)
 
   const handleExport = async () => {
     setIsExporting(true)
     try {
       await downloadWorkoutPlanPdf(plan, profile)
-      toast.success('PDF downloaded')
+      toast.success(t('pdfDownloaded'))
     } catch (e) {
       const message =
-        e instanceof Error ? e.message : 'Could not export PDF. Please try again.'
+        e instanceof Error ? e.message : t('pdfExportFailed')
       toast.error(message)
     } finally {
       setIsExporting(false)
@@ -50,12 +53,12 @@ export function ExportPdfButton({ plan, profile, className }: ExportPdfButtonPro
       {isExporting ? (
         <>
           <Spinner className="size-4" />
-          Exporting…
+          {tActions('exporting')}
         </>
       ) : (
         <>
           <FileDown className="size-4 shrink-0" />
-          Export PDF
+          {tActions('export_pdf')}
         </>
       )}
     </Button>

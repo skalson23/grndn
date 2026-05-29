@@ -2,12 +2,11 @@
 
 import { motion } from 'framer-motion'
 import { ChevronLeft, Gauge, Rabbit, ShieldCheck, Waves } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 import { Button } from '@/components/ui/button'
-import {
-  WEIGHT_LOSS_PACE_OPTIONS,
-  type WeightLossPaceId,
-} from '@/lib/onboarding/weight-loss'
+import { useOnboardingLabels } from '@/hooks/use-onboarding-labels'
+import { type WeightLossPaceId } from '@/lib/onboarding/weight-loss'
 
 import { SelectionCard } from '../selection-card'
 import { useOnboarding } from '../onboarding-context'
@@ -30,6 +29,9 @@ const itemVariants = {
 
 export function WeightLossPaceScreen() {
   const { data, updateData, goNext, goBack } = useOnboarding()
+  const t = useTranslations('onboarding.weightLossPace')
+  const tCommon = useTranslations('common')
+  const { weightLossPaces } = useOnboardingLabels()
   const value = data.weightLossPace
 
   return (
@@ -41,7 +43,7 @@ export function WeightLossPaceScreen() {
           className="mb-6 flex items-center gap-1 text-muted-foreground transition-colors hover:text-foreground"
         >
           <ChevronLeft className="h-5 w-5" />
-          <span className="text-sm font-medium">Back</span>
+          <span className="text-sm font-medium">{tCommon('back')}</span>
         </button>
 
         <motion.div
@@ -52,13 +54,8 @@ export function WeightLossPaceScreen() {
           <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-secondary">
             <ShieldCheck className="h-5 w-5 text-foreground" />
           </div>
-          <h1 className="mb-2 text-3xl font-bold tracking-tight">
-            What fat-loss pace fits your life?
-          </h1>
-          <p className="text-muted-foreground">
-            Pace changes how conservative your training volume and systemic
-            fatigue should be.
-          </p>
+          <h1 className="mb-2 text-3xl font-bold tracking-tight">{t('title')}</h1>
+          <p className="text-muted-foreground">{t('description')}</p>
         </motion.div>
       </div>
 
@@ -69,7 +66,7 @@ export function WeightLossPaceScreen() {
         className="-mx-6 min-h-0 flex-1 overflow-y-auto px-6 py-6"
       >
         <div className="space-y-3">
-          {WEIGHT_LOSS_PACE_OPTIONS.map((option) => {
+          {weightLossPaces.map((option) => {
             const Icon = icons[option.id]
             return (
               <motion.div key={option.id} variants={itemVariants}>
@@ -94,7 +91,7 @@ export function WeightLossPaceScreen() {
           size="lg"
           className="h-14 w-full rounded-2xl text-lg font-semibold disabled:opacity-30"
         >
-          Continue
+          {tCommon('continue')}
         </Button>
       </div>
     </div>

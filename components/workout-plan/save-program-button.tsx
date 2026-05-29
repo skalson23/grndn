@@ -1,9 +1,8 @@
 'use client'
 
 import { useEffect, useRef, useState, type FormEvent } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { Check, LockKeyhole, Mail, Save } from 'lucide-react'
+import { useLocale, useTranslations } from 'next-intl'
 import { toast } from 'sonner'
 
 import type { OnboardingData } from '@/components/onboarding/onboarding-context'
@@ -17,7 +16,7 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
-import { useTranslation } from '@/lib/i18n'
+import { Link, useRouter } from '@/i18n/navigation'
 import {
   getCurrentMagicLinkUser,
   saveProgramToAccount,
@@ -39,7 +38,11 @@ export function SaveProgramButton({
   className,
 }: SaveProgramButtonProps) {
   const router = useRouter()
-  const { t } = useTranslation()
+  const locale = useLocale()
+  const tActions = useTranslations('actions')
+  const tAuth = useTranslations('auth')
+  const tCommon = useTranslations('common')
+  const tErrors = useTranslations('errors')
   const [open, setOpen] = useState(false)
   const [email, setEmail] = useState('')
   const [isSaving, setIsSaving] = useState(false)
@@ -53,11 +56,11 @@ export function SaveProgramButton({
     try {
       const saved = await saveProgramToAccount({ plan, profile })
       setSavedProgramId(saved.id)
-      toast.success('Program saved')
+      toast.success(tAuth('programSaved'))
       return saved
     } catch (e) {
       const message =
-        e instanceof Error ? e.message : 'Could not save this program.'
+        e instanceof Error ? e.message : tErrors('saveProgram')
       toast.error(message)
       throw e
     } finally {
@@ -81,7 +84,7 @@ export function SaveProgramButton({
 
   const handleSaveClick = async () => {
     if (!isSupabaseConfigured()) {
-      toast.error('Saving is not configured yet.')
+      toast.error(tAuth('notConfigured'))
       return
     }
 
@@ -109,14 +112,14 @@ export function SaveProgramButton({
     setIsSendingLink(true)
     try {
       await sendMagicLink(email.trim(), {
-        next: '/results',
+        next: `/${locale}/results`,
         saveCurrentProgram: true,
       })
       setLinkSent(true)
-      toast.success('Magic link sent')
+      toast.success(tAuth('magicLinkSent'))
     } catch (e) {
       const message =
-        e instanceof Error ? e.message : 'Could not send magic link.'
+        e instanceof Error ? e.message : tErrors('sendMagicLink')
       toast.error(message)
     } finally {
       setIsSendingLink(false)
@@ -138,17 +141,17 @@ export function SaveProgramButton({
         {isSaving ? (
           <>
             <Spinner className="size-4" />
-            Saving…
+            {tActions('saving')}
           </>
         ) : savedProgramId ? (
           <>
             <Check className="size-4" />
-            Saved
+            {tActions('saved')}
           </>
         ) : (
           <>
             <Save className="size-4" />
-            {t('actions.save_program')}
+            {tActions('save_program')}
           </>
         )}
       </Button>
@@ -160,19 +163,19 @@ export function SaveProgramButton({
               <LockKeyhole className="size-5" />
             </div>
             <DialogTitle className="text-2xl tracking-tight">
-              {t('auth.save_title')}
+              {tAuth('save_title')}
             </DialogTitle>
             <DialogDescription className="text-sm leading-relaxed">
-              {t('auth.save_description')}
+              {tAuth('save_description')}
             </DialogDescription>
           </DialogHeader>
 
           {linkSent ? (
             <div className="space-y-4">
               <div className="rounded-2xl border border-border bg-secondary/50 p-4">
-                <p className="text-sm font-medium">{t('auth.check_inbox')}</p>
+                <p className="text-sm font-medium">{tAuth('check_inbox')}</p>
                 <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                  {t('auth.magic_link_sent')}
+                  {tAuth('magic_link_sent')}
                 </p>
               </div>
               <Button
@@ -181,7 +184,7 @@ export function SaveProgramButton({
                 className="h-11 w-full rounded-2xl border-border bg-background/60"
                 asChild
               >
-                <Link href="/my-programs">Go to My Programs</Link>
+                <Link href="/my-programs">{tActions('go_to_my_programs')}</Link>
               </Button>
             </div>
           ) : (
@@ -195,7 +198,7 @@ export function SaveProgramButton({
                   required
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
-                  placeholder="you@example.com"
+                  placeholder={tCommon('emailPlaceholder')}
                   className="h-12 rounded-2xl border-border bg-background/70 pl-10"
                 />
               </div>
@@ -207,10 +210,10 @@ export function SaveProgramButton({
                 {isSendingLink ? (
                   <>
                     <Spinner className="size-4" />
-                    Sending…
+                    {tActions('sending')}
                   </>
                 ) : (
-                    t('actions.send_magic_link')
+                  tActions('send_magic_link')
                 )}
               </Button>
             </form>

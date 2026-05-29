@@ -1,0 +1,540 @@
+{
+  "common": {
+    "back": "Back",
+    "continue": "Continue",
+    "loading": "Loading…",
+    "notSet": "Not set",
+    "none": "None",
+    "balanced": "Balanced",
+    "emailPlaceholder": "you@example.com",
+    "beta": "Beta"
+  },
+  "nav": {
+    "back": "Back",
+    "backToResults": "Back to results",
+    "myPrograms": "My Programs"
+  },
+  "actions": {
+    "generate_plan": "Generate My AI Plan",
+    "get_started": "Get Started",
+    "save_program": "Save My Program",
+    "send_magic_link": "Send magic link",
+    "continue_to_grndn": "Continue to GRNDN",
+    "get_beta_access": "Get beta access",
+    "join_waitlist": "Join the waitlist",
+    "join_waitlist_short": "Join waitlist",
+    "join_waitlist_title": "Join Waitlist",
+    "unlock_grndn": "Unlock GRNDN",
+    "unlocking": "Unlocking…",
+    "entering": "Entering…",
+    "joining": "Joining…",
+    "sending": "Sending…",
+    "saving": "Saving…",
+    "saved": "Saved",
+    "exporting": "Exporting…",
+    "export_pdf": "Export PDF",
+    "go_back": "Go back",
+    "go_to_my_programs": "Go to My Programs",
+    "open_program": "Open Program",
+    "create_program": "Create a program",
+    "back_to_onboarding": "Back to onboarding"
+  },
+  "landing": {
+    "mobile": {
+      "closedBeta": "Closed beta · June 2026",
+      "heroLine1": "STAY ON",
+      "heroLine2": "THE GRND.",
+      "heroSubtitle": "AI training for lifters who treat the gym like a mission—not a hobby.",
+      "liveOnGrnd": "Live on the grnd",
+      "builtDifferent": "Built different.",
+      "swipeStack": "Swipe the stack →",
+      "enterBeta": "Enter the closed beta",
+      "limitedSpots": "Limited spots. Serious lifters only.",
+      "accessGranted": "Access granted",
+      "savedOnDevice": "Saved on this device",
+      "wantEarlyAccess": "Want early access?",
+      "onTheList": "You're on the list.",
+      "betaAccessCode": "Beta access code"
+    },
+    "desktop": {
+      "closedBeta": "Closed Beta",
+      "closedBetaLaunch": "Closed Beta • Launching June 2026",
+      "headline": "Smarter AI Workout Programming.",
+      "subtitle": "Built for lifters who care about recovery, fatigue management and real progression.",
+      "tagRecovery": "Recovery-aware",
+      "tagHypertrophy": "Hypertrophy logic",
+      "tagPremium": "Premium programs",
+      "enterBeta": "Enter the closed beta",
+      "betaDescription": "Early access is limited while GRNDN's programming engine is being refined for serious lifters.",
+      "accessGranted": "Access granted",
+      "accessSavedDevice": "Your beta access is saved on this device.",
+      "accessCodePlaceholder": "Enter Closed Beta Access Code",
+      "wantEarlyAccess": "Want early access?",
+      "waitlistDescription": "Join the waitlist for launch updates and creator beta drops.",
+      "onTheList": "You're on the list.",
+      "seriousLifters": "Built for serious lifters.",
+      "hypertrophyPrinciples": "Designed around real hypertrophy principles.",
+      "footerCopy": "GRNDN is being built for lifters who want intelligent programming, not random workouts. Closed beta access helps us keep quality high while the coaching engine matures."
+    },
+    "features": {
+      "mobile": {
+        "aiProtocols": {
+          "title": "AI protocols",
+          "line": "Programs built around your body—not random workouts."
+        },
+        "fatigueAware": {
+          "title": "Fatigue-aware",
+          "line": "Smart volume so you recover and still progress."
+        },
+        "yourStyle": {
+          "title": "Your style",
+          "line": "Hypertrophy, strength, or V-taper. You choose."
+        },
+        "recoveryLogic": {
+          "title": "Recovery logic",
+          "line": "Training that respects sleep, stress, and limits."
+        },
+        "premiumPdfs": {
+          "title": "Premium PDFs",
+          "line": "Export programs that look pro in the gym."
+        }
+      },
+      "desktop": {
+        "aiGeneration": {
+          "title": "AI Workout Generation",
+          "description": "Structured protocols built around your body, goal and schedule."
+        },
+        "fatigueProgramming": {
+          "title": "Fatigue-Aware Programming",
+          "description": "Software guardrails reduce redundant high-fatigue overlap."
+        },
+        "vTaperStrength": {
+          "title": "V-Taper & Strength Styles",
+          "description": "Choose the training philosophy that matches your outcome."
+        },
+        "recoveryLogic": {
+          "title": "Smart Recovery Logic",
+          "description": "Activity, limitations and pace inform recoverable training."
+        },
+        "premiumPdf": {
+          "title": "Premium PDF Programs",
+          "description": "Export clean, polished training programs built for real use."
+        }
+      }
+    },
+    "social": {
+      "onStreak": "On a streak",
+      "sessionsToday": "Sessions today",
+      "prsWeek": "PRs this week",
+      "hitStreak": "hit a 5-day streak",
+      "finishedPushA": "finished Push A",
+      "unlockedProtocol": "unlocked new protocol"
+    },
+    "phonePreview": {
+      "today": "Today",
+      "streak": "{count} streak",
+      "pushWeek": "Push A · Week 3",
+      "benchProgression": "Bench progression",
+      "complete": "{percent}% complete",
+      "volume": "Volume",
+      "rpeAvg": "RPE avg",
+      "recoveryScore": "Recovery score: Optimal"
+    },
+    "errors": {
+      "invalidAccessCode": "Invalid beta access code.",
+      "waitlistJoined": "You're on the list.",
+      "waitlistFailed": "Could not join the waitlist."
+    }
+  },
+  "welcome": {
+    "headline_line_1": "Performance training,",
+    "headline_line_2": "engineered by AI",
+    "subtitle": "GRNDN builds adaptive protocols tailored to your body, schedule, and goals.",
+    "feature_ai_plans": "AI Plans",
+    "feature_adaptive": "Adaptive",
+    "feature_pro_results": "Pro Results",
+    "setup_time": "Takes only 2 minutes to set up"
+  },
+  "onboarding": {
+    "progress": {
+      "stepOf": "Step {current} of {total}"
+    },
+    "age": {
+      "title": "Your age",
+      "description": "We use this to tune volume, recovery, and progression.",
+      "yearsOld": "years old"
+    },
+    "height": {
+      "title": "Height",
+      "description": "Enter your height in centimeters.",
+      "label": "Height (cm)",
+      "hint": "Range {min}–{max} cm · supports 0.5 increments"
+    },
+    "weight": {
+      "title": "Body weight",
+      "description": "Enter your current weight in kilograms.",
+      "label": "Weight (kg)",
+      "hint": "Range {min}–{max} kg · decimals supported"
+    },
+    "sex": {
+      "title": "About you",
+      "description": "Helps calibrate recovery and programming style. You can update this later.",
+      "male": "Male",
+      "female": "Female",
+      "nonBinary": "Non-binary",
+      "preferNotToSay": "Prefer not to say",
+      "maleHint": "Used only to tune evidence-based training variables",
+      "femaleHint": "Used only to tune evidence-based training variables",
+      "nonBinaryHint": "Inclusive programming without assumptions",
+      "preferNotToSayHint": "Neutral prescriptions; no sex-specific assumptions"
+    },
+    "activity": {
+      "title": "How active are you outside the gym?",
+      "description": "Daily movement changes recovery demands and how much training volume you can realistically tolerate.",
+      "maintenanceEstimate": "Maintenance estimate",
+      "kcalPerDay": "~{count} kcal/day",
+      "disclaimer": "Informational only. GRNDN uses this to reason about recovery and fatigue, not to prescribe calories or meal plans."
+    },
+    "experience": {
+      "title": "Training experience",
+      "description": "This helps us calibrate your workouts"
+    },
+    "goal": {
+      "title": "What's your goal?",
+      "description": "Select one or more fitness objectives"
+    },
+    "targetWeight": {
+      "title": "What target weight are you aiming for?",
+      "description": "This helps calibrate fatigue and recovery expectations for fat-loss training.",
+      "label": "Target weight (kg)",
+      "hint": "Enter a realistic target below your current {weight} kg body weight."
+    },
+    "weightLossPace": {
+      "title": "What fat-loss pace fits your life?",
+      "description": "Pace changes how conservative your training volume and systemic fatigue should be."
+    },
+    "trainingStyle": {
+      "title": "What training style fits you best?",
+      "description": "Choose the training philosophy that best matches your goals and preferred experience."
+    },
+    "muscleGroups": {
+      "title": "Priority muscles",
+      "description": "Which areas do you want to focus on?"
+    },
+    "equipment": {
+      "title": "Available equipment",
+      "description": "Select all the gear you have access to"
+    },
+    "injuries": {
+      "title": "Any limitations?",
+      "description": "We'll modify exercises to keep you safe"
+    },
+    "frequency": {
+      "title": "Weekly frequency",
+      "description": "How many days per week can you train?",
+      "daysPerWeek": "days / week"
+    },
+    "duration": {
+      "title": "Session duration",
+      "description": "How long can you workout each session?"
+    },
+    "summary": {
+      "title": "You're all set",
+      "description": "Review your profile, then generate your GRNDN protocol.",
+      "readyTitle": "Ready for your protocol",
+      "readyDescription": "Metrics ({height} cm, {weight} kg, age {age}) plus your {frequency}-day schedule shape a {duration}-minute adaptive plan.",
+      "adjustAnytime": "You can adjust these settings anytime",
+      "labels": {
+        "age": "Age",
+        "height": "Height",
+        "weight": "Weight",
+        "sex": "Sex",
+        "dailyActivity": "Daily activity",
+        "maintenance": "Maintenance",
+        "experience": "Experience",
+        "goals": "Goals",
+        "targetWeight": "Target weight",
+        "fatLossPace": "Fat-loss pace",
+        "trainingStyle": "Training style",
+        "equipment": "Equipment",
+        "limitations": "Limitations",
+        "focusAreas": "Focus Areas",
+        "frequency": "Frequency",
+        "duration": "Duration"
+      },
+      "values": {
+        "ageYears": "{age} yrs",
+        "heightCm": "{height} cm",
+        "weightKg": "{weight} kg",
+        "maintenanceKcal": "~{count} kcal",
+        "goalsCount": "{count} goals",
+        "noEquipment": "No Equipment",
+        "itemsCount": "{count} items",
+        "areasCount": "{count} areas",
+        "fullBody": "Full Body",
+        "groupsCount": "{count} groups",
+        "frequencyDays": "{count} days/week",
+        "durationMin": "{count} min"
+      }
+    },
+    "options": {
+      "activity": {
+        "sedentary": {
+          "title": "Sedentary",
+          "description": "Mostly sitting, low daily movement."
+        },
+        "lightly_active": {
+          "title": "Lightly Active",
+          "description": "Some walking and light daily movement."
+        },
+        "moderately_active": {
+          "title": "Moderately Active",
+          "description": "Regular movement and active lifestyle."
+        },
+        "very_active": {
+          "title": "Very Active",
+          "description": "Physically demanding work or high daily activity."
+        },
+        "athlete_level": {
+          "title": "Athlete-Level Activity",
+          "description": "Very high physical output and recovery demands."
+        }
+      },
+      "experience": {
+        "beginner": {
+          "title": "Beginner",
+          "description": "New to fitness or returning after a long break"
+        },
+        "intermediate": {
+          "title": "Intermediate",
+          "description": "6+ months of consistent training experience"
+        },
+        "advanced": {
+          "title": "Advanced",
+          "description": "2+ years of structured training programs"
+        },
+        "elite": {
+          "title": "Elite",
+          "description": "Professional or competitive athlete level"
+        }
+      },
+      "goal": {
+        "lose-weight": {
+          "title": "Lose Weight",
+          "description": "Burn fat and get lean with targeted cardio and strength training"
+        },
+        "build-muscle": {
+          "title": "Build Muscle",
+          "description": "Gain strength and size with progressive overload programs"
+        },
+        "get-fit": {
+          "title": "Get Fit",
+          "description": "Improve overall fitness, stamina, and daily energy levels"
+        },
+        "stay-healthy": {
+          "title": "Stay Healthy",
+          "description": "Maintain your current fitness with balanced workouts"
+        },
+        "compete": {
+          "title": "Compete",
+          "description": "Train for athletic performance and competition"
+        }
+      },
+      "weightLossPace": {
+        "aggressive": {
+          "title": "Aggressive",
+          "description": "Faster fat loss with higher recovery demands."
+        },
+        "moderate": {
+          "title": "Moderate",
+          "description": "Balanced fat loss and performance."
+        },
+        "sustainable": {
+          "title": "Sustainable",
+          "description": "Slower long-term focused approach."
+        }
+      },
+      "trainingStyle": {
+        "hypertrophy": {
+          "title": "Hypertrophy",
+          "description": "Balanced muscle growth and bodybuilding-focused training."
+        },
+        "strength": {
+          "title": "Strength",
+          "description": "Heavier compounds, lower reps and performance-focused progression."
+        },
+        "v_taper": {
+          "title": "Aesthetic / V-Taper",
+          "description": "Prioritize wide lats, capped delts and upper-body aesthetics."
+        },
+        "powerbuilding": {
+          "title": "Powerbuilding",
+          "description": "Blend strength progression with bodybuilding hypertrophy work."
+        },
+        "athletic": {
+          "title": "Athletic",
+          "description": "Explosive, athletic and conditioning-oriented training."
+        },
+        "minimalist": {
+          "title": "Minimalist",
+          "description": "Lower volume, high-efficiency training with minimal junk volume."
+        }
+      },
+      "muscleGroup": {
+        "chest": "Chest",
+        "back": "Back",
+        "shoulders": "Shoulders",
+        "arms": "Arms",
+        "core": "Core",
+        "legs": "Legs",
+        "glutes": "Glutes",
+        "full-body": "Full Body"
+      },
+      "equipment": {
+        "none": "No Equipment",
+        "dumbbells": "Dumbbells",
+        "barbell": "Barbell",
+        "kettlebell": "Kettlebell",
+        "resistance-bands": "Resistance Bands",
+        "pull-up-bar": "Pull-up Bar",
+        "cable-machine": "Cable Machine",
+        "full-gym": "Full Gym Access"
+      },
+      "injury": {
+        "none": {
+          "title": "No Injuries",
+          "description": "I have no limitations"
+        },
+        "lower-back": {
+          "title": "Lower Back",
+          "description": "Pain or discomfort"
+        },
+        "knees": {
+          "title": "Knees",
+          "description": "Joint issues"
+        },
+        "shoulders": {
+          "title": "Shoulders",
+          "description": "Mobility limited"
+        },
+        "wrists": {
+          "title": "Wrists",
+          "description": "Strain or weakness"
+        },
+        "neck": {
+          "title": "Neck",
+          "description": "Tension or pain"
+        },
+        "hips": {
+          "title": "Hips",
+          "description": "Flexibility issues"
+        },
+        "ankles": {
+          "title": "Ankles",
+          "description": "Instability"
+        }
+      },
+      "frequency": {
+        "2": { "label": "Light", "description": "Perfect for maintaining fitness" },
+        "3": { "label": "Easy Start", "description": "Great for beginners" },
+        "4": { "label": "Balanced", "description": "Ideal for most people" },
+        "5": { "label": "Committed", "description": "Optimal for building strength" },
+        "6": { "label": "Serious", "description": "For serious athletes" },
+        "7": { "label": "Dedicated", "description": "Elite training schedule" }
+      },
+      "duration": {
+        "15": { "label": "15 min", "description": "Quick burst" },
+        "30": { "label": "30 min", "description": "Efficient" },
+        "45": { "label": "45 min", "description": "Standard" },
+        "60": { "label": "60 min", "description": "Complete" },
+        "75": { "label": "75 min", "description": "Extended" },
+        "90": { "label": "90 min", "description": "Intense" }
+      }
+    }
+  },
+  "generation": {
+    "initializing": "Initializing…",
+    "buildingProtocol": "Building protocol",
+    "percent": "{percent}%",
+    "error": "Could not generate your workout plan.",
+    "poweredBy": "Powered by {frequency}-day adaptive intelligence",
+    "stages": {
+      "analyzing": "Analyzing training profile…",
+      "recovery": "Optimizing recovery balance…",
+      "fatigue": "Calculating fatigue management…",
+      "progression": "Building progression structure…",
+      "split": "Designing your training split…",
+      "finalizing": "Finalizing GRNDN protocol…"
+    }
+  },
+  "results": {
+    "your_protocol": "Your protocol",
+    "overview": "Overview",
+    "workout_split": "Workout split",
+    "training_week": "{count}-day training week",
+    "progression": "Progression",
+    "notes": "Notes",
+    "my_programs": "My Programs",
+    "missingPlan": "Generate a protocol from onboarding first, or your session may have expired.",
+    "loading": "Loading your protocol…",
+    "frequency": "Frequency",
+    "duration": "Duration",
+    "weeklyVolume": "Weekly volume",
+    "split": "Split",
+    "daysPerWeek": "{count} days / week",
+    "approxMin": "~{count} min",
+    "setsCount": "{count} sets",
+    "dayProtocol": "{count}-day protocol",
+    "style": "Style: {value}",
+    "emphasis": "Emphasis: {value}",
+    "activity": "Activity: {value}",
+    "maintenance": "Maintenance: ~{count} kcal",
+    "experience": "Experience: {value}",
+    "sessionsCount": "{count} sessions"
+  },
+  "programs": {
+    "account": "Account",
+    "title": "My Programs",
+    "libraryTitle": "Your saved training library",
+    "libraryDescription": "Access generated GRNDN programs from any device after signing in with your email magic link.",
+    "programsStat": "Programs",
+    "sessionsStat": "Sessions",
+    "loading": "Loading programs…",
+    "signInTitle": "Sign in with email",
+    "signInDescription": "No password required. We'll send a one-tap magic link to unlock your saved programs.",
+    "checkInboxDescription": "Open the link and you'll land back here automatically.",
+    "emptyTitle": "No saved programs yet",
+    "emptyDescription": "Generate a protocol, then tap \"Save My Program\" on the results page.",
+    "savedProgram": "Saved Program",
+    "sessionsCount": "{count} sessions"
+  },
+  "auth": {
+    "save_title": "Save your GRNDN protocol",
+    "save_description": "Enter your email and we'll send a secure magic link. No password, no account setup.",
+    "check_inbox": "Check your inbox",
+    "magic_link_sent": "Open the magic link on this device and your current program will save automatically.",
+    "programSaved": "Program saved",
+    "magicLinkSent": "Magic link sent",
+    "notConfigured": "Saving is not configured yet."
+  },
+  "workout": {
+    "day": "Day {number}",
+    "approxMin": "~{count} min",
+    "movesCount": "{count} moves",
+    "warmUp": "Warm-up",
+    "mainWork": "Main work",
+    "coolDown": "Cool-down",
+    "sets": "Sets",
+    "reps": "Reps",
+    "rest": "Rest",
+    "pdfDownloaded": "PDF downloaded",
+    "pdfExportFailed": "Could not export PDF. Please try again."
+  },
+  "errors": {
+    "saveProgram": "Could not save this program.",
+    "sendMagicLink": "Could not send magic link.",
+    "loadPrograms": "Could not load saved programs.",
+    "supabaseSaveNotConfigured": "Supabase is not configured for saving programs.",
+    "supabaseProgramsNotConfigured": "Supabase is not configured for saved programs."
+  }
+}

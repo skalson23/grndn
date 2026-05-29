@@ -9,15 +9,17 @@ import {
   LockKeyhole,
   Mail,
 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 import { BrandLogo } from '@/components/brand/brand-logo'
+import { LanguageSwitcher } from '@/components/i18n/language-switcher'
 import { PhonePreview } from '@/components/landing/phone-preview'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
 import {
   LIVE_ACTIVITY,
-  MOBILE_FEATURES,
+  MOBILE_FEATURE_KEYS,
   SOCIAL_STATS,
 } from '@/lib/landing/content'
 import { cn } from '@/lib/utils'
@@ -61,6 +63,11 @@ export function MobileLanding({
   onScrollToAccess,
 }: MobileLandingProps) {
   const accessRef = useRef<HTMLElement>(null)
+  const t = useTranslations('landing.mobile')
+  const tFeatures = useTranslations('landing.features.mobile')
+  const tSocial = useTranslations('landing.social')
+  const tActions = useTranslations('actions')
+  const tCommon = useTranslations('common')
 
   const scrollToAccess = () => {
     onScrollToAccess()
@@ -73,9 +80,12 @@ export function MobileLanding({
       <header className="fixed inset-x-0 top-0 z-40 border-b border-white/6 bg-background/70 backdrop-blur-xl">
         <div className="mx-auto flex max-w-lg items-center justify-between px-5 py-3.5">
           <BrandLogo size="sm" variant="horizontal" className="items-center" />
-          <span className="rounded-full border border-[oklch(0.52_0.16_25)]/30 bg-[oklch(0.52_0.16_25)]/12 px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.2em] text-[oklch(0.62_0.17_25)]">
-            Beta
-          </span>
+          <div className="flex items-center gap-2">
+            <LanguageSwitcher />
+            <span className="rounded-full border border-[oklch(0.52_0.16_25)]/30 bg-[oklch(0.52_0.16_25)]/12 px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.2em] text-[oklch(0.62_0.17_25)]">
+              {tCommon('beta')}
+            </span>
+          </div>
         </div>
       </header>
 
@@ -104,17 +114,17 @@ export function MobileLanding({
           </div>
 
           <span className="mt-5 inline-flex rounded-full border border-[oklch(0.52_0.16_25)]/30 bg-[oklch(0.52_0.16_25)]/12 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.22em] text-[oklch(0.62_0.17_25)]">
-            Closed beta · June 2026
+            {t('closedBeta')}
           </span>
 
           <h1 className="mt-5 max-w-[18rem] text-balance text-[2.65rem] font-bold leading-[0.9] tracking-[-0.04em]">
-            STAY ON
+            {t('heroLine1')}
             <br />
-            <span className="text-[oklch(0.62_0.17_25)]">THE GRND.</span>
+            <span className="text-[oklch(0.62_0.17_25)]">{t('heroLine2')}</span>
           </h1>
 
           <p className="mt-4 max-w-[20rem] text-pretty text-base leading-relaxed text-foreground/75">
-            AI training for lifters who treat the gym like a mission—not a hobby.
+            {t('heroSubtitle')}
           </p>
 
           <div className="mt-7 flex w-full max-w-sm flex-col gap-3">
@@ -128,7 +138,7 @@ export function MobileLanding({
                 'shadow-[0_1px_0_rgba(255,255,255,0.45)_inset,0_20px_60px_rgba(0,0,0,0.5)]'
               )}
             >
-              {accessGranted ? 'Continue to GRNDN' : 'Get beta access'}
+              {accessGranted ? tActions('continue_to_grndn') : tActions('get_beta_access')}
               <ArrowRight className="size-5" />
             </Button>
             <Button
@@ -137,7 +147,7 @@ export function MobileLanding({
               onClick={scrollToAccess}
               className="h-12 rounded-2xl border-border/80 bg-card/40 text-sm font-medium backdrop-blur"
             >
-              Join the waitlist
+              {tActions('join_waitlist')}
             </Button>
           </div>
         </motion.div>
@@ -156,17 +166,17 @@ export function MobileLanding({
           transition={{ duration: 0.45 }}
         >
           <p className="mb-4 text-center text-[10px] font-bold uppercase tracking-[0.24em] text-muted-foreground">
-            Live on the grnd
+            {t('liveOnGrnd')}
           </p>
           <div className="-mx-5 flex gap-3 overflow-x-auto px-5 pb-1 snap-x snap-mandatory scrollbar-none">
             {SOCIAL_STATS.map((stat) => (
               <div
-                key={stat.label}
+                key={stat.labelKey}
                 className="min-w-[9.5rem] shrink-0 snap-start rounded-2xl border border-border/70 bg-card/70 p-4 backdrop-blur"
               >
                 <stat.icon className="mb-2 size-4 text-[oklch(0.62_0.17_25)]" />
                 <p className="text-2xl font-bold tracking-tight">{stat.value}</p>
-                <p className="mt-1 text-xs text-muted-foreground">{stat.label}</p>
+                <p className="mt-1 text-xs text-muted-foreground">{tSocial(stat.labelKey)}</p>
               </div>
             ))}
           </div>
@@ -179,7 +189,7 @@ export function MobileLanding({
               >
                 <p className="text-sm">
                   <span className="font-semibold text-foreground">@{item.user}</span>{' '}
-                  <span className="text-muted-foreground">{item.action}</span>
+                  <span className="text-muted-foreground">{tSocial(item.actionKey)}</span>
                 </p>
                 <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
                   {item.time}
@@ -193,13 +203,13 @@ export function MobileLanding({
       {/* Features carousel */}
       <section className="pb-10">
         <div className="mb-4 px-5">
-          <h2 className="text-2xl font-bold tracking-tight">Built different.</h2>
-          <p className="mt-1 text-sm text-muted-foreground">Swipe the stack →</p>
+          <h2 className="text-2xl font-bold tracking-tight">{t('builtDifferent')}</h2>
+          <p className="mt-1 text-sm text-muted-foreground">{t('swipeStack')}</p>
         </div>
         <div className="-mx-0 flex gap-3 overflow-x-auto px-5 pb-2 snap-x snap-mandatory scrollbar-none">
-          {MOBILE_FEATURES.map((feature, index) => (
+          {MOBILE_FEATURE_KEYS.map((feature, index) => (
             <motion.article
-              key={feature.title}
+              key={feature.key}
               initial={{ opacity: 0, x: 24 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: '-20px' }}
@@ -209,8 +219,12 @@ export function MobileLanding({
               <div className="mb-4 flex size-12 items-center justify-center rounded-2xl border border-[oklch(0.52_0.16_25)]/25 bg-[oklch(0.52_0.16_25)]/10">
                 <feature.icon className="size-5 text-[oklch(0.62_0.17_25)]" />
               </div>
-              <h3 className="text-lg font-semibold tracking-tight">{feature.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{feature.line}</p>
+              <h3 className="text-lg font-semibold tracking-tight">
+                {tFeatures(`${feature.key}.title`)}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                {tFeatures(`${feature.key}.line`)}
+              </p>
             </motion.article>
           ))}
         </div>
@@ -231,10 +245,8 @@ export function MobileLanding({
           <div className="mb-4 flex size-11 items-center justify-center rounded-2xl bg-foreground text-background">
             <LockKeyhole className="size-5" />
           </div>
-          <h2 className="text-xl font-bold tracking-tight">Enter the closed beta</h2>
-          <p className="mt-1.5 text-sm text-muted-foreground">
-            Limited spots. Serious lifters only.
-          </p>
+          <h2 className="text-xl font-bold tracking-tight">{t('enterBeta')}</h2>
+          <p className="mt-1.5 text-sm text-muted-foreground">{t('limitedSpots')}</p>
 
           {accessGranted ? (
             <div
@@ -248,8 +260,8 @@ export function MobileLanding({
                   <Check className="size-4" />
                 </div>
                 <div className="text-left">
-                  <p className="text-sm font-semibold">Access granted</p>
-                  <p className="text-xs text-muted-foreground">Saved on this device</p>
+                  <p className="text-sm font-semibold">{t('accessGranted')}</p>
+                  <p className="text-xs text-muted-foreground">{t('savedOnDevice')}</p>
                 </div>
               </div>
               <Button
@@ -261,11 +273,11 @@ export function MobileLanding({
                 {isUnlocking ? (
                   <>
                     <Spinner className="size-4" />
-                    Entering…
+                    {tActions('entering')}
                   </>
                 ) : (
                   <>
-                    Continue
+                    {tCommon('continue')}
                     <ChevronRight className="size-5" />
                   </>
                 )}
@@ -284,7 +296,7 @@ export function MobileLanding({
                 autoComplete="off"
                 value={accessCode}
                 onChange={(e) => onAccessCodeChange(e.target.value)}
-                placeholder="Beta access code"
+                placeholder={t('betaAccessCode')}
                 aria-invalid={Boolean(accessError)}
                 className="h-12 rounded-2xl border-border bg-background/70 px-4 text-base"
               />
@@ -301,11 +313,11 @@ export function MobileLanding({
                 {isCheckingAccess || isUnlocking ? (
                   <>
                     <Spinner className="size-4" />
-                    Unlocking…
+                    {tActions('unlocking')}
                   </>
                 ) : (
                   <>
-                    Unlock GRNDN
+                    {tActions('unlock_grndn')}
                     <ArrowRight className="size-5" />
                   </>
                 )}
@@ -315,11 +327,11 @@ export function MobileLanding({
 
           <div className="my-5 h-px bg-border/70" />
 
-          <h3 className="text-base font-semibold">Want early access?</h3>
+          <h3 className="text-base font-semibold">{t('wantEarlyAccess')}</h3>
           {waitlistJoined ? (
             <div className="mt-3 flex items-center gap-2 rounded-2xl border border-[oklch(0.52_0.16_25)]/25 bg-[oklch(0.52_0.16_25)]/10 p-4 text-sm font-medium">
               <Check className="size-4 text-[oklch(0.52_0.16_25)]" />
-              You&apos;re on the list.
+              {t('onTheList')}
             </div>
           ) : (
             <form onSubmit={onWaitlistSubmit} className="mt-3 space-y-3">
@@ -332,7 +344,7 @@ export function MobileLanding({
                   required
                   value={waitlistEmail}
                   onChange={(e) => onWaitlistEmailChange(e.target.value)}
-                  placeholder="you@example.com"
+                  placeholder={tCommon('emailPlaceholder')}
                   className="h-12 rounded-2xl border-border bg-background/70 pl-10"
                 />
               </div>
@@ -345,10 +357,10 @@ export function MobileLanding({
                 {isJoiningWaitlist ? (
                   <>
                     <Spinner className="size-4" />
-                    Joining…
+                    {tActions('joining')}
                   </>
                 ) : (
-                  'Join waitlist'
+                  tActions('join_waitlist_short')
                 )}
               </Button>
             </form>

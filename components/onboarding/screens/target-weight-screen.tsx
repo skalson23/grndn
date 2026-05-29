@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import { ChevronLeft, Goal } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -31,6 +32,8 @@ function parseTargetWeight(value: string, currentWeight: number): number | null 
 
 export function TargetWeightScreen() {
   const { data, updateData, goNext, goBack } = useOnboarding()
+  const t = useTranslations('onboarding.targetWeight')
+  const tCommon = useTranslations('common')
   const [draft, setDraft] = useState(() => formatWeight(data.targetWeightKg))
 
   useEffect(() => {
@@ -63,7 +66,7 @@ export function TargetWeightScreen() {
           className="mb-6 flex items-center gap-1 text-muted-foreground transition-colors hover:text-foreground"
         >
           <ChevronLeft className="h-5 w-5" />
-          <span className="text-sm font-medium">Back</span>
+          <span className="text-sm font-medium">{tCommon('back')}</span>
         </button>
 
         <motion.div
@@ -74,13 +77,8 @@ export function TargetWeightScreen() {
           <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-secondary">
             <Goal className="h-5 w-5 text-foreground" />
           </div>
-          <h1 className="mb-2 text-3xl font-bold tracking-tight">
-            What target weight are you aiming for?
-          </h1>
-          <p className="text-muted-foreground">
-            This helps calibrate fatigue and recovery expectations for fat-loss
-            training.
-          </p>
+          <h1 className="mb-2 text-3xl font-bold tracking-tight">{t('title')}</h1>
+          <p className="text-muted-foreground">{t('description')}</p>
         </motion.div>
       </div>
 
@@ -91,7 +89,7 @@ export function TargetWeightScreen() {
         className="mx-auto flex w-full max-w-sm flex-1 flex-col justify-center py-8"
       >
         <label className="mb-2 text-sm font-medium text-muted-foreground">
-          Target weight (kg)
+          {t('label')}
         </label>
         <Input
           type="text"
@@ -109,8 +107,7 @@ export function TargetWeightScreen() {
           className="h-14 rounded-2xl border-border bg-card text-2xl font-semibold tabular-nums"
         />
         <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-          Enter a realistic target below your current {data.weightKg} kg body
-          weight.
+          {t('hint', { weight: data.weightKg })}
         </p>
       </motion.div>
 
@@ -124,7 +121,7 @@ export function TargetWeightScreen() {
           size="lg"
           className="h-14 w-full rounded-2xl text-lg font-semibold disabled:opacity-30"
         >
-          Continue
+          {tCommon('continue')}
         </Button>
       </div>
     </div>

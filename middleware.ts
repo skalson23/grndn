@@ -1,16 +1,21 @@
+import createIntlMiddleware from 'next-intl/middleware'
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
+import { routing } from '@/i18n/routing'
 import { getSupabasePublicEnv } from '@/lib/supabase/config'
 
-export async function middleware(request: NextRequest) {
-  const { url, key } = getSupabasePublicEnv()
+const intlMiddleware = createIntlMiddleware(routing)
 
+export async function middleware(request: NextRequest) {
+  const intlResponse = intlMiddleware(request)
+
+  const { url, key } = getSupabasePublicEnv()
   if (!url || !key) {
-    return NextResponse.next()
+    return intlResponse
   }
 
-  let response = NextResponse.next({ request })
+  let response = intlResponse
 
   const supabase = createServerClient(url, key, {
     cookies: {
@@ -31,11 +36,12 @@ export async function middleware(request: NextRequest) {
   } catch {
     // Auth refresh is optional; never block page loads
   }
+
   return response
 }
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!api|auth|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }

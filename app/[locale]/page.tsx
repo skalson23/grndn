@@ -2,6 +2,7 @@
 
 import { useEffect, useState, type FormEvent } from 'react'
 import { motion } from 'framer-motion'
+import { useTranslations } from 'next-intl'
 import { toast } from 'sonner'
 
 import { DesktopLanding } from '@/components/landing/desktop-landing'
@@ -23,6 +24,7 @@ async function sha256(value: string): Promise<string> {
 }
 
 export default function Home() {
+  const tErrors = useTranslations('landing.errors')
   const [accessGranted, setAccessGranted] = useState(false)
   const [showOnboarding, setShowOnboarding] = useState(false)
   const [accessCode, setAccessCode] = useState('')
@@ -52,7 +54,7 @@ export default function Home() {
     try {
       const hash = await sha256(accessCode.trim())
       if (hash !== ACCESS_CODE_HASH) {
-        setAccessError('Invalid beta access code.')
+        setAccessError(tErrors('invalidAccessCode'))
         return
       }
 
@@ -71,10 +73,10 @@ export default function Home() {
     try {
       await joinWaitlist(waitlistEmail)
       setWaitlistJoined(true)
-      toast.success('You’re on the list.')
+      toast.success(tErrors('waitlistJoined'))
     } catch (e) {
       const message =
-        e instanceof Error ? e.message : 'Could not join the waitlist.'
+        e instanceof Error ? e.message : tErrors('waitlistFailed')
       toast.error(message)
     } finally {
       setIsJoiningWaitlist(false)

@@ -9,12 +9,11 @@ import {
   Rocket,
   Sofa,
 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 import { Button } from '@/components/ui/button'
-import {
-  ACTIVITY_LEVEL_OPTIONS,
-  type ActivityLevelId,
-} from '@/lib/onboarding/activity-level'
+import { useOnboardingLabels } from '@/hooks/use-onboarding-labels'
+import { type ActivityLevelId } from '@/lib/onboarding/activity-level'
 import { estimateTdee } from '@/lib/onboarding/tdee'
 
 import { SelectionCard } from '../selection-card'
@@ -43,6 +42,9 @@ const itemVariants = {
 
 export function ActivityLevelScreen() {
   const { data, updateData, goNext, goBack } = useOnboarding()
+  const t = useTranslations('onboarding.activity')
+  const tCommon = useTranslations('common')
+  const { activityLevels } = useOnboardingLabels()
   const value = data.activityLevel
   const estimate = value
     ? estimateTdee({
@@ -63,7 +65,7 @@ export function ActivityLevelScreen() {
           className="mb-6 flex items-center gap-1 text-muted-foreground transition-colors hover:text-foreground"
         >
           <ChevronLeft className="h-5 w-5" />
-          <span className="text-sm font-medium">Back</span>
+          <span className="text-sm font-medium">{tCommon('back')}</span>
         </button>
 
         <motion.div
@@ -71,13 +73,8 @@ export function ActivityLevelScreen() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <h1 className="mb-2 text-3xl font-bold tracking-tight">
-            How active are you outside the gym?
-          </h1>
-          <p className="text-muted-foreground">
-            Daily movement changes recovery demands and how much training volume
-            you can realistically tolerate.
-          </p>
+          <h1 className="mb-2 text-3xl font-bold tracking-tight">{t('title')}</h1>
+          <p className="text-muted-foreground">{t('description')}</p>
         </motion.div>
       </div>
 
@@ -88,7 +85,7 @@ export function ActivityLevelScreen() {
         className="-mx-6 min-h-0 flex-1 overflow-y-auto px-6 py-6"
       >
         <div className="space-y-3">
-          {ACTIVITY_LEVEL_OPTIONS.map((option) => {
+          {activityLevels.map((option) => {
             const Icon = icons[option.id]
             return (
               <motion.div key={option.id} variants={itemVariants}>
@@ -111,14 +108,13 @@ export function ActivityLevelScreen() {
             className="mt-5 rounded-3xl border border-border bg-secondary/40 p-5"
           >
             <p className="text-xs font-medium uppercase tracking-widest text-[oklch(0.52_0.16_25)]">
-              Maintenance estimate
+              {t('maintenanceEstimate')}
             </p>
             <p className="mt-2 text-3xl font-semibold tracking-tight">
-              ~{estimate.maintenanceCalories.toLocaleString()} kcal/day
+              {t('kcalPerDay', { count: estimate.maintenanceCalories.toLocaleString() })}
             </p>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              Informational only. GRNDN uses this to reason about recovery and
-              fatigue, not to prescribe calories or meal plans.
+              {t('disclaimer')}
             </p>
           </motion.div>
         )}
@@ -132,7 +128,7 @@ export function ActivityLevelScreen() {
           size="lg"
           className="h-14 w-full rounded-2xl text-lg font-semibold disabled:opacity-30"
         >
-          Continue
+          {tCommon('continue')}
         </Button>
       </div>
     </div>

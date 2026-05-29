@@ -2,24 +2,25 @@
 
 import { motion } from 'framer-motion'
 import { Activity, Dumbbell, Sparkles } from 'lucide-react'
+import { useTranslations } from 'next-intl'
+
 import { BrandLogo } from '@/components/brand/brand-logo'
 import { Button } from '@/components/ui/button'
-import { useTranslation } from '@/lib/i18n'
 import { useOnboarding } from '../onboarding-context'
 
 export function WelcomeScreen() {
   const { goNext } = useOnboarding()
-  const { t } = useTranslation()
+  const t = useTranslations('welcome')
+  const tActions = useTranslations('actions')
 
   const features = [
-    { icon: Sparkles, label: t('welcome.feature_ai_plans') },
-    { icon: Activity, label: t('welcome.feature_adaptive') },
-    { icon: Dumbbell, label: t('welcome.feature_pro_results') },
+    { icon: Sparkles, label: t('feature_ai_plans') },
+    { icon: Activity, label: t('feature_adaptive') },
+    { icon: Dumbbell, label: t('feature_pro_results') },
   ]
 
   return (
     <div className="flex-1 flex flex-col justify-between p-6 pb-10">
-      {/* Hero Content */}
       <div className="flex-1 flex flex-col items-center justify-center text-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.94 }}
@@ -42,18 +43,15 @@ export function WelcomeScreen() {
           className="relative z-[2] -mt-6 sm:-mt-10"
         >
           <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-4 text-balance">
-            {t('welcome.headline_line_1')}
+            {t('headline_line_1')}
             <br />
-            <span className="text-muted-foreground">
-              {t('welcome.headline_line_2')}
-            </span>
+            <span className="text-muted-foreground">{t('headline_line_2')}</span>
           </h1>
           <p className="text-muted-foreground text-lg max-w-sm mx-auto text-pretty">
-            {t('welcome.subtitle')}
+            {t('subtitle')}
           </p>
         </motion.div>
 
-        {/* Features */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -73,7 +71,6 @@ export function WelcomeScreen() {
         </motion.div>
       </div>
 
-      {/* CTA */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -84,10 +81,10 @@ export function WelcomeScreen() {
           size="lg"
           className="w-full h-14 text-lg font-semibold rounded-2xl"
         >
-          {t('actions.get_started')}
+          {tActions('get_started')}
         </Button>
         <p className="text-center text-xs text-muted-foreground mt-4">
-          {t('welcome.setup_time')}
+          {t('setup_time')}
         </p>
       </motion.div>
     </div>

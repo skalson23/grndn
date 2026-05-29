@@ -2,45 +2,30 @@
 
 import { motion } from 'framer-motion'
 import { ChevronLeft, Minus, Plus, Calendar } from 'lucide-react'
+import { useTranslations } from 'next-intl'
+
 import { Button } from '@/components/ui/button'
+import { useOnboardingLabels } from '@/hooks/use-onboarding-labels'
 import { cn } from '@/lib/utils'
 import { useOnboarding } from '../onboarding-context'
 
-const getFrequencyLabel = (freq: number) => {
-  if (freq === 1) return 'Light'
-  if (freq <= 2) return 'Easy Start'
-  if (freq <= 3) return 'Balanced'
-  if (freq <= 4) return 'Committed'
-  if (freq <= 5) return 'Serious'
-  if (freq <= 6) return 'Dedicated'
-  return 'Beast Mode'
-}
-
-const getFrequencyDescription = (freq: number) => {
-  if (freq === 1) return 'Perfect for maintaining fitness'
-  if (freq <= 2) return 'Great for beginners'
-  if (freq <= 3) return 'Ideal for most people'
-  if (freq <= 4) return 'Optimal for building strength'
-  if (freq <= 5) return 'For serious athletes'
-  if (freq <= 6) return 'Elite training schedule'
-  return 'Maximum results, maximum effort'
-}
-
 export function FrequencyScreen() {
   const { data, updateData, goNext, goBack } = useOnboarding()
+  const t = useTranslations('onboarding.frequency')
+  const tCommon = useTranslations('common')
+  const { frequencyLabel, frequencyDescription } = useOnboardingLabels()
   const value = data.frequency
   const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
 
   return (
     <div className="flex-1 flex flex-col p-6 pb-10 h-full overflow-hidden">
-      {/* Header */}
       <div className="flex-shrink-0">
         <button
           onClick={goBack}
           className="flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors mb-6"
         >
           <ChevronLeft className="w-5 h-5" />
-          <span className="text-sm font-medium">Back</span>
+          <span className="text-sm font-medium">{tCommon('back')}</span>
         </button>
 
         <motion.div
@@ -53,16 +38,11 @@ export function FrequencyScreen() {
               <Calendar className="w-5 h-5 text-foreground" />
             </div>
           </div>
-          <h1 className="text-3xl font-bold tracking-tight mb-2">
-            Weekly frequency
-          </h1>
-          <p className="text-muted-foreground">
-            How many days per week can you train?
-          </p>
+          <h1 className="text-3xl font-bold tracking-tight mb-2">{t('title')}</h1>
+          <p className="text-muted-foreground">{t('description')}</p>
         </motion.div>
       </div>
 
-      {/* Selector */}
       <div className="flex-1 flex flex-col items-center justify-center py-8">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
@@ -70,7 +50,6 @@ export function FrequencyScreen() {
           transition={{ delay: 0.2, duration: 0.5 }}
           className="text-center"
         >
-          {/* Main number */}
           <div className="flex items-center justify-center gap-6 mb-4">
             <motion.button
               whileTap={{ scale: 0.9 }}
@@ -98,9 +77,7 @@ export function FrequencyScreen() {
               >
                 {value}
               </motion.div>
-              <p className="text-muted-foreground text-sm mt-1">
-                days / week
-              </p>
+              <p className="text-muted-foreground text-sm mt-1">{t('daysPerWeek')}</p>
             </div>
 
             <motion.button
@@ -120,22 +97,20 @@ export function FrequencyScreen() {
             </motion.button>
           </div>
 
-          {/* Label */}
           <motion.div
-            key={getFrequencyLabel(value)}
+            key={frequencyLabel(value)}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             className="mb-8"
           >
             <span className="inline-block px-4 py-2 rounded-full bg-secondary text-foreground font-semibold">
-              {getFrequencyLabel(value)}
+              {frequencyLabel(value)}
             </span>
             <p className="text-sm text-muted-foreground mt-3">
-              {getFrequencyDescription(value)}
+              {frequencyDescription(value)}
             </p>
           </motion.div>
 
-          {/* Week visualization */}
           <div className="flex gap-2 justify-center">
             {days.map((day, index) => (
               <motion.div
@@ -157,14 +132,13 @@ export function FrequencyScreen() {
         </motion.div>
       </div>
 
-      {/* CTA */}
       <div className="flex-shrink-0 pt-4">
         <Button
           onClick={goNext}
           size="lg"
           className="w-full h-14 text-lg font-semibold rounded-2xl"
         >
-          Continue
+          {tCommon('continue')}
         </Button>
       </div>
     </div>

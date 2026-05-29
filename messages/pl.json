@@ -1,0 +1,540 @@
+{
+  "common": {
+    "back": "Wstecz",
+    "continue": "Dalej",
+    "loading": "Ładowanie…",
+    "notSet": "Nie ustawiono",
+    "none": "Brak",
+    "balanced": "Zbalansowany",
+    "emailPlaceholder": "you@example.com",
+    "beta": "Beta"
+  },
+  "nav": {
+    "back": "Wstecz",
+    "backToResults": "Wróć do wyników",
+    "myPrograms": "Moje programy"
+  },
+  "actions": {
+    "generate_plan": "Wygeneruj plan AI",
+    "get_started": "Zacznij",
+    "save_program": "Zapisz program",
+    "send_magic_link": "Wyślij magiczny link",
+    "continue_to_grndn": "Continue to GRNDN",
+    "get_beta_access": "Uzyskaj dostęp do bety",
+    "join_waitlist": "Dołącz do listy oczekujących",
+    "join_waitlist_short": "Dołącz do listy",
+    "join_waitlist_title": "Dołącz do listy",
+    "unlock_grndn": "Odblokuj GRNDN",
+    "unlocking": "Odblokowywanie…",
+    "entering": "Wchodzenie…",
+    "joining": "Dołączanie…",
+    "sending": "Wysyłanie…",
+    "saving": "Zapisywanie…",
+    "saved": "Zapisano",
+    "exporting": "Eksportowanie…",
+    "export_pdf": "Eksportuj PDF",
+    "go_back": "Wróć",
+    "go_to_my_programs": "Przejdź do moich programów",
+    "open_program": "Otwórz program",
+    "create_program": "Utwórz program",
+    "back_to_onboarding": "Wróć do konfiguracji"
+  },
+  "landing": {
+    "mobile": {
+      "closedBeta": "Zamknięta beta · czerwiec 2026",
+      "heroLine1": "STAY ON",
+      "heroLine2": "THE GRND.",
+      "heroSubtitle": "Trening AI dla tych, którzy traktują siłownię jak misję — nie hobby.",
+      "liveOnGrnd": "Na grndzie na żywo",
+      "builtDifferent": "Zbudowane inaczej.",
+      "swipeStack": "Przesuń stos →",
+      "enterBeta": "Wejdź do zamkniętej bety",
+      "limitedSpots": "Ograniczona liczba miejsc. Tylko poważni lifterzy.",
+      "accessGranted": "Dostęp przyznany",
+      "savedOnDevice": "Zapisano na tym urządzeniu",
+      "wantEarlyAccess": "Chcesz wcześniejszy dostęp?",
+      "onTheList": "Jesteś na liście.",
+      "betaAccessCode": "Kod dostępu do bety"
+    },
+    "desktop": {
+      "closedBeta": "Zamknięta beta",
+      "closedBetaLaunch": "Zamknięta beta • start czerwiec 2026",
+      "headline": "Inteligentniejsze programowanie treningów AI.",
+      "subtitle": "Dla lifterów, którym zależy na regeneracji, zarządzaniu zmęczeniem i realnym progresie.",
+      "tagRecovery": "Świadoma regeneracji",
+      "tagHypertrophy": "Logika hipertrofii",
+      "tagPremium": "Programy premium",
+      "enterBeta": "Wejdź do zamkniętej bety",
+      "betaDescription": "Wczesny dostęp jest ograniczony, gdy silnik programowania GRNDN jest dopracowywany dla poważnych lifterów.",
+      "accessGranted": "Dostęp przyznany",
+      "accessSavedDevice": "Twój dostęp do bety jest zapisany na tym urządzeniu.",
+      "accessCodePlaceholder": "Wprowadź kod dostępu do bety",
+      "wantEarlyAccess": "Chcesz wcześniejszy dostęp?",
+      "waitlistDescription": "Dołącz do listy oczekujących po aktualizacje startu i zaproszenia do bety.",
+      "onTheList": "Jesteś na liście.",
+      "seriousLifters": "Dla poważnych lifterów.",
+      "hypertrophyPrinciples": "Zaprojektowane wokół realnych zasad hipertrofii.",
+      "footerCopy": "GRNDN powstaje dla lifterów, którzy chcą inteligentnego programowania, a nie losowych treningów. Zamknięta beta pomaga utrzymać jakość, gdy silnik coachingu dojrzewa."
+    },
+    "features": {
+      "mobile": {
+        "aiProtocols": {
+          "title": "Protokoły AI",
+          "line": "Programy dopasowane do Twojego ciała — nie losowe treningi."
+        },
+        "fatigueAware": {
+          "title": "Świadome zmęczenia",
+          "line": "Inteligentna objętość, żebyś regenerował się i nadal progresował."
+        },
+        "yourStyle": {
+          "title": "Twój styl",
+          "line": "Hipertrofia, siła lub V-taper. Ty wybierasz."
+        },
+        "recoveryLogic": {
+          "title": "Logika regeneracji",
+          "line": "Trening, który respektuje sen, stres i ograniczenia."
+        },
+        "premiumPdfs": {
+          "title": "Premium PDF",
+          "line": "Eksportuj programy wyglądające profesjonalnie na siłowni."
+        }
+      },
+      "desktop": {
+        "aiGeneration": {
+          "title": "Generowanie treningów AI",
+          "description": "Strukturalne protokoły dopasowane do ciała, celu i grafiku."
+        },
+        "fatigueProgramming": {
+          "title": "Programowanie świadome zmęczenia",
+          "description": "Zabezpieczenia oprogramowania redukują redundantne nakładanie wysokiego zmęczenia."
+        },
+        "vTaperStrength": {
+          "title": "Style V-Taper i siła",
+          "description": "Wybierz filozofię treningu pasującą do Twojego celu."
+        },
+        "recoveryLogic": {
+          "title": "Inteligentna logika regeneracji",
+          "description": "Aktywność, ograniczenia i tempo informują o regenerowalnym treningu."
+        },
+        "premiumPdf": {
+          "title": "Programy PDF premium",
+          "description": "Eksportuj czyste, dopracowane programy treningowe do realnego użycia."
+        }
+      }
+    },
+    "social": {
+      "onStreak": "Na serii",
+      "sessionsToday": "Sesje dziś",
+      "prsWeek": "PR w tym tygodniu",
+      "hitStreak": "osiągnął 5-dniową serię",
+      "finishedPushA": "ukończył Push A",
+      "unlockedProtocol": "odblokował nowy protokół"
+    },
+    "phonePreview": {
+      "today": "Dziś",
+      "streak": "Seria {count}",
+      "pushWeek": "Push A · Tydzień 3",
+      "benchProgression": "Progresja w wyciskaniu",
+      "complete": "{percent}% ukończone",
+      "volume": "Objętość",
+      "rpeAvg": "Śr. RPE",
+      "recoveryScore": "Wynik regeneracji: Optymalny"
+    },
+    "errors": {
+      "invalidAccessCode": "Nieprawidłowy kod dostępu do bety.",
+      "waitlistJoined": "Jesteś na liście.",
+      "waitlistFailed": "Nie udało się dołączyć do listy oczekujących."
+    }
+  },
+  "welcome": {
+    "headline_line_1": "Trening wydajnościowy,",
+    "headline_line_2": "zaprojektowany przez AI",
+    "subtitle": "GRNDN tworzy adaptacyjne protokoły dopasowane do Twojego ciała, grafiku i celów.",
+    "feature_ai_plans": "Plany AI",
+    "feature_adaptive": "Adaptacyjny",
+    "feature_pro_results": "Rezultaty Pro",
+    "setup_time": "Konfiguracja zajmuje tylko 2 minuty"
+  },
+  "onboarding": {
+    "progress": {
+      "stepOf": "Krok {current} z {total}"
+    },
+    "age": {
+      "title": "Twój wiek",
+      "description": "Używamy tego do dostrojenia objętości, regeneracji i progresji.",
+      "yearsOld": "lat"
+    },
+    "height": {
+      "title": "Wzrost",
+      "description": "Podaj swój wzrost w centymetrach.",
+      "label": "Wzrost (cm)",
+      "hint": "Zakres {min}–{max} cm · obsługuje kroki co 0,5"
+    },
+    "weight": {
+      "title": "Masa ciała",
+      "description": "Podaj swoją aktualną masę ciała w kilogramach.",
+      "label": "Waga (kg)",
+      "hint": "Zakres {min}–{max} kg · obsługuje wartości dziesiętne"
+    },
+    "sex": {
+      "title": "O Tobie",
+      "description": "Pomaga skalibrować regenerację i styl programowania. Możesz to zmienić później.",
+      "male": "Mężczyzna",
+      "female": "Kobieta",
+      "nonBinary": "Osoba niebinarna",
+      "preferNotToSay": "Wolę nie podawać",
+      "maleHint": "Używane wyłącznie do dostrojenia zmiennych treningowych opartych na dowodach",
+      "femaleHint": "Używane wyłącznie do dostrojenia zmiennych treningowych opartych na dowodach",
+      "nonBinaryHint": "Inkluzywne programowanie bez założeń",
+      "preferNotToSayHint": "Neutralne zalecenia; bez założeń związanych z płcią"
+    },
+    "activity": {
+      "title": "Jak aktywny jesteś poza siłownią?",
+      "description": "Codzienny ruch wpływa na wymagania regeneracyjne i realną objętość treningową, którą możesz tolerować.",
+      "maintenanceEstimate": "Szacunek utrzymania",
+      "kcalPerDay": "~{count} kcal/dzień",
+      "disclaimer": "Wyłącznie informacyjnie. GRNDN używa tego do oceny regeneracji i zmęczenia, a nie do przepisywania kalorii czy planów posiłków."
+    },
+    "experience": {
+      "title": "Doświadczenie treningowe",
+      "description": "Pomaga nam skalibrować Twoje treningi"
+    },
+    "goal": {
+      "title": "Jaki jest Twój cel?",
+      "description": "Wybierz jeden lub więcej celów fitness"
+    },
+    "targetWeight": {
+      "title": "Jaka jest Twoja docelowa waga?",
+      "description": "Pomaga skalibrować oczekiwania dotyczące zmęczenia i regeneracji przy treningu redukcyjnym.",
+      "label": "Docelowa waga (kg)",
+      "hint": "Podaj realistyczny cel poniżej aktualnej wagi {weight} kg."
+    },
+    "weightLossPace": {
+      "title": "Jakie tempo redukcji pasuje do Twojego życia?",
+      "description": "Tempo wpływa na to, jak konserwatywna powinna być objętość treningowa i ogólne zmęczenie."
+    },
+    "trainingStyle": {
+      "title": "Jaki styl treningu najbardziej Ci pasuje?",
+      "description": "Wybierz filozofię treningu, która najlepiej pasuje do celów i preferowanego doświadczenia."
+    },
+    "muscleGroups": {
+      "title": "Priorytetowe mięśnie",
+      "description": "Na które partie chcesz się skupić?"
+    },
+    "equipment": {
+      "title": "Dostępny sprzęt",
+      "description": "Wybierz cały sprzęt, do którego masz dostęp"
+    },
+    "injuries": {
+      "title": "Jakieś ograniczenia?",
+      "description": "Zmodyfikujemy ćwiczenia, żebyś był bezpieczny"
+    },
+    "frequency": {
+      "title": "Tygodniowa częstotliwość",
+      "description": "Ile dni w tygodniu możesz trenować?",
+      "daysPerWeek": "dni / tydzień"
+    },
+    "duration": {
+      "title": "Czas sesji",
+      "description": "Jak długo możesz trenować w każdej sesji?"
+    },
+    "summary": {
+      "title": "Wszystko gotowe",
+      "description": "Przejrzyj profil, a następnie wygeneruj swój protokół GRNDN.",
+      "readyTitle": "READY TO GRND",
+      "readyDescription": "Metryki ({height} cm, {weight} kg, wiek {age}) plus {frequency}-dniowy grafik tworzą adaptacyjny plan na {duration} minut.",
+      "adjustAnytime": "Możesz zmienić te ustawienia w dowolnym momencie",
+      "labels": {
+        "age": "Wiek",
+        "height": "Wzrost",
+        "weight": "Waga",
+        "sex": "Płeć",
+        "dailyActivity": "Codzienna aktywność",
+        "maintenance": "Utrzymanie",
+        "experience": "Doświadczenie",
+        "goals": "Cele",
+        "targetWeight": "Docelowa waga",
+        "fatLossPace": "Tempo redukcji",
+        "trainingStyle": "Styl treningu",
+        "equipment": "Sprzęt",
+        "limitations": "Ograniczenia",
+        "focusAreas": "Obszary fokusu",
+        "frequency": "Częstotliwość",
+        "duration": "Czas trwania"
+      },
+      "values": {
+        "ageYears": "{age} lat",
+        "heightCm": "{height} cm",
+        "weightKg": "{weight} kg",
+        "maintenanceKcal": "~{count} kcal",
+        "goalsCount": "{count} celów",
+        "noEquipment": "Brak sprzętu",
+        "itemsCount": "{count} elementów",
+        "areasCount": "{count} obszarów",
+        "fullBody": "Całe ciało",
+        "groupsCount": "{count} grup",
+        "frequencyDays": "{count} dni/tydz.",
+        "durationMin": "{count} min"
+      }
+    },
+    "options": {
+      "activity": {
+        "sedentary": {
+          "title": "Siedzący tryb",
+          "description": "Głównie siedzenie, niski ruch w ciągu dnia."
+        },
+        "lightly_active": {
+          "title": "Lekko aktywny",
+          "description": "Trochę chodzenia i lekki ruch w ciągu dnia."
+        },
+        "moderately_active": {
+          "title": "Umiarkowanie aktywny",
+          "description": "Regularny ruch i aktywny styl życia."
+        },
+        "very_active": {
+          "title": "Bardzo aktywny",
+          "description": "Fizycznie wymagająca praca lub wysoka aktywność dziennie."
+        },
+        "athlete_level": {
+          "title": "Aktywność na poziomie sportowca",
+          "description": "Bardzo wysoki wysiłek fizyczny i wymagania regeneracyjne."
+        }
+      },
+      "experience": {
+        "beginner": {
+          "title": "Początkujący",
+          "description": "Nowy w fitnessie lub powrót po długiej przerwie"
+        },
+        "intermediate": {
+          "title": "Średniozaawansowany",
+          "description": "6+ miesięcy regularnego treningu"
+        },
+        "advanced": {
+          "title": "Zaawansowany",
+          "description": "2+ lata ustrukturyzowanych programów treningowych"
+        },
+        "elite": {
+          "title": "Elita",
+          "description": "Poziom zawodowca lub sportowca wyczynowego"
+        }
+      },
+      "goal": {
+        "lose-weight": {
+          "title": "Schudnąć",
+          "description": "Spal tłuszcz i wyrzeźbij sylwetkę dzięki cardio i treningowi siłowemu"
+        },
+        "build-muscle": {
+          "title": "Zbudować mięśnie",
+          "description": "Zyskaj siłę i masę dzięki progresywnemu obciążeniu"
+        },
+        "get-fit": {
+          "title": "Poprawić kondycję",
+          "description": "Popraw ogólną sprawność, wytrzymałość i codzienną energię"
+        },
+        "stay-healthy": {
+          "title": "Utrzymać zdrowie",
+          "description": "Utrzymuj obecną formę zbalansowanymi treningami"
+        },
+        "compete": {
+          "title": "Rywalizować",
+          "description": "Trenuj pod kątem wyników sportowych i zawodów"
+        }
+      },
+      "weightLossPace": {
+        "aggressive": {
+          "title": "Agresywne",
+          "description": "Szybsza redukcja tłuszczu z wyższymi wymaganiami regeneracyjnymi."
+        },
+        "moderate": {
+          "title": "Umiarkowane",
+          "description": "Zbalansowana redukcja tłuszczu i wydajność."
+        },
+        "sustainable": {
+          "title": "Zrównoważone",
+          "description": "Wolniejsze podejście skoncentrowane na długim terminie."
+        }
+      },
+      "trainingStyle": {
+        "hypertrophy": {
+          "title": "Hipertrofia",
+          "description": "Zbalansowany wzrost mięśni i trening bodybuildingowy."
+        },
+        "strength": {
+          "title": "Siła",
+          "description": "Cięższe wielostawy, mniej powtórzeń i progresja wydajnościowa."
+        },
+        "v_taper": {
+          "title": "Estetyka / V-Taper",
+          "description": "Priorytet szerokich pleców, zaokrąglonych barków i estetyki górnej partii."
+        },
+        "powerbuilding": {
+          "title": "Powerbuilding",
+          "description": "Połączenie progresji siłowej z pracą hipertroficzną."
+        },
+        "athletic": {
+          "title": "Atletyczny",
+          "description": "Eksplozywny, atletyczny trening z elementami kondycji."
+        },
+        "minimalist": {
+          "title": "Minimalistyczny",
+          "description": "Niższa objętość, wysoka efektywność, minimum zbędnej pracy."
+        }
+      },
+      "muscleGroup": {
+        "chest": "Klatka piersiowa",
+        "back": "Plecy",
+        "shoulders": "Barki",
+        "arms": "Ramiona",
+        "core": "Core",
+        "legs": "Nogi",
+        "glutes": "Pośladki",
+        "full-body": "Całe ciało"
+      },
+      "equipment": {
+        "none": "Brak sprzętu",
+        "dumbbells": "Hantle",
+        "barbell": "Sztanga",
+        "kettlebell": "Kettlebell",
+        "resistance-bands": "Gumy oporowe",
+        "pull-up-bar": "Drążek do podciągania",
+        "cable-machine": "Wyciąg",
+        "full-gym": "Pełny dostęp do siłowni"
+      },
+      "injury": {
+        "none": {
+          "title": "Brak kontuzji",
+          "description": "Nie mam ograniczeń"
+        },
+        "lower-back": {
+          "title": "Dolny odcinek pleców",
+          "description": "Ból lub dyskomfort"
+        },
+        "knees": {
+          "title": "Kolana",
+          "description": "Problemy ze stawami"
+        },
+        "shoulders": {
+          "title": "Barki",
+          "description": "Ograniczona mobilność"
+        },
+        "wrists": {
+          "title": "Nadgarstki",
+          "description": "Napięcie lub osłabienie"
+        },
+        "neck": {
+          "title": "Szyja",
+          "description": "Napięcie lub ból"
+        },
+        "hips": {
+          "title": "Biodra",
+          "description": "Problemy z elastycznością"
+        },
+        "ankles": {
+          "title": "Kostki",
+          "description": "Niestabilność"
+        }
+      },
+      "frequency": {
+        "2": { "label": "Lekko", "description": "Idealne do utrzymania formy" },
+        "3": { "label": "Łagodny start", "description": "Świetne dla początkujących" },
+        "4": { "label": "Zbalansowane", "description": "Idealne dla większości osób" },
+        "5": { "label": "Zaangażowane", "description": "Optymalne do budowy siły" },
+        "6": { "label": "Poważne", "description": "Dla poważnych sportowców" },
+        "7": { "label": "Dedykowane", "description": "Elitarny grafik treningowy" }
+      },
+      "duration": {
+        "15": { "label": "15 min", "description": "Szybka sesja" },
+        "30": { "label": "30 min", "description": "Efektywne" },
+        "45": { "label": "45 min", "description": "Standardowe" },
+        "60": { "label": "60 min", "description": "Kompletne" },
+        "75": { "label": "75 min", "description": "Rozszerzone" },
+        "90": { "label": "90 min", "description": "Intensywne" }
+      }
+    }
+  },
+  "generation": {
+    "initializing": "Inicjalizacja…",
+    "buildingProtocol": "Budowanie protokołu",
+    "percent": "{percent}%",
+    "error": "Nie udało się wygenerować planu treningowego.",
+    "poweredBy": "Napędzane {frequency}-dniową inteligencją adaptacyjną",
+    "stages": {
+      "analyzing": "Analizowanie profilu treningowego…",
+      "recovery": "Optymalizacja balansu regeneracji…",
+      "fatigue": "Obliczanie zarządzania zmęczeniem…",
+      "progression": "Budowanie struktury progresji…",
+      "split": "Projektowanie podziału treningowego…",
+      "finalizing": "Finalizowanie protokołu GRNDN…"
+    }
+  },
+  "results": {
+    "your_protocol": "Twój protokół",
+    "overview": "Przegląd",
+    "workout_split": "Podział treningowy",
+    "training_week": "{count}-dniowy tydzień treningowy",
+    "progression": "Progresja",
+    "notes": "Notatki",
+    "my_programs": "Moje programy",
+    "missingPlan": "Najpierw wygeneruj protokół z konfiguracji lub sesja mogła wygasnąć.",
+    "loading": "Ładowanie protokołu…",
+    "frequency": "Częstotliwość",
+    "duration": "Czas trwania",
+    "weeklyVolume": "Tygodniowa objętość",
+    "split": "Podział",
+    "daysPerWeek": "{count} dni / tydzień",
+    "approxMin": "~{count} min",
+    "setsCount": "{count} serii",
+    "dayProtocol": "Protokół {count}-dniowy",
+    "style": "Styl: {value}",
+    "emphasis": "Nacisk: {value}",
+    "activity": "Aktywność: {value}",
+    "maintenance": "Utrzymanie: ~{count} kcal",
+    "experience": "Doświadczenie: {value}",
+    "sessionsCount": "{count} sesji"
+  },
+  "programs": {
+    "account": "Konto",
+    "title": "Moje programy",
+    "libraryTitle": "Twoja zapisana biblioteka treningowa",
+    "libraryDescription": "Uzyskaj dostęp do wygenerowanych programów GRNDN z dowolnego urządzenia po zalogowaniu magicznym linkiem email.",
+    "programsStat": "Programy",
+    "sessionsStat": "Sesje",
+    "loading": "Ładowanie programów…",
+    "signInTitle": "Zaloguj się emailem",
+    "signInDescription": "Bez hasła. Wyślemy jednorazowy magiczny link, aby odblokować zapisane programy.",
+    "checkInboxDescription": "Otwórz link, a automatycznie wrócisz tutaj.",
+    "emptyTitle": "Brak zapisanych programów",
+    "emptyDescription": "Wygeneruj protokół, a następnie kliknij „Zapisz program” na stronie wyników.",
+    "savedProgram": "Zapisany program",
+    "sessionsCount": "{count} sesji"
+  },
+  "auth": {
+    "save_title": "Zapisz swój protokół GRNDN",
+    "save_description": "Podaj email, a wyślemy bezpieczny magiczny link. Bez hasła i bez skomplikowanej rejestracji.",
+    "check_inbox": "Sprawdź skrzynkę",
+    "magic_link_sent": "Otwórz magiczny link na tym urządzeniu, a aktualny program zapisze się automatycznie.",
+    "programSaved": "Program zapisany",
+    "magicLinkSent": "Magiczny link wysłany",
+    "notConfigured": "Zapisywanie nie jest jeszcze skonfigurowane."
+  },
+  "workout": {
+    "day": "Dzień {number}",
+    "approxMin": "~{count} min",
+    "movesCount": "{count} ćwiczeń",
+    "warmUp": "Rozgrzewka",
+    "mainWork": "Główna część",
+    "coolDown": "Schłodzenie",
+    "sets": "Serie",
+    "reps": "Powt.",
+    "rest": "Przerwa",
+    "pdfDownloaded": "PDF pobrany",
+    "pdfExportFailed": "Nie udało się wyeksportować PDF. Spróbuj ponownie."
+  },
+  "errors": {
+    "saveProgram": "Nie udało się zapisać programu.",
+    "sendMagicLink": "Nie udało się wysłać magicznego linku.",
+    "loadPrograms": "Nie udało się wczytać zapisanych programów.",
+    "supabaseSaveNotConfigured": "Supabase nie jest skonfigurowany do zapisywania programów.",
+    "supabaseProgramsNotConfigured": "Supabase nie jest skonfigurowany dla zapisanych programów."
+  }
+}

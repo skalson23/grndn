@@ -8,12 +8,14 @@ import {
   LockKeyhole,
   Mail,
 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 import { BrandLogo } from '@/components/brand/brand-logo'
+import { LanguageSwitcher } from '@/components/i18n/language-switcher'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
-import { DESKTOP_FEATURES } from '@/lib/landing/content'
+import { DESKTOP_FEATURE_KEYS, DESKTOP_TAG_KEYS } from '@/lib/landing/content'
 import { cn } from '@/lib/utils'
 
 const fadeUp = {
@@ -52,13 +54,21 @@ export function DesktopLanding({
   onWaitlistSubmit,
   onEnterOnboarding,
 }: DesktopLandingProps) {
+  const t = useTranslations('landing.desktop')
+  const tFeatures = useTranslations('landing.features.desktop')
+  const tActions = useTranslations('actions')
+  const tCommon = useTranslations('common')
+
   return (
     <div className="hidden lg:block">
       <section className="relative mx-auto flex h-svh min-h-svh w-full max-w-6xl flex-col overflow-hidden px-8">
         <header className="pointer-events-none absolute right-8 top-6 z-10">
-          <span className="pointer-events-auto rounded-full border border-border bg-card/70 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground backdrop-blur">
-            Closed Beta
-          </span>
+          <div className="pointer-events-auto flex items-center gap-2">
+            <LanguageSwitcher />
+            <span className="rounded-full border border-border bg-card/70 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground backdrop-blur">
+              {t('closedBeta')}
+            </span>
+          </div>
         </header>
 
         <div className="flex min-h-0 flex-1 items-center justify-center pt-[4.75rem]">
@@ -91,26 +101,23 @@ export function DesktopLanding({
               </motion.div>
               <div className="-mt-4 origin-top scale-[1.15]">
                 <div className="mt-1 inline-flex rounded-full border border-[oklch(0.52_0.16_25)]/25 bg-[oklch(0.52_0.16_25)]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-[oklch(0.62_0.17_25)]">
-                  Closed Beta • Launching June 2026
+                  {t('closedBetaLaunch')}
                 </div>
                 <h1 className="mt-2.5 max-w-[30rem] text-balance text-[3.15rem] font-semibold leading-[0.88] tracking-[-0.05em]">
-                  Smarter AI Workout Programming.
+                  {t('headline')}
                 </h1>
                 <p className="mt-3 max-w-lg text-base leading-6 text-foreground/72">
-                  Built for lifters who care about recovery, fatigue management and
-                  real progression.
+                  {t('subtitle')}
                 </p>
                 <div className="mt-3.5 flex flex-wrap gap-1.5">
-                  {['Recovery-aware', 'Hypertrophy logic', 'Premium programs'].map(
-                    (label) => (
-                      <span
-                        key={label}
-                        className="rounded-full border border-border bg-card/70 px-3 py-1.5 text-xs text-muted-foreground backdrop-blur"
-                      >
-                        {label}
-                      </span>
-                    )
-                  )}
+                  {DESKTOP_TAG_KEYS.map((tagKey) => (
+                    <span
+                      key={tagKey}
+                      className="rounded-full border border-border bg-card/70 px-3 py-1.5 text-xs text-muted-foreground backdrop-blur"
+                    >
+                      {t(tagKey)}
+                    </span>
+                  ))}
                 </div>
               </div>
             </motion.div>
@@ -126,11 +133,10 @@ export function DesktopLanding({
                   <LockKeyhole className="size-4" />
                 </div>
                 <h2 className="text-xl font-semibold tracking-tight">
-                  Enter the closed beta
+                  {t('enterBeta')}
                 </h2>
                 <p className="mt-1.5 text-sm leading-snug text-muted-foreground">
-                  Early access is limited while GRNDN&apos;s programming engine is being
-                  refined for serious lifters.
+                  {t('betaDescription')}
                 </p>
 
                 {accessGranted ? (
@@ -148,9 +154,9 @@ export function DesktopLanding({
                           <Check className="size-4" />
                         </div>
                         <div>
-                          <p className="text-sm font-semibold">Access granted</p>
+                          <p className="text-sm font-semibold">{t('accessGranted')}</p>
                           <p className="text-xs text-muted-foreground">
-                            Your beta access is saved on this device.
+                            {t('accessSavedDevice')}
                           </p>
                         </div>
                       </div>
@@ -169,11 +175,11 @@ export function DesktopLanding({
                       {isUnlocking ? (
                         <>
                           <Spinner className="size-4" />
-                          Entering…
+                          {tActions('entering')}
                         </>
                       ) : (
                         <>
-                          Continue to GRNDN
+                          {tActions('continue_to_grndn')}
                           <ArrowRight className="size-4" />
                         </>
                       )}
@@ -192,7 +198,7 @@ export function DesktopLanding({
                       autoComplete="off"
                       value={accessCode}
                       onChange={(e) => onAccessCodeChange(e.target.value)}
-                      placeholder="Enter Closed Beta Access Code"
+                      placeholder={t('accessCodePlaceholder')}
                       aria-invalid={Boolean(accessError)}
                       className="h-13 rounded-2xl border-border bg-background/70 px-4 text-base shadow-[0_0_0_1px_rgba(255,255,255,0.02)_inset]"
                     />
@@ -222,11 +228,11 @@ export function DesktopLanding({
                       {isCheckingAccess || isUnlocking ? (
                         <>
                           <Spinner className="size-4" />
-                          Entering…
+                          {tActions('entering')}
                         </>
                       ) : (
                         <>
-                          Unlock GRNDN
+                          {tActions('unlock_grndn')}
                           <ArrowRight className="size-4" />
                         </>
                       )}
@@ -238,10 +244,10 @@ export function DesktopLanding({
 
                 <div>
                   <h3 className="text-base font-semibold tracking-tight">
-                    Want early access?
+                    {t('wantEarlyAccess')}
                   </h3>
                   <p className="mt-1 text-sm leading-snug text-muted-foreground">
-                    Join the waitlist for launch updates and creator beta drops.
+                    {t('waitlistDescription')}
                   </p>
 
                   {waitlistJoined ? (
@@ -251,7 +257,7 @@ export function DesktopLanding({
                       className="mt-4 flex items-center gap-3 rounded-2xl border border-[oklch(0.52_0.16_25)]/25 bg-[oklch(0.52_0.16_25)]/10 p-4 text-sm font-medium text-foreground"
                     >
                       <Check className="size-4 text-[oklch(0.52_0.16_25)]" />
-                      You&apos;re on the list.
+                      {t('onTheList')}
                     </motion.div>
                   ) : (
                     <form onSubmit={onWaitlistSubmit} className="mt-3.5 space-y-2.5">
@@ -264,7 +270,7 @@ export function DesktopLanding({
                           required
                           value={waitlistEmail}
                           onChange={(e) => onWaitlistEmailChange(e.target.value)}
-                          placeholder="you@example.com"
+                          placeholder={tCommon('emailPlaceholder')}
                           className="h-12 rounded-2xl border-border bg-background/70 pl-10"
                         />
                       </div>
@@ -279,10 +285,10 @@ export function DesktopLanding({
                         {isJoiningWaitlist ? (
                           <>
                             <Spinner className="size-4" />
-                            Joining…
+                            {tActions('joining')}
                           </>
                         ) : (
-                          'Join Waitlist'
+                          tActions('join_waitlist_title')
                         )}
                       </Button>
                     </form>
@@ -303,17 +309,17 @@ export function DesktopLanding({
           className="mb-6 text-center"
         >
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[oklch(0.52_0.16_25)]">
-            Built for serious lifters.
+            {t('seriousLifters')}
           </p>
           <h2 className="mt-3 text-4xl font-semibold tracking-[-0.035em]">
-            Designed around real hypertrophy principles.
+            {t('hypertrophyPrinciples')}
           </h2>
         </motion.div>
 
         <div className="grid grid-cols-5 gap-3">
-          {DESKTOP_FEATURES.map((feature, index) => (
+          {DESKTOP_FEATURE_KEYS.map((feature, index) => (
             <motion.article
-              key={feature.title}
+              key={feature.key}
               initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-80px' }}
@@ -323,9 +329,11 @@ export function DesktopLanding({
               <div className="mb-5 flex size-10 items-center justify-center rounded-2xl border border-border bg-secondary/70 transition-colors group-hover:border-[oklch(0.52_0.16_25)]/35">
                 <feature.icon className="size-5 text-foreground" />
               </div>
-              <h3 className="text-sm font-semibold tracking-tight">{feature.title}</h3>
+              <h3 className="text-sm font-semibold tracking-tight">
+                {tFeatures(`${feature.key}.title`)}
+              </h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {feature.description}
+                {tFeatures(`${feature.key}.description`)}
               </p>
             </motion.article>
           ))}
@@ -333,9 +341,7 @@ export function DesktopLanding({
 
         <div className="mx-auto mt-12 max-w-2xl rounded-[2rem] border border-border bg-card/60 p-6 text-center backdrop-blur">
           <p className="text-pretty text-sm leading-7 text-muted-foreground">
-            GRNDN is being built for lifters who want intelligent programming, not
-            random workouts. Closed beta access helps us keep quality high while the
-            coaching engine matures.
+            {t('footerCopy')}
           </p>
         </div>
       </section>

@@ -1,9 +1,17 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Activity, CalendarDays, ChevronLeft, Clock, Layers3, Library, Sparkles } from 'lucide-react'
+import {
+  Activity,
+  CalendarDays,
+  ChevronLeft,
+  Clock,
+  Layers3,
+  Library,
+  Sparkles,
+} from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 import { BrandLogo } from '@/components/brand/brand-logo'
 import type { OnboardingData } from '@/components/onboarding/onboarding-context'
@@ -11,10 +19,9 @@ import { ExportPdfButton } from '@/components/workout-plan/export-pdf-button'
 import { SaveProgramButton } from '@/components/workout-plan/save-program-button'
 import { WorkoutSessionCard } from '@/components/workout-plan/workout-session-card'
 import { Button } from '@/components/ui/button'
-import { useTranslation } from '@/lib/i18n'
-import { ACTIVITY_LEVEL_LABELS } from '@/lib/onboarding/activity-level'
+import { useOnboardingLabels } from '@/hooks/use-onboarding-labels'
+import { Link } from '@/i18n/navigation'
 import { estimateTdee } from '@/lib/onboarding/tdee'
-import { TRAINING_STYLE_LABELS } from '@/lib/onboarding/training-style'
 import type { TrainingStyleId } from '@/lib/onboarding/training-style'
 import { WORKOUT_PLAN_STORAGE_KEY } from '@/lib/workout-plan/storage'
 import { workoutPlanSchema, type WorkoutPlan } from '@/lib/workout-plan/schema'
@@ -26,28 +33,18 @@ const fadeUp = {
   show: { opacity: 1, y: 0 },
 }
 
-const muscleGroupLabels: Record<string, string> = {
-  chest: 'Chest',
-  back: 'Back',
-  shoulders: 'Shoulders',
-  arms: 'Arms',
-  core: 'Core',
-  legs: 'Legs',
-  glutes: 'Glutes',
-  'full-body': 'Full Body',
-}
-
-function formatEmphasis(profile: OnboardingData | null): string {
-  if (!profile || profile.muscleGroups.length === 0) return 'Balanced'
-  if (profile.muscleGroups.includes('full-body')) return 'Full Body'
-  return profile.muscleGroups
-    .slice(0, 2)
-    .map((group) => muscleGroupLabels[group] ?? group)
-    .join(' + ')
-}
-
 export default function ResultsPage() {
-  const { t } = useTranslation()
+  const t = useTranslations('results')
+  const tCommon = useTranslations('common')
+  const tNav = useTranslations('nav')
+  const tActions = useTranslations('actions')
+  const {
+    trainingStyleLabel,
+    activityLevelLabel,
+    muscleGroupLabel,
+    experienceLabel,
+  } = useOnboardingLabels()
+
   const [plan, setPlan] = useState<WorkoutPlan | null>(null)
   const [profile, setProfile] = useState<OnboardingData | null>(null)
   const [missing, setMissing] = useState(false)
@@ -93,17 +90,31 @@ export default function ResultsPage() {
       0
     )
   }, [sortedSessions])
+
   const tdee = profile?.activityLevel ? estimateTdee(profile) : null
+
+  const formatEmphasis = (onboardingProfile: OnboardingData | null): string => {
+    if (!onboardingProfile || onboardingProfile.muscleGroups.length === 0) {
+      return tCommon('balanced')
+    }
+    if (onboardingProfile.muscleGroups.includes('full-body')) {
+      return muscleGroupLabel('full-body')
+    }
+    return onboardingProfile.muscleGroups
+      .slice(0, 2)
+      .map((group) => muscleGroupLabel(group))
+      .join(' + ')
+  }
 
   if (missing) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center bg-background p-6 text-foreground">
         <BrandLogo size="stage" glow="soft" className="mb-10 items-center" />
         <p className="mb-6 max-w-sm text-center text-muted-foreground">
-          Generate a protocol from onboarding first, or your session may have expired.
+          {t('missingPlan')}
         </p>
         <Button asChild size="lg" className="rounded-2xl">
-          <Link href="/">Back to onboarding</Link>
+          <Link href="/">{tActions('back_to_onboarding')}</Link>
         </Button>
       </div>
     )
@@ -113,7 +124,7 @@ export default function ResultsPage() {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-background px-6">
         <BrandLogo size="stage" glow="hero" className="items-center" />
-        <p className="text-sm text-muted-foreground">Loading your protocol…</p>
+        <p className="text-sm text-muted-foreground">{t('loading')}</p>
       </div>
     )
   }
@@ -132,7 +143,7 @@ export default function ResultsPage() {
       <header className="sticky top-0 z-10 border-b border-border/80 bg-background/90 backdrop-blur-xl">
         <div className="mx-auto flex w-full max-w-2xl items-center gap-3 pl-5 pr-4 py-4 sm:gap-4">
           <Button variant="ghost" size="icon" className="shrink-0 rounded-xl" asChild>
-            <Link href="/" aria-label="Back">
+            <Link href="/" aria-label={tNav('back')}>
               <ChevronLeft className="size-5" />
             </Link>
           </Button>
@@ -144,7 +155,7 @@ export default function ResultsPage() {
           />
           <div className="min-w-0 flex-1 pl-0.5">
             <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
-              {t('results.your_protocol')}
+              {t('your_protocol')}
             </p>
             <h1 className="truncate text-base font-semibold leading-tight tracking-tight sm:text-lg">
               {plan.planTitle}
@@ -157,7 +168,7 @@ export default function ResultsPage() {
               className="size-11 rounded-2xl border-border bg-card/80"
               asChild
             >
-              <Link href="/my-programs" aria-label="My Programs">
+              <Link href="/my-programs" aria-label={tNav('myPrograms')}>
                 <Library className="size-4" />
               </Link>
             </Button>
@@ -179,7 +190,7 @@ export default function ResultsPage() {
             >
               <Link href="/my-programs">
                 <Library className="size-4" />
-                {t('results.my_programs')}
+                {t('my_programs')}
               </Link>
             </Button>
           </div>
@@ -199,7 +210,7 @@ export default function ResultsPage() {
             <div className="border-b border-border/70 bg-gradient-to-b from-white/[0.07] to-transparent p-5 sm:p-7">
               <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-[oklch(0.52_0.16_25)]/30 bg-[oklch(0.52_0.16_25)]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-[oklch(0.62_0.17_25)]">
                 <Sparkles className="size-3" />
-              {t('results.overview')}
+                {t('overview')}
               </p>
               <h2 className="text-2xl font-semibold leading-[1.08] tracking-[-0.03em] break-words sm:text-4xl">
                 {plan.planTitle}
@@ -213,23 +224,25 @@ export default function ResultsPage() {
               {[
                 {
                   icon: CalendarDays,
-                  label: 'Frequency',
-                  value: `${sortedSessions.length} days / week`,
+                  label: t('frequency'),
+                  value: t('daysPerWeek', { count: sortedSessions.length }),
                 },
                 {
                   icon: Clock,
-                  label: 'Duration',
-                  value: `~${Math.round(totalWeeklyMinutes / sortedSessions.length)} min`,
+                  label: t('duration'),
+                  value: t('approxMin', {
+                    count: Math.round(totalWeeklyMinutes / sortedSessions.length),
+                  }),
                 },
                 {
                   icon: Activity,
-                  label: 'Weekly volume',
-                  value: `${totalWeeklySets} sets`,
+                  label: t('weeklyVolume'),
+                  value: t('setsCount', { count: totalWeeklySets }),
                 },
                 {
                   icon: Layers3,
-                  label: 'Split',
-                  value: `${sortedSessions.length}-day protocol`,
+                  label: t('split'),
+                  value: t('dayProtocol', { count: sortedSessions.length }),
                 },
               ].map((item) => (
                 <div key={item.label} className="bg-card/95 p-4">
@@ -247,23 +260,29 @@ export default function ResultsPage() {
             {profile && (
               <div className="flex flex-wrap gap-2 p-5 pt-4 sm:p-6">
                 {[
-                  `Style: ${TRAINING_STYLE_LABELS[profile.trainingStyle as TrainingStyleId]}`,
-                  `Emphasis: ${formatEmphasis(profile)}`,
-                  `Activity: ${
-                    ACTIVITY_LEVEL_LABELS[
-                      profile.activityLevel as keyof typeof ACTIVITY_LEVEL_LABELS
-                    ] ?? profile.activityLevel
-                  }`,
-                  tdee ? `Maintenance: ~${tdee.maintenanceCalories} kcal` : '',
-                  `Experience: ${profile.experience}`,
-                ].filter(Boolean).map((label) => (
-                  <span
-                    key={label}
-                    className="rounded-full border border-border bg-secondary/60 px-3 py-1.5 text-[11px] font-medium text-muted-foreground"
-                  >
-                    {label}
-                  </span>
-                ))}
+                  t('style', {
+                    value: trainingStyleLabel(profile.trainingStyle as TrainingStyleId),
+                  }),
+                  t('emphasis', { value: formatEmphasis(profile) }),
+                  t('activity', {
+                    value: activityLevelLabel(profile.activityLevel),
+                  }),
+                  tdee
+                    ? t('maintenance', { count: tdee.maintenanceCalories })
+                    : '',
+                  t('experience', {
+                    value: experienceLabel(profile.experience),
+                  }),
+                ]
+                  .filter(Boolean)
+                  .map((label) => (
+                    <span
+                      key={label}
+                      className="rounded-full border border-border bg-secondary/60 px-3 py-1.5 text-[11px] font-medium text-muted-foreground"
+                    >
+                      {label}
+                    </span>
+                  ))}
               </div>
             )}
           </div>
@@ -279,14 +298,14 @@ export default function ResultsPage() {
           <div className="flex items-end justify-between gap-3 px-1">
             <div>
               <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
-                {t('results.workout_split')}
+                {t('workout_split')}
               </p>
               <h2 className="mt-1 text-xl font-semibold tracking-tight">
-                {t('results.training_week', { count: sortedSessions.length })}
+                {t('training_week', { count: sortedSessions.length })}
               </h2>
             </div>
             <span className="text-xs tabular-nums text-muted-foreground">
-              {sortedSessions.length} sessions
+              {t('sessionsCount', { count: sortedSessions.length })}
             </span>
           </div>
           <div className="flex flex-col gap-5">
@@ -315,7 +334,7 @@ export default function ResultsPage() {
           className="rounded-3xl border border-border border-l-[3px] border-l-[oklch(0.52_0.16_25)] bg-card/60 p-5 sm:p-6"
         >
           <p className="mb-2 text-xs font-medium uppercase tracking-widest text-muted-foreground">
-            {t('results.progression')}
+            {t('progression')}
           </p>
           <p className="text-sm leading-relaxed text-foreground/90 break-words">
             {plan.progressionInstructions}
@@ -331,7 +350,7 @@ export default function ResultsPage() {
             className="rounded-3xl border border-destructive/25 bg-destructive/5 p-5 sm:p-6"
           >
             <p className="mb-2 text-xs font-medium uppercase tracking-widest text-destructive">
-              {t('results.notes')}
+              {t('notes')}
             </p>
             <p className="text-sm leading-relaxed break-words">{plan.safetyNotes}</p>
           </motion.section>

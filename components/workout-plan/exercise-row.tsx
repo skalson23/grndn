@@ -1,3 +1,7 @@
+'use client'
+
+import { useTranslations } from 'next-intl'
+
 import { cn } from '@/lib/utils'
 
 type ExerciseRowProps = {
@@ -17,6 +21,8 @@ export function ExerciseRow({
   coachingCue,
   className,
 }: ExerciseRowProps) {
+  const t = useTranslations('workout')
+
   const restLabel =
     restSeconds == null
       ? '—'
@@ -47,13 +53,13 @@ export function ExerciseRow({
       <dl className="grid w-full min-w-0 grid-cols-3 gap-px overflow-hidden rounded-xl border border-border/60 bg-border/60">
         <div className="flex min-w-0 flex-col gap-0.5 bg-background/55 p-3">
           <dt className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
-            Sets
+            {t('sets')}
           </dt>
           <dd className="text-sm font-medium tabular-nums text-foreground">{sets}</dd>
         </div>
         <div className="flex min-w-0 flex-col gap-0.5 bg-background/55 p-3">
           <dt className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
-            Reps
+            {t('reps')}
           </dt>
           <dd className="text-sm font-medium leading-snug text-foreground break-words">
             {repsOrDuration}
@@ -61,7 +67,7 @@ export function ExerciseRow({
         </div>
         <div className="flex min-w-0 flex-col gap-0.5 bg-background/55 p-3">
           <dt className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
-            Rest
+            {t('rest')}
           </dt>
           <dd className="text-sm font-medium tabular-nums text-muted-foreground">
             {restLabel}

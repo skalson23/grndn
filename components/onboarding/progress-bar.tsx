@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useTranslations } from 'next-intl'
 
 interface ProgressBarProps {
   currentStep: number
@@ -8,13 +9,14 @@ interface ProgressBarProps {
 }
 
 export function ProgressBar({ currentStep, totalSteps }: ProgressBarProps) {
+  const t = useTranslations('onboarding.progress')
   const progress = (currentStep / totalSteps) * 100
 
   return (
     <div className="relative w-full px-6 pt-6 pb-2">
       <div className="flex items-center justify-between mb-3">
         <span className="text-xs font-medium text-muted-foreground tracking-widest uppercase">
-          Step {currentStep} of {totalSteps}
+          {t('stepOf', { current: currentStep, total: totalSteps })}
         </span>
         <span className="text-xs font-medium text-[oklch(0.62_0.17_25)]">
           {Math.round(progress)}%

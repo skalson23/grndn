@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   ChevronLeft,
@@ -21,40 +20,23 @@ import {
   Activity,
   Goal,
 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 import { BrandLogo } from '@/components/brand/brand-logo'
 import { PlanGenerationLoader } from '@/components/workout-plan/plan-generation-loader'
 import { Button } from '@/components/ui/button'
-import { useTranslation } from '@/lib/i18n'
-import { cn } from '@/lib/utils'
-
-import { TRAINING_STYLE_LABELS } from '@/lib/onboarding/training-style'
-import { ACTIVITY_LEVEL_LABELS } from '@/lib/onboarding/activity-level'
+import { useOnboardingLabels } from '@/hooks/use-onboarding-labels'
+import { useRouter } from '@/i18n/navigation'
 import { estimateTdee } from '@/lib/onboarding/tdee'
-import { WEIGHT_LOSS_PACE_LABELS } from '@/lib/onboarding/weight-loss'
+import { cn } from '@/lib/utils'
 
 import { useOnboarding } from '../onboarding-context'
 
-const goalLabels: Record<string, string> = {
-  'lose-weight': 'Lose Weight',
-  'build-muscle': 'Build Muscle',
-  'get-fit': 'Get Fit',
-  'stay-healthy': 'Stay Healthy',
-  compete: 'Compete',
-}
-
-const experienceLabels: Record<string, string> = {
-  beginner: 'Beginner',
-  intermediate: 'Intermediate',
-  advanced: 'Advanced',
-  elite: 'Elite',
-}
-
-const sexLabels: Record<string, string> = {
-  male: 'Male',
-  female: 'Female',
-  'non-binary': 'Non-binary',
-  'prefer-not-to-say': 'Prefer not to say',
+const sexTitleKeys: Record<string, 'male' | 'female' | 'nonBinary' | 'preferNotToSay'> = {
+  male: 'male',
+  female: 'female',
+  'non-binary': 'nonBinary',
+  'prefer-not-to-say': 'preferNotToSay',
 }
 
 const containerVariants = {
@@ -73,97 +55,127 @@ const itemVariants = {
 export function SummaryScreen() {
   const router = useRouter()
   const { data, goBack } = useOnboarding()
-  const { t } = useTranslation()
+  const t = useTranslations('onboarding.summary')
+  const tCommon = useTranslations('common')
+  const tActions = useTranslations('actions')
+  const tSex = useTranslations('onboarding.sex')
+  const labels = useOnboardingLabels()
   const [isGenerating, setIsGenerating] = useState(false)
 
   const getGoalsDisplay = () => {
-    if (data.goals.length === 0) return 'Not set'
-    if (data.goals.length === 1) return goalLabels[data.goals[0]] || data.goals[0]
-    return `${data.goals.length} goals`
+    if (data.goals.length === 0) return tCommon('notSet')
+    if (data.goals.length === 1) return labels.goalLabel(data.goals[0])
+    return t('values.goalsCount', { count: data.goals.length })
   }
-  const tdee = data.activityLevel
-    ? estimateTdee(data)
-    : null
+
+  const tdee = data.activityLevel ? estimateTdee(data) : null
 
   const summaryItems = [
-    { icon: Cake, label: 'Age', value: `${data.age} yrs` },
-    { icon: Ruler, label: 'Height', value: `${data.heightCm} cm` },
-    { icon: Scale, label: 'Weight', value: `${data.weightKg} kg` },
-    { icon: User2, label: 'Sex', value: sexLabels[data.sex] || data.sex || '—' },
+    {
+      icon: Cake,
+      label: t('labels.age'),
+      value: t('values.ageYears', { age: data.age }),
+    },
+    {
+      icon: Ruler,
+      label: t('labels.height'),
+      value: t('values.heightCm', { height: data.heightCm }),
+    },
+    {
+      icon: Scale,
+      label: t('labels.weight'),
+      value: t('values.weightKg', { weight: data.weightKg }),
+    },
+    {
+      icon: User2,
+      label: t('labels.sex'),
+      value: data.sex
+        ? tSex(sexTitleKeys[data.sex] ?? 'preferNotToSay')
+        : '—',
+    },
     {
       icon: Activity,
-      label: 'Daily activity',
-      value:
-        ACTIVITY_LEVEL_LABELS[
-          data.activityLevel as keyof typeof ACTIVITY_LEVEL_LABELS
-        ] || data.activityLevel || '—',
+      label: t('labels.dailyActivity'),
+      value: data.activityLevel
+        ? labels.activityLevelLabel(data.activityLevel)
+        : '—',
     },
     ...(tdee
       ? [
           {
             icon: Sparkles,
-            label: 'Maintenance',
-            value: `~${tdee.maintenanceCalories.toLocaleString()} kcal`,
+            label: t('labels.maintenance'),
+            value: t('values.maintenanceKcal', {
+              count: tdee.maintenanceCalories.toLocaleString(),
+            }),
           },
         ]
       : []),
     {
       icon: Award,
-      label: 'Experience',
-      value: experienceLabels[data.experience] || data.experience,
+      label: t('labels.experience'),
+      value: labels.experienceLabel(data.experience),
     },
-    { icon: Target, label: 'Goals', value: getGoalsDisplay() },
+    { icon: Target, label: t('labels.goals'), value: getGoalsDisplay() },
     ...(data.goals.includes('lose-weight')
       ? [
           {
             icon: Goal,
-            label: 'Target weight',
-            value: data.targetWeightKg ? `${data.targetWeightKg} kg` : '—',
+            label: t('labels.targetWeight'),
+            value: data.targetWeightKg
+              ? t('values.weightKg', { weight: data.targetWeightKg })
+              : '—',
           },
           {
             icon: SlidersHorizontal,
-            label: 'Fat-loss pace',
-            value:
-              WEIGHT_LOSS_PACE_LABELS[
-                data.weightLossPace as keyof typeof WEIGHT_LOSS_PACE_LABELS
-              ] || data.weightLossPace || '—',
+            label: t('labels.fatLossPace'),
+            value: data.weightLossPace
+              ? labels.weightLossPaceLabel(data.weightLossPace)
+              : '—',
           },
         ]
       : []),
     {
       icon: SlidersHorizontal,
-      label: 'Training style',
-      value:
-        TRAINING_STYLE_LABELS[
-          data.trainingStyle as keyof typeof TRAINING_STYLE_LABELS
-        ] || data.trainingStyle || '—',
+      label: t('labels.trainingStyle'),
+      value: data.trainingStyle
+        ? labels.trainingStyleLabel(data.trainingStyle)
+        : '—',
     },
     {
       icon: Dumbbell,
-      label: 'Equipment',
+      label: t('labels.equipment'),
       value:
         data.equipment.length === 1 && data.equipment[0] === 'none'
-          ? 'No Equipment'
-          : `${data.equipment.length} items`,
+          ? t('values.noEquipment')
+          : t('values.itemsCount', { count: data.equipment.length }),
     },
     {
       icon: ShieldCheck,
-      label: 'Limitations',
+      label: t('labels.limitations'),
       value:
         data.injuries.length === 1 && data.injuries[0] === 'none'
-          ? 'None'
-          : `${data.injuries.length} areas`,
+          ? tCommon('none')
+          : t('values.areasCount', { count: data.injuries.length }),
     },
     {
       icon: Zap,
-      label: 'Focus Areas',
+      label: t('labels.focusAreas'),
       value:
         data.muscleGroups.length === 1 && data.muscleGroups[0] === 'full-body'
-          ? 'Full Body'
-          : `${data.muscleGroups.length} groups`,
+          ? t('values.fullBody')
+          : t('values.groupsCount', { count: data.muscleGroups.length }),
     },
-    { icon: Calendar, label: 'Frequency', value: `${data.frequency} days/week` },
-    { icon: Clock, label: 'Duration', value: `${data.duration} min` },
+    {
+      icon: Calendar,
+      label: t('labels.frequency'),
+      value: t('values.frequencyDays', { count: data.frequency }),
+    },
+    {
+      icon: Clock,
+      label: t('labels.duration'),
+      value: t('values.durationMin', { count: data.duration }),
+    },
   ]
 
   return (
@@ -187,7 +199,7 @@ export function SummaryScreen() {
             className="mb-6 flex items-center gap-1 text-muted-foreground transition-colors hover:text-foreground disabled:opacity-40"
           >
             <ChevronLeft className="h-5 w-5" />
-            <span className="text-sm font-medium">Back</span>
+            <span className="text-sm font-medium">{tCommon('back')}</span>
           </button>
 
           <motion.div
@@ -199,12 +211,8 @@ export function SummaryScreen() {
             <div className="mb-6 flex justify-center">
               <BrandLogo size="lg" variant="logotype" glow="soft" className="items-center" />
             </div>
-            <h1 className="mb-2 text-3xl font-bold tracking-tight">
-              You&apos;re all set
-            </h1>
-            <p className="text-muted-foreground">
-              Review your profile, then generate your GRNDN protocol.
-            </p>
+            <h1 className="mb-2 text-3xl font-bold tracking-tight">{t('title')}</h1>
+            <p className="text-muted-foreground">{t('description')}</p>
           </motion.div>
         </div>
 
@@ -246,12 +254,16 @@ export function SummaryScreen() {
               </div>
               <div className="min-w-0 flex-1">
                 <p className="mb-1 text-sm font-medium text-foreground">
-                  Ready for your protocol
+                  {t('readyTitle')}
                 </p>
                 <p className="text-sm leading-relaxed text-muted-foreground break-words">
-                  Metrics ({data.heightCm} cm, {data.weightKg} kg, age {data.age})
-                  plus your {data.frequency}-day schedule shape a{' '}
-                  {data.duration}-minute adaptive plan.
+                  {t('readyDescription', {
+                    height: data.heightCm,
+                    weight: data.weightKg,
+                    age: data.age,
+                    frequency: data.frequency,
+                    duration: data.duration,
+                  })}
                 </p>
               </div>
             </div>
@@ -279,10 +291,10 @@ export function SummaryScreen() {
             )}
           >
             <Sparkles className="size-5 shrink-0" />
-            <span>{t('actions.generate_plan')}</span>
+            <span>{tActions('generate_plan')}</span>
           </Button>
           <p className="mt-4 text-center text-xs text-muted-foreground">
-            You can adjust these settings anytime
+            {t('adjustAnytime')}
           </p>
         </motion.div>
       </div>

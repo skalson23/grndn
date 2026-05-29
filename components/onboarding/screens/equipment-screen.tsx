@@ -2,19 +2,22 @@
 
 import { motion } from 'framer-motion'
 import { ChevronLeft, Check } from 'lucide-react'
+import { useTranslations } from 'next-intl'
+
 import { Button } from '@/components/ui/button'
+import { useOnboardingLabels } from '@/hooks/use-onboarding-labels'
 import { cn } from '@/lib/utils'
 import { useOnboarding } from '../onboarding-context'
 
 const equipment = [
-  { id: 'none', label: 'No Equipment', emoji: '🏃' },
-  { id: 'dumbbells', label: 'Dumbbells', emoji: '🏋️' },
-  { id: 'barbell', label: 'Barbell', emoji: '💪' },
-  { id: 'kettlebell', label: 'Kettlebell', emoji: '⚡' },
-  { id: 'resistance-bands', label: 'Resistance Bands', emoji: '🔥' },
-  { id: 'pull-up-bar', label: 'Pull-up Bar', emoji: '🎯' },
-  { id: 'cable-machine', label: 'Cable Machine', emoji: '⚙️' },
-  { id: 'full-gym', label: 'Full Gym Access', emoji: '🏆' },
+  { id: 'none', emoji: '🏃' },
+  { id: 'dumbbells', emoji: '🏋️' },
+  { id: 'barbell', emoji: '💪' },
+  { id: 'kettlebell', emoji: '⚡' },
+  { id: 'resistance-bands', emoji: '🔥' },
+  { id: 'pull-up-bar', emoji: '🎯' },
+  { id: 'cable-machine', emoji: '⚙️' },
+  { id: 'full-gym', emoji: '🏆' },
 ]
 
 const containerVariants = {
@@ -34,6 +37,9 @@ const itemVariants = {
 
 export function EquipmentScreen() {
   const { data, updateData, goNext, goBack } = useOnboarding()
+  const t = useTranslations('onboarding.equipment')
+  const tCommon = useTranslations('common')
+  const { equipmentLabel } = useOnboardingLabels()
   const value = data.equipment
 
   const toggleEquipment = (id: string) => {
@@ -51,14 +57,13 @@ export function EquipmentScreen() {
 
   return (
     <div className="flex-1 flex flex-col p-6 pb-10 h-full overflow-hidden">
-      {/* Header */}
       <div className="flex-shrink-0">
         <button
           onClick={goBack}
           className="flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors mb-6"
         >
           <ChevronLeft className="w-5 h-5" />
-          <span className="text-sm font-medium">Back</span>
+          <span className="text-sm font-medium">{tCommon('back')}</span>
         </button>
 
         <motion.div
@@ -66,16 +71,11 @@ export function EquipmentScreen() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <h1 className="text-3xl font-bold tracking-tight mb-2">
-            Available equipment
-          </h1>
-          <p className="text-muted-foreground">
-            Select all the gear you have access to
-          </p>
+          <h1 className="text-3xl font-bold tracking-tight mb-2">{t('title')}</h1>
+          <p className="text-muted-foreground">{t('description')}</p>
         </motion.div>
       </div>
 
-      {/* Options */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
@@ -99,7 +99,6 @@ export function EquipmentScreen() {
                     : 'border-border hover:border-muted-foreground/50'
                 )}
               >
-                {/* Selection indicator */}
                 <motion.div
                   initial={false}
                   animate={{
@@ -114,7 +113,7 @@ export function EquipmentScreen() {
 
                 <div className="text-2xl mb-2">{item.emoji}</div>
                 <span className="text-sm font-medium text-foreground">
-                  {item.label}
+                  {equipmentLabel(item.id)}
                 </span>
               </motion.button>
             )
@@ -122,7 +121,6 @@ export function EquipmentScreen() {
         </div>
       </motion.div>
 
-      {/* CTA */}
       <div className="flex-shrink-0 pt-4">
         <Button
           onClick={goNext}
@@ -130,7 +128,7 @@ export function EquipmentScreen() {
           size="lg"
           className="w-full h-14 text-lg font-semibold rounded-2xl disabled:opacity-30"
         >
-          Continue
+          {tCommon('continue')}
         </Button>
       </div>
     </div>

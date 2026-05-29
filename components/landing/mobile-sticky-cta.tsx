@@ -2,6 +2,7 @@
 
 import { ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { useTranslations } from 'next-intl'
 
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
@@ -17,6 +18,8 @@ export function MobileStickyCta({
   isUnlocking,
   onPrimaryClick,
 }: MobileStickyCtaProps) {
+  const t = useTranslations('actions')
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
@@ -35,7 +38,7 @@ export function MobileStickyCta({
             'shadow-[0_1px_0_rgba(255,255,255,0.45)_inset,0_16px_48px_rgba(0,0,0,0.45)]'
           )}
         >
-          {accessGranted ? 'Continue to GRNDN' : 'Get beta access'}
+          {accessGranted ? t('continue_to_grndn') : t('get_beta_access')}
           <ArrowRight className="size-5" />
         </Button>
       </div>

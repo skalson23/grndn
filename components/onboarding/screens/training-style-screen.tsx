@@ -10,9 +10,10 @@ import {
   Minimize2,
   Triangle,
 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 import { Button } from '@/components/ui/button'
-import { TRAINING_STYLE_OPTIONS } from '@/lib/onboarding/training-style'
+import { useOnboardingLabels } from '@/hooks/use-onboarding-labels'
 
 import { SelectionCard } from '../selection-card'
 import { useOnboarding } from '../onboarding-context'
@@ -41,6 +42,9 @@ const itemVariants = {
 
 export function TrainingStyleScreen() {
   const { data, updateData, goNext, goBack } = useOnboarding()
+  const t = useTranslations('onboarding.trainingStyle')
+  const tCommon = useTranslations('common')
+  const { trainingStyles } = useOnboardingLabels()
   const value = data.trainingStyle
 
   return (
@@ -57,7 +61,7 @@ export function TrainingStyleScreen() {
           className="mb-6 flex items-center gap-1 text-muted-foreground transition-colors hover:text-foreground"
         >
           <ChevronLeft className="h-5 w-5" />
-          <span className="text-sm font-medium">Back</span>
+          <span className="text-sm font-medium">{tCommon('back')}</span>
         </button>
 
         <motion.div
@@ -65,13 +69,8 @@ export function TrainingStyleScreen() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <h1 className="mb-2 text-3xl font-bold tracking-tight">
-            What training style fits you best?
-          </h1>
-          <p className="text-muted-foreground">
-            Choose the training philosophy that best matches your goals and
-            preferred experience.
-          </p>
+          <h1 className="mb-2 text-3xl font-bold tracking-tight">{t('title')}</h1>
+          <p className="text-muted-foreground">{t('description')}</p>
         </motion.div>
       </div>
 
@@ -82,7 +81,7 @@ export function TrainingStyleScreen() {
         className="-mx-6 min-h-0 flex-1 overflow-y-auto px-6 py-6"
       >
         <motion.div className="space-y-3">
-          {TRAINING_STYLE_OPTIONS.map((style) => {
+          {trainingStyles.map((style) => {
             const Icon = styleIcons[style.id]
             return (
               <motion.div key={style.id} variants={itemVariants}>
@@ -112,7 +111,7 @@ export function TrainingStyleScreen() {
           size="lg"
           className="h-14 w-full rounded-2xl text-lg font-semibold disabled:opacity-30"
         >
-          Continue
+          {tCommon('continue')}
         </Button>
       </motion.div>
     </motion.div>

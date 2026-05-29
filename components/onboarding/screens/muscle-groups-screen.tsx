@@ -2,19 +2,22 @@
 
 import { motion } from 'framer-motion'
 import { ChevronLeft, Check } from 'lucide-react'
+import { useTranslations } from 'next-intl'
+
 import { Button } from '@/components/ui/button'
+import { useOnboardingLabels } from '@/hooks/use-onboarding-labels'
 import { cn } from '@/lib/utils'
 import { useOnboarding } from '../onboarding-context'
 
 const muscleGroups = [
-  { id: 'chest', label: 'Chest', icon: '💪' },
-  { id: 'back', label: 'Back', icon: '🦾' },
-  { id: 'shoulders', label: 'Shoulders', icon: '🔥' },
-  { id: 'arms', label: 'Arms', icon: '💥' },
-  { id: 'core', label: 'Core', icon: '⚡' },
-  { id: 'legs', label: 'Legs', icon: '🦵' },
-  { id: 'glutes', label: 'Glutes', icon: '🍑' },
-  { id: 'full-body', label: 'Full Body', icon: '🎯' },
+  { id: 'chest', icon: '💪' },
+  { id: 'back', icon: '🦾' },
+  { id: 'shoulders', icon: '🔥' },
+  { id: 'arms', icon: '💥' },
+  { id: 'core', icon: '⚡' },
+  { id: 'legs', icon: '🦵' },
+  { id: 'glutes', icon: '🍑' },
+  { id: 'full-body', icon: '🎯' },
 ]
 
 const containerVariants = {
@@ -34,6 +37,9 @@ const itemVariants = {
 
 export function MuscleGroupsScreen() {
   const { data, updateData, goNext, goBack } = useOnboarding()
+  const t = useTranslations('onboarding.muscleGroups')
+  const tCommon = useTranslations('common')
+  const { muscleGroupLabel } = useOnboardingLabels()
   const value = data.muscleGroups
 
   const toggleGroup = (id: string) => {
@@ -51,14 +57,13 @@ export function MuscleGroupsScreen() {
 
   return (
     <div className="flex-1 flex flex-col p-6 pb-10 h-full overflow-hidden">
-      {/* Header */}
       <div className="flex-shrink-0">
         <button
           onClick={goBack}
           className="flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors mb-6"
         >
           <ChevronLeft className="w-5 h-5" />
-          <span className="text-sm font-medium">Back</span>
+          <span className="text-sm font-medium">{tCommon('back')}</span>
         </button>
 
         <motion.div
@@ -66,16 +71,11 @@ export function MuscleGroupsScreen() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <h1 className="text-3xl font-bold tracking-tight mb-2">
-            Priority muscles
-          </h1>
-          <p className="text-muted-foreground">
-            Which areas do you want to focus on?
-          </p>
+          <h1 className="text-3xl font-bold tracking-tight mb-2">{t('title')}</h1>
+          <p className="text-muted-foreground">{t('description')}</p>
         </motion.div>
       </div>
 
-      {/* Options */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
@@ -99,7 +99,6 @@ export function MuscleGroupsScreen() {
                     : 'border-border hover:border-muted-foreground/50'
                 )}
               >
-                {/* Selection indicator */}
                 <motion.div
                   initial={false}
                   animate={{
@@ -114,7 +113,7 @@ export function MuscleGroupsScreen() {
 
                 <div className="text-3xl mb-2">{group.icon}</div>
                 <span className="text-sm font-semibold text-foreground">
-                  {group.label}
+                  {muscleGroupLabel(group.id)}
                 </span>
               </motion.button>
             )
@@ -122,7 +121,6 @@ export function MuscleGroupsScreen() {
         </div>
       </motion.div>
 
-      {/* CTA */}
       <div className="flex-shrink-0 pt-4">
         <Button
           onClick={goNext}
@@ -130,7 +128,7 @@ export function MuscleGroupsScreen() {
           size="lg"
           className="w-full h-14 text-lg font-semibold rounded-2xl disabled:opacity-30"
         >
-          Continue
+          {tCommon('continue')}
         </Button>
       </div>
     </div>

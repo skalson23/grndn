@@ -2,34 +2,21 @@
 
 import { motion } from 'framer-motion'
 import { Mars, Venus, Users, CircleSlash, ChevronLeft } from 'lucide-react'
+import { useTranslations } from 'next-intl'
+
 import { Button } from '@/components/ui/button'
 import { SelectionCard } from '../selection-card'
 import { useOnboarding } from '../onboarding-context'
 
 const options = [
-  {
-    id: 'male' as const,
-    icon: Mars,
-    title: 'Male',
-    description: 'Used only to tune evidence-based training variables',
-  },
-  {
-    id: 'female' as const,
-    icon: Venus,
-    title: 'Female',
-    description: 'Used only to tune evidence-based training variables',
-  },
-  {
-    id: 'non-binary' as const,
-    icon: Users,
-    title: 'Non-binary',
-    description: 'Inclusive programming without assumptions',
-  },
+  { id: 'male' as const, icon: Mars, titleKey: 'male' as const, hintKey: 'maleHint' as const },
+  { id: 'female' as const, icon: Venus, titleKey: 'female' as const, hintKey: 'femaleHint' as const },
+  { id: 'non-binary' as const, icon: Users, titleKey: 'nonBinary' as const, hintKey: 'nonBinaryHint' as const },
   {
     id: 'prefer-not-to-say' as const,
     icon: CircleSlash,
-    title: 'Prefer not to say',
-    description: 'Neutral prescriptions; no sex-specific assumptions',
+    titleKey: 'preferNotToSay' as const,
+    hintKey: 'preferNotToSayHint' as const,
   },
 ]
 
@@ -48,6 +35,8 @@ const itemVariants = {
 
 export function SexScreen() {
   const { data, updateData, goNext, goBack } = useOnboarding()
+  const t = useTranslations('onboarding.sex')
+  const tCommon = useTranslations('common')
   const value = data.sex
 
   return (
@@ -59,7 +48,7 @@ export function SexScreen() {
           className="flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors mb-6"
         >
           <ChevronLeft className="w-5 h-5" />
-          <span className="text-sm font-medium">Back</span>
+          <span className="text-sm font-medium">{tCommon('back')}</span>
         </button>
 
         <motion.div
@@ -67,11 +56,8 @@ export function SexScreen() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <h1 className="text-3xl font-bold tracking-tight mb-2">About you</h1>
-          <p className="text-muted-foreground">
-            Helps calibrate recovery and programming style. You can update this
-            later.
-          </p>
+          <h1 className="text-3xl font-bold tracking-tight mb-2">{t('title')}</h1>
+          <p className="text-muted-foreground">{t('description')}</p>
         </motion.div>
       </div>
 
@@ -85,8 +71,8 @@ export function SexScreen() {
           <motion.div key={opt.id} variants={itemVariants}>
             <SelectionCard
               icon={<opt.icon className="w-6 h-6" />}
-              title={opt.title}
-              description={opt.description}
+              title={t(opt.titleKey)}
+              description={t(opt.hintKey)}
               selected={value === opt.id}
               onClick={() => updateData({ sex: opt.id })}
             />
@@ -102,7 +88,7 @@ export function SexScreen() {
           size="lg"
           className="w-full h-14 text-lg font-semibold rounded-2xl disabled:opacity-30"
         >
-          Continue
+          {tCommon('continue')}
         </Button>
       </div>
     </div>

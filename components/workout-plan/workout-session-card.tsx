@@ -1,4 +1,7 @@
+'use client'
+
 import { Clock, Dumbbell, Layers3 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 import type { WorkoutPlan } from '@/lib/workout-plan/schema'
 import { Card, CardContent } from '@/components/ui/card'
@@ -37,6 +40,8 @@ function SessionListSection({
 }
 
 export function WorkoutSessionCard({ session, className }: WorkoutSessionCardProps) {
+  const t = useTranslations('workout')
+
   return (
     <Card
       className={cn(
@@ -62,14 +67,15 @@ export function WorkoutSessionCard({ session, className }: WorkoutSessionCardPro
           <div className="flex min-w-0 flex-1 flex-col gap-2">
             <div className="flex flex-wrap items-center gap-2">
               <span className="rounded-full border border-border bg-background/50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                Day {session.order}
+                {t('day', { number: session.order })}
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background/50 px-2.5 py-1 text-[10px] font-medium text-muted-foreground">
-                <Clock className="size-3" />~{session.estimatedMinutes} min
+                <Clock className="size-3" />
+                {t('approxMin', { count: session.estimatedMinutes })}
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background/50 px-2.5 py-1 text-[10px] font-medium text-muted-foreground">
                 <Layers3 className="size-3" />
-                {session.exercises.length} moves
+                {t('movesCount', { count: session.exercises.length })}
               </span>
             </div>
             <h3 className="text-xl font-semibold leading-snug tracking-[-0.02em] text-foreground break-words sm:text-2xl">
@@ -84,13 +90,13 @@ export function WorkoutSessionCard({ session, className }: WorkoutSessionCardPro
 
       <CardContent className="flex w-full min-w-0 flex-col gap-5 px-4 py-5 sm:px-6 sm:py-6">
         {session.warmup != null && session.warmup.length > 0 && (
-          <SessionListSection title="Warm-up" items={session.warmup} />
+          <SessionListSection title={t('warmUp')} items={session.warmup} />
         )}
 
         <section className="flex w-full min-w-0 flex-col gap-3">
           <div className="flex items-center justify-between gap-3">
             <h5 className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-              Main work
+              {t('mainWork')}
             </h5>
             <div className="h-px flex-1 bg-border/70" />
           </div>
@@ -109,7 +115,7 @@ export function WorkoutSessionCard({ session, className }: WorkoutSessionCardPro
         </section>
 
         {session.cooldown != null && session.cooldown.length > 0 && (
-          <SessionListSection title="Cool-down" items={session.cooldown} />
+          <SessionListSection title={t('coolDown')} items={session.cooldown} />
         )}
       </CardContent>
     </Card>

@@ -2,41 +2,19 @@
 
 import { motion } from 'framer-motion'
 import { Flame, Scale, Dumbbell, Heart, Trophy, ChevronLeft } from 'lucide-react'
+import { useTranslations } from 'next-intl'
+
 import { Button } from '@/components/ui/button'
+import { useOnboardingLabels } from '@/hooks/use-onboarding-labels'
 import { SelectionCard } from '../selection-card'
 import { useOnboarding } from '../onboarding-context'
 
 const goals = [
-  {
-    id: 'lose-weight',
-    icon: Scale,
-    title: 'Lose Weight',
-    description: 'Burn fat and get lean with targeted cardio and strength training',
-  },
-  {
-    id: 'build-muscle',
-    icon: Dumbbell,
-    title: 'Build Muscle',
-    description: 'Gain strength and size with progressive overload programs',
-  },
-  {
-    id: 'get-fit',
-    icon: Flame,
-    title: 'Get Fit',
-    description: 'Improve overall fitness, stamina, and daily energy levels',
-  },
-  {
-    id: 'stay-healthy',
-    icon: Heart,
-    title: 'Stay Healthy',
-    description: 'Maintain your current fitness with balanced workouts',
-  },
-  {
-    id: 'compete',
-    icon: Trophy,
-    title: 'Compete',
-    description: 'Train for athletic performance and competition',
-  },
+  { id: 'lose-weight', icon: Scale },
+  { id: 'build-muscle', icon: Dumbbell },
+  { id: 'get-fit', icon: Flame },
+  { id: 'stay-healthy', icon: Heart },
+  { id: 'compete', icon: Trophy },
 ]
 
 const containerVariants = {
@@ -56,17 +34,20 @@ const itemVariants = {
 
 export function GoalSelectionScreen() {
   const { data, updateData, goNext, goBack } = useOnboarding()
+  const t = useTranslations('onboarding.goal')
+  const tCommon = useTranslations('common')
+  const { goalLabel, goalDescription } = useOnboardingLabels()
   const value = data.goals
+
   return (
     <div className="flex-1 flex flex-col p-6 pb-10 h-full overflow-hidden">
-      {/* Header */}
       <div className="flex-shrink-0">
         <button
           onClick={goBack}
           className="flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors mb-6"
         >
           <ChevronLeft className="w-5 h-5" />
-          <span className="text-sm font-medium">Back</span>
+          <span className="text-sm font-medium">{tCommon('back')}</span>
         </button>
 
         <motion.div
@@ -74,16 +55,11 @@ export function GoalSelectionScreen() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <h1 className="text-3xl font-bold tracking-tight mb-2">
-            {"What's your goal?"}
-          </h1>
-          <p className="text-muted-foreground">
-            Select one or more fitness objectives
-          </p>
+          <h1 className="text-3xl font-bold tracking-tight mb-2">{t('title')}</h1>
+          <p className="text-muted-foreground">{t('description')}</p>
         </motion.div>
       </div>
 
-      {/* Options */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
@@ -94,8 +70,8 @@ export function GoalSelectionScreen() {
           <motion.div key={goal.id} variants={itemVariants}>
             <SelectionCard
               icon={<goal.icon className="w-6 h-6" />}
-              title={goal.title}
-              description={goal.description}
+              title={goalLabel(goal.id)}
+              description={goalDescription(goal.id)}
               selected={value.includes(goal.id)}
               onClick={() => {
                 if (value.includes(goal.id)) {
@@ -118,7 +94,6 @@ export function GoalSelectionScreen() {
         ))}
       </motion.div>
 
-      {/* CTA */}
       <div className="flex-shrink-0 pt-4 pb-safe">
         <Button
           onClick={goNext}
@@ -126,7 +101,7 @@ export function GoalSelectionScreen() {
           size="lg"
           className="w-full h-14 text-lg font-semibold rounded-2xl disabled:opacity-30"
         >
-          Continue
+          {tCommon('continue')}
         </Button>
       </div>
     </div>

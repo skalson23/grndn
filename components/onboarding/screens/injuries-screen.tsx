@@ -2,19 +2,22 @@
 
 import { motion } from 'framer-motion'
 import { ChevronLeft, Check, ShieldCheck } from 'lucide-react'
+import { useTranslations } from 'next-intl'
+
 import { Button } from '@/components/ui/button'
+import { useOnboardingLabels } from '@/hooks/use-onboarding-labels'
 import { cn } from '@/lib/utils'
 import { useOnboarding } from '../onboarding-context'
 
 const injuries = [
-  { id: 'none', label: 'No Injuries', description: 'I have no limitations' },
-  { id: 'lower-back', label: 'Lower Back', description: 'Pain or discomfort' },
-  { id: 'knees', label: 'Knees', description: 'Joint issues' },
-  { id: 'shoulders', label: 'Shoulders', description: 'Mobility limited' },
-  { id: 'wrists', label: 'Wrists', description: 'Strain or weakness' },
-  { id: 'neck', label: 'Neck', description: 'Tension or pain' },
-  { id: 'hips', label: 'Hips', description: 'Flexibility issues' },
-  { id: 'ankles', label: 'Ankles', description: 'Instability' },
+  { id: 'none' },
+  { id: 'lower-back' },
+  { id: 'knees' },
+  { id: 'shoulders' },
+  { id: 'wrists' },
+  { id: 'neck' },
+  { id: 'hips' },
+  { id: 'ankles' },
 ]
 
 const containerVariants = {
@@ -34,6 +37,9 @@ const itemVariants = {
 
 export function InjuriesScreen() {
   const { data, updateData, goNext, goBack } = useOnboarding()
+  const t = useTranslations('onboarding.injuries')
+  const tCommon = useTranslations('common')
+  const { injuryTitle, injuryDescription } = useOnboardingLabels()
   const value = data.injuries
 
   const toggleInjury = (id: string) => {
@@ -51,14 +57,13 @@ export function InjuriesScreen() {
 
   return (
     <div className="flex-1 flex flex-col p-6 pb-10 h-full overflow-hidden">
-      {/* Header */}
       <div className="flex-shrink-0">
         <button
           onClick={goBack}
           className="flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors mb-6"
         >
           <ChevronLeft className="w-5 h-5" />
-          <span className="text-sm font-medium">Back</span>
+          <span className="text-sm font-medium">{tCommon('back')}</span>
         </button>
 
         <motion.div
@@ -71,18 +76,13 @@ export function InjuriesScreen() {
               <ShieldCheck className="w-5 h-5 text-foreground" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold tracking-tight">
-                Any limitations?
-              </h1>
+              <h1 className="text-3xl font-bold tracking-tight">{t('title')}</h1>
             </div>
           </div>
-          <p className="text-muted-foreground">
-            {"We'll modify exercises to keep you safe"}
-          </p>
+          <p className="text-muted-foreground">{t('description')}</p>
         </motion.div>
       </div>
 
-      {/* Options */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
@@ -107,10 +107,10 @@ export function InjuriesScreen() {
             >
               <div>
                 <span className="font-semibold text-foreground">
-                  {injury.label}
+                  {injuryTitle(injury.id)}
                 </span>
                 <p className="text-sm text-muted-foreground">
-                  {injury.description}
+                  {injuryDescription(injury.id)}
                 </p>
               </div>
 
@@ -134,7 +134,6 @@ export function InjuriesScreen() {
         })}
       </motion.div>
 
-      {/* CTA */}
       <div className="flex-shrink-0 pt-4 pb-safe">
         <Button
           onClick={goNext}
@@ -142,7 +141,7 @@ export function InjuriesScreen() {
           size="lg"
           className="w-full h-14 text-lg font-semibold rounded-2xl disabled:opacity-30"
         >
-          Continue
+          {tCommon('continue')}
         </Button>
       </div>
     </div>

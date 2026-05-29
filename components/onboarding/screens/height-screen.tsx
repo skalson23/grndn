@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import { ChevronLeft, Ruler } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { useTranslation } from '@/lib/i18n'
+import { useTranslations } from 'next-intl'
 import { useOnboarding } from '../onboarding-context'
 
 const MIN = 120
@@ -29,7 +29,8 @@ function parseHeight(value: string): number | null {
 
 export function HeightScreen() {
   const { data, updateData, goNext, goBack } = useOnboarding()
-  const { t } = useTranslation()
+  const t = useTranslations('onboarding.height')
+  const tCommon = useTranslations('common')
   const value = data.heightCm
   const [draft, setDraft] = useState(() => formatHeight(value))
 
@@ -60,7 +61,7 @@ export function HeightScreen() {
           className="flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors mb-6"
         >
           <ChevronLeft className="w-5 h-5" />
-          <span className="text-sm font-medium">{t('common.back')}</span>
+          <span className="text-sm font-medium">{tCommon('back')}</span>
         </button>
 
         <motion.div
@@ -74,11 +75,9 @@ export function HeightScreen() {
             </div>
           </div>
           <h1 className="text-3xl font-bold tracking-tight mb-2">
-            {t('onboarding.height.title')}
+            {t('title')}
           </h1>
-          <p className="text-muted-foreground">
-            {t('onboarding.height.description')}
-          </p>
+          <p className="text-muted-foreground">{t('description')}</p>
         </motion.div>
       </div>
 
@@ -89,7 +88,7 @@ export function HeightScreen() {
         className="flex-1 flex flex-col justify-center py-8 max-w-sm mx-auto w-full"
       >
         <label className="text-sm font-medium text-muted-foreground mb-2">
-          {t('onboarding.height.label')}
+          {t('label')}
         </label>
         <Input
           type="text"
@@ -108,7 +107,7 @@ export function HeightScreen() {
           className="h-14 text-2xl font-semibold rounded-2xl bg-card border-border tabular-nums"
         />
         <p className="text-xs text-muted-foreground mt-2">
-          {t('onboarding.height.hint', { min: MIN, max: MAX })}
+          {t('hint', { min: MIN, max: MAX })}
         </p>
       </motion.div>
 
@@ -122,7 +121,7 @@ export function HeightScreen() {
           size="lg"
           className="w-full h-14 text-lg font-semibold rounded-2xl disabled:opacity-30"
         >
-          {t('common.continue')}
+          {tCommon('continue')}
         </Button>
       </div>
     </div>

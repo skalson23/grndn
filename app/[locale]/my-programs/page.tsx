@@ -1,8 +1,6 @@
 'use client'
 
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import {
   CalendarDays,
@@ -13,19 +11,21 @@ import {
   Mail,
   Play,
 } from 'lucide-react'
+import { useLocale, useTranslations } from 'next-intl'
 import { toast } from 'sonner'
 
 import { BrandLogo } from '@/components/brand/brand-logo'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
+import { useOnboardingLabels } from '@/hooks/use-onboarding-labels'
+import { Link, useRouter } from '@/i18n/navigation'
 import {
   getCurrentMagicLinkUser,
   listSavedPrograms,
   sendMagicLink,
   type SavedProgram,
 } from '@/lib/programs/saved-programs'
-import { TRAINING_STYLE_LABELS } from '@/lib/onboarding/training-style'
 import type { TrainingStyleId } from '@/lib/onboarding/training-style'
 import { WORKOUT_PLAN_STORAGE_KEY } from '@/lib/workout-plan/storage'
 
@@ -34,8 +34,8 @@ const fadeUp = {
   show: { opacity: 1, y: 0 },
 }
 
-function formatDate(value: string) {
-  return new Intl.DateTimeFormat(undefined, {
+function formatDate(value: string, locale: string) {
+  return new Intl.DateTimeFormat(locale, {
     month: 'short',
     day: 'numeric',
     year: 'numeric',
@@ -44,6 +44,15 @@ function formatDate(value: string) {
 
 export default function MyProgramsPage() {
   const router = useRouter()
+  const locale = useLocale()
+  const t = useTranslations('programs')
+  const tAuth = useTranslations('auth')
+  const tActions = useTranslations('actions')
+  const tCommon = useTranslations('common')
+  const tErrors = useTranslations('errors')
+  const tNav = useTranslations('nav')
+  const { trainingStyleLabel } = useOnboardingLabels()
+
   const [programs, setPrograms] = useState<SavedProgram[]>([])
   const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(true)
@@ -69,7 +78,7 @@ export default function MyProgramsPage() {
         setPrograms(saved)
       } catch (e) {
         const message =
-          e instanceof Error ? e.message : 'Could not load saved programs.'
+          e instanceof Error ? e.message : tErrors('loadPrograms')
         toast.error(message)
       } finally {
         if (alive) setIsLoading(false)
@@ -81,7 +90,7 @@ export default function MyProgramsPage() {
     return () => {
       alive = false
     }
-  }, [])
+  }, [tErrors])
 
   const totalSessions = useMemo(
     () => programs.reduce((sum, program) => sum + program.session_count, 0),
@@ -92,12 +101,12 @@ export default function MyProgramsPage() {
     event.preventDefault()
     setIsSendingLink(true)
     try {
-      await sendMagicLink(email.trim(), { next: '/my-programs' })
+      await sendMagicLink(email.trim(), { next: `/${locale}/my-programs` })
       setLinkSent(true)
-      toast.success('Magic link sent')
+      toast.success(tAuth('magicLinkSent'))
     } catch (e) {
       const message =
-        e instanceof Error ? e.message : 'Could not send magic link.'
+        e instanceof Error ? e.message : tErrors('sendMagicLink')
       toast.error(message)
     } finally {
       setIsSendingLink(false)
@@ -122,7 +131,7 @@ export default function MyProgramsPage() {
       <header className="sticky top-0 z-10 border-b border-border/80 bg-background/90 backdrop-blur-xl">
         <div className="mx-auto flex w-full max-w-2xl items-center gap-3 pl-5 pr-4 py-4 sm:gap-4">
           <Button variant="ghost" size="icon" className="shrink-0 rounded-xl" asChild>
-            <Link href="/results" aria-label="Back to results">
+            <Link href="/results" aria-label={tNav('backToResults')}>
               <ChevronLeft className="size-5" />
             </Link>
           </Button>
@@ -134,10 +143,10 @@ export default function MyProgramsPage() {
           />
           <div className="min-w-0 flex-1 pl-0.5">
             <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
-              Account
+              {t('account')}
             </p>
             <h1 className="truncate text-base font-semibold leading-tight tracking-tight sm:text-lg">
-              My Programs
+              {t('title')}
             </h1>
           </div>
         </div>
@@ -154,22 +163,21 @@ export default function MyProgramsPage() {
             <BrandLogo size="md" variant="horizontal" glow="soft" className="items-center sm:items-start" />
           </div>
           <h2 className="mt-6 text-2xl font-semibold tracking-tight">
-            Your saved training library
+            {t('libraryTitle')}
           </h2>
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-            Access generated GRNDN programs from any device after signing in
-            with your email magic link.
+            {t('libraryDescription')}
           </p>
 
           {isAuthed && (
             <div className="mt-5 grid grid-cols-2 gap-3">
               <div className="rounded-2xl border border-border bg-secondary/50 p-4">
                 <p className="text-2xl font-semibold">{programs.length}</p>
-                <p className="mt-1 text-xs text-muted-foreground">Programs</p>
+                <p className="mt-1 text-xs text-muted-foreground">{t('programsStat')}</p>
               </div>
               <div className="rounded-2xl border border-border bg-secondary/50 p-4">
                 <p className="text-2xl font-semibold">{totalSessions}</p>
-                <p className="mt-1 text-xs text-muted-foreground">Sessions</p>
+                <p className="mt-1 text-xs text-muted-foreground">{t('sessionsStat')}</p>
               </div>
             </div>
           )}
@@ -178,7 +186,7 @@ export default function MyProgramsPage() {
         {isLoading ? (
           <div className="flex items-center justify-center gap-3 rounded-3xl border border-border bg-card/60 p-8 text-sm text-muted-foreground">
             <Spinner className="size-4" />
-            Loading programs…
+            {t('loading')}
           </div>
         ) : !isAuthed ? (
           <motion.section
@@ -192,18 +200,17 @@ export default function MyProgramsPage() {
               <LockKeyhole className="size-5" />
             </div>
             <h2 className="text-xl font-semibold tracking-tight">
-              Sign in with email
+              {t('signInTitle')}
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              No password required. We’ll send a one-tap magic link to unlock
-              your saved programs.
+              {t('signInDescription')}
             </p>
 
             {linkSent ? (
               <div className="mt-5 rounded-2xl border border-border bg-secondary/50 p-4">
-                <p className="text-sm font-medium">Check your inbox</p>
+                <p className="text-sm font-medium">{tAuth('check_inbox')}</p>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Open the link and you’ll land back here automatically.
+                  {t('checkInboxDescription')}
                 </p>
               </div>
             ) : (
@@ -217,7 +224,7 @@ export default function MyProgramsPage() {
                     required
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
-                    placeholder="you@example.com"
+                    placeholder={tCommon('emailPlaceholder')}
                     className="h-12 rounded-2xl border-border bg-background/70 pl-10"
                   />
                 </div>
@@ -229,10 +236,10 @@ export default function MyProgramsPage() {
                   {isSendingLink ? (
                     <>
                       <Spinner className="size-4" />
-                      Sending…
+                      {tActions('sending')}
                     </>
                   ) : (
-                    'Send magic link'
+                    tActions('send_magic_link')
                   )}
                 </Button>
               </form>
@@ -247,13 +254,12 @@ export default function MyProgramsPage() {
             className="rounded-3xl border border-border bg-card/70 p-8 text-center"
           >
             <Dumbbell className="mx-auto mb-4 size-8 text-muted-foreground" />
-            <h2 className="text-xl font-semibold">No saved programs yet</h2>
+            <h2 className="text-xl font-semibold">{t('emptyTitle')}</h2>
             <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-muted-foreground">
-              Generate a protocol, then tap “Save My Program” on the results
-              page.
+              {t('emptyDescription')}
             </p>
             <Button asChild className="mt-5 rounded-2xl">
-              <Link href="/">Create a program</Link>
+              <Link href="/">{tActions('create_program')}</Link>
             </Button>
           </motion.section>
         ) : (
@@ -270,7 +276,7 @@ export default function MyProgramsPage() {
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0 flex-1">
                     <p className="mb-2 text-[10px] font-medium uppercase tracking-[0.2em] text-[oklch(0.52_0.16_25)]">
-                      Saved Program
+                      {t('savedProgram')}
                     </p>
                     <h2 className="text-lg font-semibold leading-snug tracking-tight">
                       {program.title}
@@ -284,11 +290,11 @@ export default function MyProgramsPage() {
                 <div className="mt-4 flex flex-wrap gap-2 border-t border-border/70 pt-4">
                   <span className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-secondary/60 px-2.5 py-1 text-[11px] text-muted-foreground">
                     <CalendarDays className="size-3" />
-                    {formatDate(program.created_at)}
+                    {formatDate(program.created_at, locale)}
                   </span>
                   <span className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-secondary/60 px-2.5 py-1 text-[11px] text-muted-foreground">
                     <Dumbbell className="size-3" />
-                    {program.session_count} sessions
+                    {t('sessionsCount', { count: program.session_count })}
                   </span>
                   <span className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-secondary/60 px-2.5 py-1 text-[11px] text-muted-foreground">
                     <FileText className="size-3" />
@@ -296,9 +302,9 @@ export default function MyProgramsPage() {
                   </span>
                   {program.training_style && (
                     <span className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-secondary/60 px-2.5 py-1 text-[11px] text-muted-foreground">
-                      {TRAINING_STYLE_LABELS[
+                      {trainingStyleLabel(
                         program.training_style as TrainingStyleId
-                      ] ?? program.training_style}
+                      )}
                     </span>
                   )}
                   {program.emphasis.length > 0 && (
@@ -314,7 +320,7 @@ export default function MyProgramsPage() {
                   className="mt-5 h-11 w-full rounded-2xl font-semibold"
                 >
                   <Play className="size-4" />
-                  Open Program
+                  {tActions('open_program')}
                 </Button>
               </motion.article>
             ))}

@@ -3,8 +3,8 @@ import { saveOnboardingProfileOptional } from '@/lib/supabase/save-onboarding-pr
 
 import {
   PLAN_GENERATION_MIN_MS,
+  PLAN_GENERATION_STAGE_KEYS,
   PLAN_GENERATION_STAGE_MS,
-  PLAN_GENERATION_STAGES,
 } from './generation-stages'
 import { requestWorkoutPlan } from './request-plan'
 import type { WorkoutPlan } from './schema'
@@ -12,7 +12,7 @@ import { WORKOUT_PLAN_STORAGE_KEY } from './storage'
 
 export type GenerationProgress = {
   stageIndex: number
-  stageLabel: string
+  stageKey: (typeof PLAN_GENERATION_STAGE_KEYS)[number]
   progress: number
 }
 
@@ -42,11 +42,11 @@ export async function runWorkoutPlanGeneration(
   })()
 
   const stagesPromise = (async () => {
-    for (let i = 0; i < PLAN_GENERATION_STAGES.length; i++) {
+    for (let i = 0; i < PLAN_GENERATION_STAGE_KEYS.length; i++) {
       onProgress({
         stageIndex: i,
-        stageLabel: PLAN_GENERATION_STAGES[i],
-        progress: (i + 1) / PLAN_GENERATION_STAGES.length,
+        stageKey: PLAN_GENERATION_STAGE_KEYS[i],
+        progress: (i + 1) / PLAN_GENERATION_STAGE_KEYS.length,
       })
       await delay(PLAN_GENERATION_STAGE_MS)
     }
@@ -76,8 +76,8 @@ export async function runWorkoutPlanGeneration(
   }
 
   onProgress({
-    stageIndex: PLAN_GENERATION_STAGES.length - 1,
-    stageLabel: PLAN_GENERATION_STAGES[PLAN_GENERATION_STAGES.length - 1],
+    stageIndex: PLAN_GENERATION_STAGE_KEYS.length - 1,
+    stageKey: PLAN_GENERATION_STAGE_KEYS[PLAN_GENERATION_STAGE_KEYS.length - 1],
     progress: 1,
   })
 

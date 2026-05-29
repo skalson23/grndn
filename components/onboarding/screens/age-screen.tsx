@@ -2,6 +2,8 @@
 
 import { motion } from 'framer-motion'
 import { ChevronLeft, Minus, Plus, Cake } from 'lucide-react'
+import { useTranslations } from 'next-intl'
+
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { useOnboarding } from '../onboarding-context'
@@ -11,6 +13,8 @@ const MAX = 100
 
 export function AgeScreen() {
   const { data, updateData, goNext, goBack } = useOnboarding()
+  const t = useTranslations('onboarding.age')
+  const tCommon = useTranslations('common')
   const value = data.age
 
   return (
@@ -22,7 +26,7 @@ export function AgeScreen() {
           className="flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors mb-6"
         >
           <ChevronLeft className="w-5 h-5" />
-          <span className="text-sm font-medium">Back</span>
+          <span className="text-sm font-medium">{tCommon('back')}</span>
         </button>
 
         <motion.div
@@ -35,10 +39,8 @@ export function AgeScreen() {
               <Cake className="w-5 h-5 text-foreground" />
             </div>
           </div>
-          <h1 className="text-3xl font-bold tracking-tight mb-2">Your age</h1>
-          <p className="text-muted-foreground">
-            We use this to tune volume, recovery, and progression.
-          </p>
+          <h1 className="text-3xl font-bold tracking-tight mb-2">{t('title')}</h1>
+          <p className="text-muted-foreground">{t('description')}</p>
         </motion.div>
       </div>
 
@@ -75,7 +77,7 @@ export function AgeScreen() {
               >
                 {value}
               </motion.div>
-              <p className="text-muted-foreground text-sm mt-1">years old</p>
+              <p className="text-muted-foreground text-sm mt-1">{t('yearsOld')}</p>
             </div>
 
             <motion.button
@@ -104,7 +106,7 @@ export function AgeScreen() {
           size="lg"
           className="w-full h-14 text-lg font-semibold rounded-2xl disabled:opacity-30"
         >
-          Continue
+          {tCommon('continue')}
         </Button>
       </div>
     </div>

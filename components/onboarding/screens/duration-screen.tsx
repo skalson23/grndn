@@ -2,18 +2,14 @@
 
 import { motion } from 'framer-motion'
 import { ChevronLeft, Clock } from 'lucide-react'
+import { useTranslations } from 'next-intl'
+
 import { Button } from '@/components/ui/button'
+import { useOnboardingLabels } from '@/hooks/use-onboarding-labels'
 import { cn } from '@/lib/utils'
 import { useOnboarding } from '../onboarding-context'
 
-const durations = [
-  { value: 15, label: '15 min', description: 'Quick burst' },
-  { value: 30, label: '30 min', description: 'Efficient' },
-  { value: 45, label: '45 min', description: 'Standard' },
-  { value: 60, label: '60 min', description: 'Complete' },
-  { value: 75, label: '75 min', description: 'Extended' },
-  { value: 90, label: '90 min', description: 'Intense' },
-]
+const durations = [15, 30, 45, 60, 75, 90]
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -32,17 +28,20 @@ const itemVariants = {
 
 export function DurationScreen() {
   const { data, updateData, goNext, goBack } = useOnboarding()
+  const t = useTranslations('onboarding.duration')
+  const tCommon = useTranslations('common')
+  const { durationLabel, durationDescription } = useOnboardingLabels()
   const value = data.duration
+
   return (
     <div className="flex-1 flex flex-col p-6 pb-10 h-full overflow-hidden">
-      {/* Header */}
       <div className="flex-shrink-0">
         <button
           onClick={goBack}
           className="flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors mb-6"
         >
           <ChevronLeft className="w-5 h-5" />
-          <span className="text-sm font-medium">Back</span>
+          <span className="text-sm font-medium">{tCommon('back')}</span>
         </button>
 
         <motion.div
@@ -55,16 +54,11 @@ export function DurationScreen() {
               <Clock className="w-5 h-5 text-foreground" />
             </div>
           </div>
-          <h1 className="text-3xl font-bold tracking-tight mb-2">
-            Session duration
-          </h1>
-          <p className="text-muted-foreground">
-            How long can you workout each session?
-          </p>
+          <h1 className="text-3xl font-bold tracking-tight mb-2">{t('title')}</h1>
+          <p className="text-muted-foreground">{t('description')}</p>
         </motion.div>
       </div>
 
-      {/* Options */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
@@ -72,14 +66,14 @@ export function DurationScreen() {
         className="flex-1 flex items-center justify-center py-8"
       >
         <div className="grid grid-cols-2 gap-4 w-full max-w-sm">
-          {durations.map((duration) => {
-            const isSelected = value === duration.value
+          {durations.map((minutes) => {
+            const isSelected = value === minutes
             return (
               <motion.button
-                key={duration.value}
+                key={minutes}
                 variants={itemVariants}
                 whileTap={{ scale: 0.96 }}
-                onClick={() => updateData({ duration: duration.value })}
+                onClick={() => updateData({ duration: minutes })}
                 className={cn(
                   'relative p-6 rounded-2xl border-2 text-center transition-all duration-300',
                   'bg-card hover:bg-secondary/50',
@@ -96,14 +90,13 @@ export function DurationScreen() {
                   transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                 >
                   <div className="text-3xl font-bold text-foreground mb-1">
-                    {duration.label}
+                    {durationLabel(minutes)}
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    {duration.description}
+                    {durationDescription(minutes)}
                   </p>
                 </motion.div>
 
-                {/* Selection ring */}
                 {isSelected && (
                   <motion.div
                     layoutId="duration-ring"
@@ -117,14 +110,13 @@ export function DurationScreen() {
         </div>
       </motion.div>
 
-      {/* CTA */}
       <div className="flex-shrink-0 pt-4">
         <Button
           onClick={goNext}
           size="lg"
           className="w-full h-14 text-lg font-semibold rounded-2xl"
         >
-          Continue
+          {tCommon('continue')}
         </Button>
       </div>
     </div>

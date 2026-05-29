@@ -2,12 +2,16 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
+import { useTranslations } from 'next-intl'
 import { toast } from 'sonner'
 
 import { BrandLogo } from '@/components/brand/brand-logo'
 import type { OnboardingData } from '@/components/onboarding/onboarding-context'
 import { Button } from '@/components/ui/button'
-import { PLAN_GENERATION_STAGES } from '@/lib/workout-plan/generation-stages'
+import {
+  PLAN_GENERATION_STAGE_KEYS,
+  type PlanGenerationStageKey,
+} from '@/lib/workout-plan/generation-stages'
 import { runWorkoutPlanGeneration } from '@/lib/workout-plan/run-generation'
 import { cn } from '@/lib/utils'
 
@@ -22,7 +26,9 @@ export function PlanGenerationLoader({
   onComplete,
   onCancel,
 }: PlanGenerationLoaderProps) {
-  const [stageLabel, setStageLabel] = useState('Initializing…')
+  const t = useTranslations('generation')
+  const tActions = useTranslations('actions')
+  const [stageKey, setStageKey] = useState<PlanGenerationStageKey>('analyzing')
   const [progress, setProgress] = useState(0)
   const [error, setError] = useState<string | null>(null)
   const startedRef = useRef(false)
@@ -32,7 +38,7 @@ export function PlanGenerationLoader({
     startedRef.current = true
 
     runWorkoutPlanGeneration(data, (p) => {
-      setStageLabel(p.stageLabel)
+      setStageKey(p.stageKey)
       setProgress(p.progress)
     })
       .then(() => {
@@ -40,12 +46,11 @@ export function PlanGenerationLoader({
         setTimeout(onComplete, 400)
       })
       .catch((e) => {
-        const message =
-          e instanceof Error ? e.message : 'Could not generate your workout plan.'
+        const message = e instanceof Error ? e.message : t('error')
         setError(message)
         toast.error(message)
       })
-  }, [data, onComplete])
+  }, [data, onComplete, t])
 
   return (
     <motion.div
@@ -83,8 +88,8 @@ export function PlanGenerationLoader({
 
           <div className="w-full rounded-[2rem] border border-border/80 bg-card/70 p-5 shadow-[0_30px_120px_rgba(0,0,0,0.42)] backdrop-blur sm:p-5">
             <div className="mb-3.5 flex items-center justify-between text-xs text-muted-foreground">
-              <span className="uppercase tracking-[0.22em]">Building protocol</span>
-              <span className="tabular-nums">{Math.round(progress * 100)}%</span>
+              <span className="uppercase tracking-[0.22em]">{t('buildingProtocol')}</span>
+              <span className="tabular-nums">{t('percent', { percent: Math.round(progress * 100) })}</span>
             </div>
 
             <motion.div className="h-1.5 w-full overflow-hidden rounded-full bg-secondary">
@@ -113,12 +118,12 @@ export function PlanGenerationLoader({
                       className="rounded-xl"
                       onClick={onCancel}
                     >
-                      Go back
+                      {tActions('go_back')}
                     </Button>
                   </motion.div>
                 ) : (
                   <motion.p
-                    key={stageLabel}
+                    key={stageKey}
                     initial={{ opacity: 0, y: 10, filter: 'blur(4px)' }}
                     animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                     exit={{ opacity: 0, y: -10, filter: 'blur(4px)' }}
@@ -128,7 +133,7 @@ export function PlanGenerationLoader({
                       'sm:text-xl'
                     )}
                   >
-                    {stageLabel}
+                    {t(`stages.${stageKey}`)}
                   </motion.p>
                 )}
               </AnimatePresence>
@@ -136,13 +141,13 @@ export function PlanGenerationLoader({
 
             {!error && (
               <div className="mt-3.5 grid gap-2">
-                {PLAN_GENERATION_STAGES.map((stage, index) => {
-                  const isComplete = progress >= (index + 1) / PLAN_GENERATION_STAGES.length
-                  const isActive = stage === stageLabel
+                {PLAN_GENERATION_STAGE_KEYS.map((key, index) => {
+                  const isComplete = progress >= (index + 1) / PLAN_GENERATION_STAGE_KEYS.length
+                  const isActive = key === stageKey
 
                   return (
                     <motion.div
-                      key={stage}
+                      key={key}
                       initial={false}
                       animate={{
                         opacity: isComplete || isActive ? 1 : 0.42,
@@ -157,7 +162,9 @@ export function PlanGenerationLoader({
                             : 'bg-muted-foreground/30'
                         )}
                       />
-                      <span className="text-xs text-muted-foreground">{stage}</span>
+                      <span className="text-xs text-muted-foreground">
+                        {t(`stages.${key}`)}
+                      </span>
                     </motion.div>
                   )
                 })}
@@ -169,7 +176,7 @@ export function PlanGenerationLoader({
 
       {!error && (
         <p className="pointer-events-none absolute bottom-6 left-0 right-0 text-center text-[11px] uppercase tracking-[0.25em] text-muted-foreground/80">
-          Powered by {data.frequency}-day adaptive intelligence
+          {t('poweredBy', { frequency: data.frequency })}
         </p>
       )}
     </motion.div>
