@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server'
 
+import type { OnboardingData } from '@/components/onboarding/onboarding-context'
+import { storePendingProgramSave } from '@/lib/programs/complete-pending-save'
+import { logSaveFlow, logSaveFlowWarn } from '@/lib/programs/save-flow-log'
 import {
   getSupabaseAuthEndpoint,
   getSupabasePublicEnv,
@@ -11,11 +14,14 @@ import {
   getAuthRedirectOrigin,
   PRODUCTION_SITE_ORIGIN,
 } from '@/lib/supabase/site-origin'
+import { workoutPlanSchema } from '@/lib/workout-plan/schema'
 
 type MagicLinkBody = {
   email?: string
   next?: string
   saveCurrentProgram?: boolean
+  plan?: unknown
+  profile?: unknown
 }
 
 export async function POST(request: Request) {
@@ -55,6 +61,27 @@ export async function POST(request: Request) {
   const email = String(body.email ?? '').trim()
   if (!email) {
     return NextResponse.json({ error: 'Email is required.' }, { status: 400 })
+  }
+
+  logSaveFlow('magic_link_requested', {
+    emailDomain: email.split('@')[1] ?? 'unknown',
+    saveCurrentProgram: Boolean(body.saveCurrentProgram),
+    hasPlan: Boolean(body.plan),
+  })
+
+  if (body.saveCurrentProgram && body.plan) {
+    const checked = workoutPlanSchema.safeParse(body.plan)
+    if (checked.success) {
+      const profile = (body.profile as OnboardingData | null) ?? null
+      const stored = await storePendingProgramSave(email, checked.data, profile)
+      if (!stored) {
+        logSaveFlowWarn('magic_link_pending_save_not_stored_server_side')
+      }
+    } else {
+      logSaveFlowWarn('magic_link_pending_save_invalid_plan')
+    }
+  } else if (body.saveCurrentProgram) {
+    logSaveFlowWarn('magic_link_save_requested_without_plan_payload')
   }
 
   const emailRedirectTo = buildAuthCallbackUrl(request, {
@@ -101,6 +128,9 @@ export async function POST(request: Request) {
     console.log(logPrefix, 'signInWithOtp success', {
       emailDomain: email.split('@')[1] ?? 'unknown',
       emailRedirectTo,
+    })
+    logSaveFlow('magic_link_sent', {
+      emailDomain: email.split('@')[1] ?? 'unknown',
     })
     return NextResponse.json({ ok: true })
   } catch (e) {

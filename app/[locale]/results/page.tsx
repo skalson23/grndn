@@ -24,10 +24,8 @@ import { useOnboardingLabels } from '@/hooks/use-onboarding-labels'
 import { Link } from '@/i18n/navigation'
 import { estimateTdee } from '@/lib/onboarding/tdee'
 import type { TrainingStyleId } from '@/lib/onboarding/training-style'
-import { WORKOUT_PLAN_STORAGE_KEY } from '@/lib/workout-plan/storage'
-import { workoutPlanSchema, type WorkoutPlan } from '@/lib/workout-plan/schema'
-
-type StoredPayload = { plan: unknown; profile?: OnboardingData }
+import { loadResultsPlan } from '@/lib/workout-plan/load-results-plan'
+import type { WorkoutPlan } from '@/lib/workout-plan/schema'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 16 },
@@ -52,23 +50,21 @@ export default function ResultsPage() {
   const [ready, setReady] = useState(false)
 
   useEffect(() => {
-    const raw = sessionStorage.getItem(WORKOUT_PLAN_STORAGE_KEY)
-    if (!raw) {
-      setMissing(true)
-      return
-    }
-    try {
-      const parsed = JSON.parse(raw) as StoredPayload
-      const checked = workoutPlanSchema.safeParse(parsed.plan)
-      if (!checked.success) {
+    let alive = true
+
+    void loadResultsPlan().then((loaded) => {
+      if (!alive) return
+      if (!loaded) {
         setMissing(true)
         return
       }
-      setPlan(checked.data)
-      setProfile(parsed.profile ?? null)
+      setPlan(loaded.plan)
+      setProfile(loaded.profile)
       setReady(true)
-    } catch {
-      setMissing(true)
+    })
+
+    return () => {
+      alive = false
     }
   }, [])
 

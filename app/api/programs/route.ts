@@ -5,6 +5,7 @@ import {
   buildPdfMetadata,
   parseSavedProgram,
 } from '@/lib/programs/saved-program-models'
+import { logSaveFlow, logSaveFlowError } from '@/lib/programs/save-flow-log'
 import { isSupabaseConfigured } from '@/lib/supabase/config'
 import { createServerSupabaseClient } from '@/lib/supabase/server'
 import { workoutPlanSchema } from '@/lib/workout-plan/schema'
@@ -83,6 +84,11 @@ export async function POST(request: Request) {
       )
     }
 
+    logSaveFlow('programs_save_start', {
+      userId: user.id,
+      sessionCount: plan.weeklySessions.length,
+    })
+
     const pdfMetadata = buildPdfMetadata(plan)
     const row = {
       user_id: user.id,
@@ -104,8 +110,14 @@ export async function POST(request: Request) {
       .single()
 
     if (error) {
+      logSaveFlowError('programs_save_insert_failed', { message: error.message })
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
+
+    logSaveFlow('programs_save_success', {
+      userId: user.id,
+      programId: data?.id,
+    })
 
     return NextResponse.json({ program: parseSavedProgram(data) })
   } catch (e) {

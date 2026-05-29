@@ -1,6 +1,8 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
+import { completePendingProgramSave } from '@/lib/programs/complete-pending-save'
+import { logSaveFlow, logSaveFlowError, logSaveFlowWarn } from '@/lib/programs/save-flow-log'
 import { defaultLocaleResultsPath } from '@/i18n/routing'
 import { getSupabasePublicEnv } from '@/lib/supabase/config'
 
@@ -11,6 +13,12 @@ export async function GET(request: NextRequest) {
   const save = requestUrl.searchParams.get('save')
   const redirectUrl = new URL(next, request.url)
 
+  logSaveFlow('auth_callback_start', {
+    hasCode: Boolean(code),
+    next,
+    save,
+  })
+
   if (save) {
     redirectUrl.searchParams.set('save', save)
   }
@@ -19,6 +27,10 @@ export async function GET(request: NextRequest) {
   const { url, key } = getSupabasePublicEnv()
 
   if (!url || !key || !code) {
+    logSaveFlowWarn('auth_callback_missing_code_or_supabase', {
+      hasCode: Boolean(code),
+      hasSupabase: Boolean(url && key),
+    })
     return response
   }
 
@@ -29,6 +41,7 @@ export async function GET(request: NextRequest) {
       },
       setAll(cookiesToSet) {
         cookiesToSet.forEach(({ name, value, options }) => {
+          request.cookies.set(name, value)
           response.cookies.set(name, value, options)
         })
       },
@@ -37,8 +50,42 @@ export async function GET(request: NextRequest) {
 
   try {
     await supabase.auth.exchangeCodeForSession(code)
-  } catch {
-    // Keep the lightweight auth flow non-blocking; the destination page can retry.
+    logSaveFlow('auth_callback_session_exchanged')
+  } catch (error) {
+    logSaveFlowError('auth_callback_session_exchange_failed', {
+      message: error instanceof Error ? error.message : String(error),
+    })
+    return response
+  }
+
+  if (save === '1') {
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser()
+
+    if (userError || !user?.email) {
+      logSaveFlowWarn('auth_callback_save_skipped_no_user', {
+        message: userError?.message,
+      })
+      return response
+    }
+
+    const result = await completePendingProgramSave(user.email, user.id)
+    logSaveFlow('auth_callback_pending_save_result', {
+      saved: result.saved,
+      reason: result.reason,
+      userId: user.id,
+    })
+
+    if (result.saved) {
+      redirectUrl.searchParams.delete('save')
+      const savedResponse = NextResponse.redirect(redirectUrl)
+      response.cookies.getAll().forEach(({ name, value, ...options }) => {
+        savedResponse.cookies.set(name, value, options)
+      })
+      return savedResponse
+    }
   }
 
   return response

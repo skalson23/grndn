@@ -29,7 +29,12 @@ export async function getCurrentMagicLinkUser(): Promise<User | null> {
 
 export async function sendMagicLink(
   email: string,
-  options: { next?: string; saveCurrentProgram?: boolean } = {}
+  options: {
+    next?: string
+    saveCurrentProgram?: boolean
+    plan?: SaveProgramInput['plan']
+    profile?: SaveProgramInput['profile']
+  } = {}
 ): Promise<void> {
   if (!isSupabaseConfigured()) {
     throw new Error('Supabase is not configured for saving programs.')
@@ -42,6 +47,8 @@ export async function sendMagicLink(
       email,
       next: options.next,
       saveCurrentProgram: options.saveCurrentProgram,
+      plan: options.plan,
+      profile: options.profile,
     }),
   })
 

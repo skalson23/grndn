@@ -22,7 +22,9 @@ import {
   saveProgramToAccount,
   sendMagicLink,
 } from '@/lib/programs/saved-programs'
+import { logSaveFlow, logSaveFlowError, logSaveFlowWarn } from '@/lib/programs/save-flow-log'
 import { isSupabaseConfigured } from '@/lib/supabase/client'
+import { writePendingProgramSave } from '@/lib/workout-plan/pending-save-storage'
 import type { WorkoutPlan } from '@/lib/workout-plan/schema'
 import { cn } from '@/lib/utils'
 
@@ -54,13 +56,16 @@ export function SaveProgramButton({
   const saveProgram = async () => {
     setIsSaving(true)
     try {
+      logSaveFlow('client_save_program_start')
       const saved = await saveProgramToAccount({ plan, profile })
       setSavedProgramId(saved.id)
       toast.success(tAuth('programSaved'))
+      logSaveFlow('client_save_program_success', { programId: saved.id })
       return saved
     } catch (e) {
       const message =
         e instanceof Error ? e.message : tErrors('saveProgram')
+      logSaveFlowError('client_save_program_failed', { message })
       toast.error(message)
       throw e
     } finally {
@@ -73,13 +78,26 @@ export function SaveProgramButton({
     if (params.get('save') !== '1' || didAutoSave.current) return
 
     didAutoSave.current = true
-    void saveProgram()
-      .then(() => {
+    logSaveFlow('client_auto_save_triggered')
+
+    void (async () => {
+      let user = await getCurrentMagicLinkUser()
+      if (!user) {
+        await new Promise((resolve) => setTimeout(resolve, 400))
+        user = await getCurrentMagicLinkUser()
+      }
+
+      if (!user) {
+        logSaveFlowWarn('client_auto_save_no_session')
+      }
+
+      try {
+        await saveProgram()
         router.replace('/results', { scroll: false })
-      })
-      .catch(() => {
+      } catch {
         setOpen(true)
-      })
+      }
+    })()
   }, [router])
 
   const handleSaveClick = async () => {
@@ -111,9 +129,14 @@ export function SaveProgramButton({
     event.preventDefault()
     setIsSendingLink(true)
     try {
+      writePendingProgramSave(plan, profile)
+      logSaveFlow('client_pending_save_written_browser')
+
       await sendMagicLink(email.trim(), {
         next: `/${locale}/results`,
         saveCurrentProgram: true,
+        plan,
+        profile,
       })
       setLinkSent(true)
       toast.success(tAuth('magicLinkSent'))
