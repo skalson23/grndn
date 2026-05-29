@@ -6,6 +6,11 @@ import {
   isSupabaseConfigured,
 } from '@/lib/supabase/config'
 import { createServerSupabaseClient } from '@/lib/supabase/server'
+import {
+  buildAuthCallbackUrl,
+  getAuthRedirectOrigin,
+  PRODUCTION_SITE_ORIGIN,
+} from '@/lib/supabase/site-origin'
 
 type MagicLinkBody = {
   email?: string
@@ -25,13 +30,16 @@ export async function POST(request: Request) {
   }
 
   const { url: supabaseProjectUrl, key: anonKeyPrefix } = getSupabasePublicEnv()
-  const rawSupabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const authRedirectOrigin = getAuthRedirectOrigin(request)
 
   console.log(logPrefix, 'env', {
-    rawSupabaseUrl,
+    nodeEnv: process.env.NODE_ENV ?? null,
+    vercelEnv: process.env.VERCEL_ENV ?? null,
     normalizedSupabaseUrl: supabaseProjectUrl,
     anonKeyPrefix: anonKeyPrefix ? `${anonKeyPrefix.slice(0, 12)}…` : null,
     nextPublicSiteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? null,
+    authRedirectOrigin,
+    productionSiteOrigin: PRODUCTION_SITE_ORIGIN,
     requestUrl: request.url,
     originHeader: request.headers.get('origin'),
     hostHeader: request.headers.get('host'),
@@ -49,31 +57,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Email is required.' }, { status: 400 })
   }
 
-  const requestOrigin = new URL(request.url).origin
-  const origin =
-    request.headers.get('origin') ??
-    process.env.NEXT_PUBLIC_SITE_URL ??
-    requestOrigin
-
-  console.log(logPrefix, 'redirect origin resolution', {
-    originHeader: request.headers.get('origin'),
-    nextPublicSiteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? null,
-    requestOrigin,
-    chosenOrigin: origin,
+  const emailRedirectTo = buildAuthCallbackUrl(request, {
+    next: body.next,
+    saveCurrentProgram: body.saveCurrentProgram,
   })
-
-  const callbackUrl = new URL('/auth/callback', origin)
-  callbackUrl.searchParams.set('next', body.next ?? '/results')
-  if (body.saveCurrentProgram) {
-    callbackUrl.searchParams.set('save', '1')
-  }
-
-  const emailRedirectTo = callbackUrl.toString()
   const otpEndpoint = getSupabaseAuthEndpoint(supabaseProjectUrl, 'otp')
 
   console.log(logPrefix, 'urls', {
-    callbackPath: callbackUrl.pathname,
-    callbackSearch: callbackUrl.search,
+    authRedirectOrigin,
     emailRedirectTo,
     supabaseOtpEndpoint: otpEndpoint,
   })
@@ -107,7 +98,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: error.message }, { status: 400 })
     }
 
-    console.log(logPrefix, 'signInWithOtp success', { emailDomain: email.split('@')[1] ?? 'unknown' })
+    console.log(logPrefix, 'signInWithOtp success', {
+      emailDomain: email.split('@')[1] ?? 'unknown',
+      emailRedirectTo,
+    })
     return NextResponse.json({ ok: true })
   } catch (e) {
     const message = e instanceof Error ? e.message : 'Could not send magic link.'
