@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 
+import { Link } from '@/i18n/navigation'
 import { cn } from '@/lib/utils'
 import {
   BRAND_HORIZONTAL_SRC,
@@ -19,6 +20,8 @@ type BrandLogoProps = {
   className?: string
   variant?: 'mark' | 'logotype' | 'horizontal'
   glow?: BrandLogoGlow
+  /** Locale-aware homepage path. Defaults to `/`. */
+  href?: string
 }
 
 const sizeMap = {
@@ -108,6 +111,7 @@ export function BrandLogo({
   className,
   variant = 'logotype',
   glow = 'none',
+  href = '/',
 }: BrandLogoProps) {
   const s = sizeMap[size]
   const isMark = variant === 'mark'
@@ -124,7 +128,7 @@ export function BrandLogo({
   const logoImage = isHorizontal ? (
     <img
       src={BRAND_HORIZONTAL_SRC}
-      alt={BRAND_NAME}
+      alt=""
       className={imageClass}
       draggable={false}
     />
@@ -141,7 +145,7 @@ export function BrandLogo({
     </div>
   ) : (
     <>
-      <img src={BRAND_WORDMARK_SRC} alt={BRAND_NAME} className={imageClass} draggable={false} />
+      <img src={BRAND_WORDMARK_SRC} alt="" className={imageClass} draggable={false} />
       {showTagline && (
         <span className={cn('uppercase tracking-widest text-muted-foreground', s.tag)}>
           {BRAND_TAGLINE}
@@ -150,15 +154,14 @@ export function BrandLogo({
     </>
   )
 
-  return (
+  const logoContent = (
     <motion.div
       initial={false}
       whileHover={hasGlow ? undefined : { y: -1 }}
       transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
       className={cn(
         'relative flex min-w-0 flex-col',
-        isMark ? 'items-center' : 'items-start',
-        className
+        isMark ? 'items-center' : 'items-start'
       )}
     >
       {glowLayers && (
@@ -169,5 +172,20 @@ export function BrandLogo({
       )}
       <div className={cn('relative z-[1]', isHorizontal && 'px-0.5')}>{logoImage}</div>
     </motion.div>
+  )
+
+  return (
+    <Link
+      href={href}
+      aria-label={`${BRAND_NAME} home`}
+      className={cn(
+        'inline-flex cursor-pointer rounded-sm',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+        isMark ? 'items-center' : 'items-start',
+        className
+      )}
+    >
+      {logoContent}
+    </Link>
   )
 }
