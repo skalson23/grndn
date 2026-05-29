@@ -1,3 +1,5 @@
+import { defaultLocaleResultsPath } from '@/i18n/routing'
+
 export const PRODUCTION_SITE_ORIGIN = 'https://grndn.app'
 
 const LOCAL_DEV_ORIGIN = 'http://localhost:3000'
@@ -65,7 +67,7 @@ export function buildAuthCallbackUrl(
 ): string {
   const origin = getAuthRedirectOrigin(request)
   const callbackUrl = new URL('/auth/callback', origin)
-  callbackUrl.searchParams.set('next', options.next ?? '/results')
+  callbackUrl.searchParams.set('next', options.next ?? defaultLocaleResultsPath)
   if (options.saveCurrentProgram) {
     callbackUrl.searchParams.set('save', '1')
   }

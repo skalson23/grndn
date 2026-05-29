@@ -15,6 +15,7 @@ import { useLocale, useTranslations } from 'next-intl'
 import { toast } from 'sonner'
 
 import { BrandLogo } from '@/components/brand/brand-logo'
+import { LanguageSwitcher } from '@/components/i18n/language-switcher'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
@@ -149,6 +150,7 @@ export default function MyProgramsPage() {
               {t('title')}
             </h1>
           </div>
+          <LanguageSwitcher className="shrink-0" />
         </div>
       </header>
 

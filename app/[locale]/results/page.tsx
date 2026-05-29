@@ -14,6 +14,7 @@ import {
 import { useTranslations } from 'next-intl'
 
 import { BrandLogo } from '@/components/brand/brand-logo'
+import { LanguageSwitcher } from '@/components/i18n/language-switcher'
 import type { OnboardingData } from '@/components/onboarding/onboarding-context'
 import { ExportPdfButton } from '@/components/workout-plan/export-pdf-button'
 import { SaveProgramButton } from '@/components/workout-plan/save-program-button'
@@ -162,6 +163,7 @@ export default function ResultsPage() {
             </h1>
           </div>
           <div className="hidden shrink-0 items-center gap-2 sm:flex">
+            <LanguageSwitcher />
             <Button
               variant="outline"
               size="icon"
@@ -180,6 +182,9 @@ export default function ResultsPage() {
 
       <main className="relative mx-auto flex w-full max-w-2xl flex-col gap-8 px-4 pt-8">
         <div className="grid grid-cols-1 gap-3 sm:hidden">
+          <div className="flex justify-end">
+            <LanguageSwitcher />
+          </div>
           <SaveProgramButton plan={plan} profile={profile} className="w-full" />
           <div className="grid grid-cols-2 gap-3">
             <ExportPdfButton plan={plan} profile={profile} className="w-full" />

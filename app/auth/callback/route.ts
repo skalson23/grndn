@@ -1,12 +1,13 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
+import { defaultLocaleResultsPath } from '@/i18n/routing'
 import { getSupabasePublicEnv } from '@/lib/supabase/config'
 
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url)
   const code = requestUrl.searchParams.get('code')
-  const next = requestUrl.searchParams.get('next') || '/results'
+  const next = requestUrl.searchParams.get('next') || defaultLocaleResultsPath
   const save = requestUrl.searchParams.get('save')
   const redirectUrl = new URL(next, request.url)
 
