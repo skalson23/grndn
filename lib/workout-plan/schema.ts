@@ -1,5 +1,6 @@
 import { z } from 'zod'
 
+import { routing } from '@/i18n/routing'
 import { ACTIVITY_LEVEL_IDS } from '@/lib/onboarding/activity-level'
 import { trainingStyleSchema } from '@/lib/onboarding/training-style'
 import { WEIGHT_LOSS_PACE_IDS } from '@/lib/onboarding/weight-loss'
@@ -59,6 +60,14 @@ export const onboardingAnswersSchema = z
   })
 
 export type OnboardingAnswers = z.infer<typeof onboardingAnswersSchema>
+
+export const workoutPlanRequestSchema = onboardingAnswersSchema.and(
+  z.object({
+    locale: z.enum(routing.locales).default(routing.defaultLocale),
+  })
+)
+
+export type WorkoutPlanRequest = z.infer<typeof workoutPlanRequestSchema>
 
 const exerciseSchema = z.object({
   name: z.string().min(1).max(120),

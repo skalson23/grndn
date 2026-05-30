@@ -1,4 +1,6 @@
 import type { OnboardingData } from '@/components/onboarding/onboarding-context'
+import type { AppLocale } from '@/i18n/routing'
+import { routing } from '@/i18n/routing'
 import type { WorkoutPlan } from '@/lib/workout-plan/schema'
 import { WORKOUT_PLAN_STORAGE_KEY } from '@/lib/workout-plan/storage'
 
@@ -8,6 +10,14 @@ export const PENDING_PROGRAM_SAVE_KEY = 'grndn_pending_program_save_v1'
 export type PendingProgramPayload = {
   plan: WorkoutPlan
   profile: OnboardingData | null
+  locale?: AppLocale
+}
+
+function resolveLocale(locale?: string): AppLocale | undefined {
+  if (locale && routing.locales.includes(locale as AppLocale)) {
+    return locale as AppLocale
+  }
+  return undefined
 }
 
 export function readSessionPlanPayload(): PendingProgramPayload | null {
@@ -31,11 +41,13 @@ function readPayloadFromStorage(
     const parsed = JSON.parse(raw) as {
       plan?: WorkoutPlan
       profile?: OnboardingData | null
+      locale?: string
     }
     if (!parsed.plan) return null
     return {
       plan: parsed.plan,
       profile: parsed.profile ?? null,
+      locale: resolveLocale(parsed.locale),
     }
   } catch {
     return null
@@ -44,13 +56,15 @@ function readPayloadFromStorage(
 
 export function writePendingProgramSave(
   plan: WorkoutPlan,
-  profile: OnboardingData | null | undefined
+  profile: OnboardingData | null | undefined,
+  locale?: AppLocale
 ): void {
   if (typeof window === 'undefined') return
 
   const payload = JSON.stringify({
     plan,
     profile: profile ?? null,
+    locale: locale ?? routing.defaultLocale,
     savedAt: new Date().toISOString(),
   })
 
@@ -68,6 +82,10 @@ export function hydrateSessionFromPayload(payload: PendingProgramPayload): void 
 
   window.sessionStorage.setItem(
     WORKOUT_PLAN_STORAGE_KEY,
-    JSON.stringify({ plan: payload.plan, profile: payload.profile })
+    JSON.stringify({
+      plan: payload.plan,
+      profile: payload.profile,
+      locale: payload.locale,
+    })
   )
 }

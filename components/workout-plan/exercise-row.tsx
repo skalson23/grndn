@@ -27,8 +27,8 @@ export function ExerciseRow({
     restSeconds == null
       ? '—'
       : restSeconds >= 60
-        ? `${Math.round(restSeconds / 60)} min`
-        : `${restSeconds}s`
+        ? t('restMinutes', { count: Math.round(restSeconds / 60) })
+        : t('restSeconds', { count: restSeconds })
 
   return (
     <li

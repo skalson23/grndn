@@ -13,12 +13,26 @@ function slugify(title: string): string {
     .slice(0, 48) || 'workout-plan'
 }
 
+import type { AppLocale } from '@/i18n/routing'
+import { routing } from '@/i18n/routing'
+
 export async function downloadWorkoutPlanPdf(
   plan: WorkoutPlan,
-  profile?: OnboardingData | null
+  profile?: OnboardingData | null,
+  locale?: AppLocale | string
 ): Promise<void> {
+  const resolvedLocale =
+    locale && routing.locales.includes(locale as AppLocale)
+      ? (locale as AppLocale)
+      : routing.defaultLocale
+
   const blob = await pdf(
-    WorkoutPlanPdfDocument({ plan, profile, generatedAt: new Date() })
+    WorkoutPlanPdfDocument({
+      plan,
+      profile,
+      generatedAt: new Date(),
+      locale: resolvedLocale,
+    })
   ).toBlob()
 
   const url = URL.createObjectURL(blob)

@@ -1,11 +1,24 @@
-import { ACTIVITY_LEVEL_LABELS } from '@/lib/onboarding/activity-level'
+import type { AppLocale } from '@/i18n/routing'
+import { routing } from '@/i18n/routing'
 import { estimateTdee } from '@/lib/onboarding/tdee'
-import { TRAINING_STYLE_LABELS } from '@/lib/onboarding/training-style'
-import { WEIGHT_LOSS_PACE_LABELS } from '@/lib/onboarding/weight-loss'
 
+import { getLanguageRules } from './prompt-language'
+import {
+  formatPromptProfileContext,
+  getPromptActivityLabel,
+  getPromptSexLabel,
+  getPromptTrainingStyleLabel,
+  getPromptWeightLossPaceLabel,
+} from './prompt-labels'
 import { buildSystemPrompt } from './prompts'
 import { buildTrainingStyleRules } from './prompts/training-style-rules'
 import type { OnboardingAnswers } from './schema'
+
+function resolveLocale(locale?: string): AppLocale {
+  return routing.locales.includes(locale as AppLocale)
+    ? (locale as AppLocale)
+    : routing.defaultLocale
+}
 
 function bmi(weightKg: number, heightCm: number): number {
   const m = heightCm / 100
@@ -13,7 +26,10 @@ function bmi(weightKg: number, heightCm: number): number {
   return Math.round((weightKg / (m * m)) * 10) / 10
 }
 
-function buildHardRequirements(input: OnboardingAnswers): string {
+function buildHardRequirements(
+  input: OnboardingAnswers,
+  locale: AppLocale
+): string {
   return [
     'Hard requirements:',
     `- weeklySessions must contain exactly ${input.frequency} sessions (user trains ${input.frequency} day(s) per week).`,
@@ -22,11 +38,14 @@ function buildHardRequirements(input: OnboardingAnswers): string {
     '- Respect injuries/limitations: avoid or substitute contraindicated movements; set safetyNotes to a short string or null when relevant.',
     '- Calibrate volume and complexity to experience level.',
     '- Align session focuses with stated goals and muscle group priorities when possible.',
-    `- Apply training style "${TRAINING_STYLE_LABELS[input.trainingStyle]}" across exercise selection, volume, intensity, session structure, and fatigue management.`,
+    `- Apply training style "${getPromptTrainingStyleLabel(locale, input.trainingStyle)}" across exercise selection, volume, intensity, session structure, and fatigue management.`,
   ].join('\n')
 }
 
-function buildAnthropometricsSection(input: OnboardingAnswers): string {
+function buildAnthropometricsSection(
+  input: OnboardingAnswers,
+  locale: AppLocale
+): string {
   const bmiValue = bmi(input.weightKg, input.heightCm)
   const tdee = estimateTdee(input)
 
@@ -34,13 +53,16 @@ function buildAnthropometricsSection(input: OnboardingAnswers): string {
     'Body profile, activity & programming context (use responsibly, evidence-based only):',
     `- Age ${input.age} years: adjust recovery expectations, joint-friendly options for older adults, and progression conservatism for youth vs masters as appropriate.`,
     `- Height ${input.heightCm} cm, weight ${input.weightKg} kg (BMI ~${bmiValue}): scale ranges of motion, leverage, and conditioning density sensibly; never shame body size.`,
-    `- Sex / identity field "${input.sex}": where physiology may matter for programming, use inclusive language; if "prefer-not-to-say", keep prescriptions neutral and broadly applicable.`,
-    `- Daily activity level: ${ACTIVITY_LEVEL_LABELS[input.activityLevel]}. Account for non-gym fatigue and recovery demands.`,
+    `- Sex / identity field "${getPromptSexLabel(locale, input.sex)}": where physiology may matter for programming, use inclusive language; if prefer-not-to-say, keep prescriptions neutral and broadly applicable.`,
+    `- Daily activity level: ${getPromptActivityLabel(locale, input.activityLevel)}. Account for non-gym fatigue and recovery demands.`,
     `- Estimated maintenance energy: ~${tdee.maintenanceCalories} kcal/day (BMR ~${tdee.bmr}). This is informational only; do not prescribe macros, meal plans, or calorie tracking.`,
   ].join('\n')
 }
 
-function buildWeightLossContext(input: OnboardingAnswers): string | null {
+function buildWeightLossContext(
+  input: OnboardingAnswers,
+  locale: AppLocale
+): string | null {
   if (!input.goals.includes('lose-weight')) return null
 
   return [
@@ -48,7 +70,7 @@ function buildWeightLossContext(input: OnboardingAnswers): string | null {
     `- Target weight: ${input.targetWeightKg ?? 'not provided'} kg.`,
     `- Preferred pace: ${
       input.weightLossPace
-        ? WEIGHT_LOSS_PACE_LABELS[input.weightLossPace]
+        ? getPromptWeightLossPaceLabel(locale, input.weightLossPace)
         : 'not provided'
     }.`,
     '- If pace is aggressive or daily activity is high, reduce junk volume and avoid excessive systemic fatigue.',
@@ -57,21 +79,32 @@ function buildWeightLossContext(input: OnboardingAnswers): string | null {
   ].join('\n')
 }
 
-export function buildWorkoutPlanUserMessage(input: OnboardingAnswers): string {
+export function buildWorkoutPlanUserMessage(
+  input: OnboardingAnswers,
+  localeInput?: string
+): string {
+  const locale = resolveLocale(localeInput)
+
   return [
+    getLanguageRules(locale),
+    '',
     'Create a one-week strength and conditioning microcycle as JSON matching the provided schema.',
     '',
-    buildHardRequirements(input),
+    buildHardRequirements(input, locale),
     '',
-    buildAnthropometricsSection(input),
+    buildAnthropometricsSection(input, locale),
     '',
-    buildWeightLossContext(input),
+    buildWeightLossContext(input, locale),
+    '',
+    formatPromptProfileContext(locale, input),
     '',
     buildTrainingStyleRules(input.trainingStyle),
     '',
     'User profile (JSON):',
     JSON.stringify(input, null, 2),
-  ].join('\n')
+  ]
+    .filter(Boolean)
+    .join('\n')
 }
 
 export const WORKOUT_PLAN_SYSTEM_PROMPT = buildSystemPrompt()

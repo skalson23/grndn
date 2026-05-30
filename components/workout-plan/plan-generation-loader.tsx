@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { useTranslations } from 'next-intl'
+import type { AppLocale } from '@/i18n/routing'
+import { useLocale, useTranslations } from 'next-intl'
 import { toast } from 'sonner'
 
 import { BrandLogo } from '@/components/brand/brand-logo'
@@ -26,6 +27,7 @@ export function PlanGenerationLoader({
   onComplete,
   onCancel,
 }: PlanGenerationLoaderProps) {
+  const locale = useLocale() as AppLocale
   const t = useTranslations('generation')
   const tActions = useTranslations('actions')
   const [stageKey, setStageKey] = useState<PlanGenerationStageKey>('analyzing')
@@ -37,7 +39,7 @@ export function PlanGenerationLoader({
     if (startedRef.current) return
     startedRef.current = true
 
-    runWorkoutPlanGeneration(data, (p) => {
+    runWorkoutPlanGeneration(data, locale, (p) => {
       setStageKey(p.stageKey)
       setProgress(p.progress)
     })
@@ -50,7 +52,7 @@ export function PlanGenerationLoader({
         setError(message)
         toast.error(message)
       })
-  }, [data, onComplete, t])
+  }, [data, locale, onComplete, t])
 
   return (
     <motion.div

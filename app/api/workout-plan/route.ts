@@ -9,6 +9,7 @@ import {
 import { applyExerciseOverlapFilter } from '@/lib/workout-plan/exercise-overlap-filter'
 import {
   onboardingAnswersSchema,
+  workoutPlanRequestSchema,
   workoutPlanSchema,
   type WorkoutPlan,
 } from '@/lib/workout-plan/schema'
@@ -55,12 +56,12 @@ export async function POST(request: Request) {
     return jsonError('Invalid JSON body.', 400)
   }
 
-  const parsedInput = onboardingAnswersSchema.safeParse(body)
+  const parsedInput = workoutPlanRequestSchema.safeParse(body)
   if (!parsedInput.success) {
     return jsonError('Invalid onboarding payload.', 422, parsedInput.error.flatten())
   }
 
-  const input = parsedInput.data
+  const { locale, ...input } = parsedInput.data
   const model =
     process.env.OPENAI_WORKOUT_MODEL?.trim() || 'gpt-4o-mini'
 
@@ -74,7 +75,7 @@ export async function POST(request: Request) {
         { role: 'system', content: WORKOUT_PLAN_SYSTEM_PROMPT },
         {
           role: 'user',
-          content: buildWorkoutPlanUserMessage(input),
+          content: buildWorkoutPlanUserMessage(input, locale),
         },
       ],
       response_format: zodResponseFormat(workoutPlanSchema, 'workout_plan'),

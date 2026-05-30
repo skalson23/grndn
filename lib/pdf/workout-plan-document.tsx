@@ -8,15 +8,31 @@ import {
 } from '@react-pdf/renderer'
 
 import type { OnboardingData } from '@/components/onboarding/onboarding-context'
+import type { AppLocale } from '@/i18n/routing'
+import { routing } from '@/i18n/routing'
 import type { WorkoutPlan } from '@/lib/workout-plan/schema'
+import {
+  getPromptActivityLabel,
+  getPromptExperienceLabel,
+  getPromptTrainingStyleLabel,
+} from '@/lib/workout-plan/prompt-labels'
 
 import { BRAND_HORIZONTAL_SRC, BRAND_NAME, BRAND_PDF_AUTHOR } from '@/lib/brand'
-import { ACTIVITY_LEVEL_LABELS } from '@/lib/onboarding/activity-level'
 import { estimateTdee } from '@/lib/onboarding/tdee'
-import { TRAINING_STYLE_LABELS } from '@/lib/onboarding/training-style'
-import type { TrainingStyleId } from '@/lib/onboarding/training-style'
 
+import {
+  formatPdfMessage,
+  getPdfMessages,
+  type PdfMessages,
+} from './get-pdf-messages'
 import { pdfColors, pdfSpacing, PDF_PAGE_SIZE } from './theme'
+
+function resolvePdfLocale(locale?: string): AppLocale {
+  if (locale && routing.locales.includes(locale as AppLocale)) {
+    return locale as AppLocale
+  }
+  return routing.defaultLocale
+}
 
 type WeeklySession = WorkoutPlan['weeklySessions'][number]
 
@@ -381,6 +397,7 @@ export type WorkoutPlanPdfProps = {
   plan: WorkoutPlan
   profile?: OnboardingData | null
   generatedAt?: Date
+  locale?: string
 }
 
 function formatRest(seconds: number | null): string {
@@ -400,22 +417,32 @@ function BrandHeader({ compact = false }: { compact?: boolean }) {
   )
 }
 
-function ProfileMeta({ profile }: { profile?: OnboardingData | null }) {
+function ProfileMeta({
+  profile,
+  locale,
+  messages,
+}: {
+  profile?: OnboardingData | null
+  locale: AppLocale
+  messages: PdfMessages
+}) {
   if (!profile) return null
-  const styleLabel =
-    TRAINING_STYLE_LABELS[profile.trainingStyle as TrainingStyleId] ||
-    profile.trainingStyle
-  const activityLabel =
-    ACTIVITY_LEVEL_LABELS[
-      profile.activityLevel as keyof typeof ACTIVITY_LEVEL_LABELS
-    ] || profile.activityLevel
+  const styleLabel = getPromptTrainingStyleLabel(locale, profile.trainingStyle)
+  const activityLabel = getPromptActivityLabel(locale, profile.activityLevel)
+  const experienceLabel = getPromptExperienceLabel(locale, profile.experience)
   const tdee = profile.activityLevel ? estimateTdee(profile) : null
   const items = [
-    `${profile.frequency}× / week`,
-    `${profile.duration} min`,
-    profile.experience,
+    formatPdfMessage(messages.frequencyPerWeek, { count: profile.frequency }),
+    formatPdfMessage(messages.durationMin, { count: profile.duration }),
+    experienceLabel,
     ...(activityLabel ? [activityLabel] : []),
-    ...(tdee ? [`~${tdee.maintenanceCalories} kcal maintenance`] : []),
+    ...(tdee
+      ? [
+          formatPdfMessage(messages.maintenanceKcal, {
+            count: tdee.maintenanceCalories,
+          }),
+        ]
+      : []),
     ...(styleLabel ? [styleLabel] : []),
   ]
 
@@ -449,12 +476,14 @@ function ExerciseCard({
   repsOrDuration,
   restSeconds,
   coachingCue,
+  messages,
 }: {
   name: string
   sets: number
   repsOrDuration: string
   restSeconds: number | null
   coachingCue: string | null
+  messages: PdfMessages
 }) {
   return (
     <View style={styles.exerciseCard} wrap={false}>
@@ -464,15 +493,15 @@ function ExerciseCard({
       )}
       <View style={styles.exerciseStatsRow}>
         <View style={styles.statCell}>
-          <Text style={styles.statLabel}>SETS</Text>
+          <Text style={styles.statLabel}>{messages.sets}</Text>
           <Text style={styles.statValue}>{String(sets)}</Text>
         </View>
         <View style={styles.statCell}>
-          <Text style={styles.statLabel}>REPS</Text>
+          <Text style={styles.statLabel}>{messages.reps}</Text>
           <Text style={styles.statValue}>{repsOrDuration}</Text>
         </View>
         <View style={styles.statCell}>
-          <Text style={styles.statLabel}>REST</Text>
+          <Text style={styles.statLabel}>{messages.rest}</Text>
           <Text style={styles.statValue}>{formatRest(restSeconds)}</Text>
         </View>
       </View>
@@ -484,10 +513,12 @@ function PageFooter({
   dateLabel,
   dayIndex,
   totalDays,
+  messages,
 }: {
   dateLabel: string
   dayIndex?: number
   totalDays?: number
+  messages: PdfMessages
 }) {
   return (
     <View style={dayIndex != null ? styles.sessionFooter : styles.footer}>
@@ -496,10 +527,13 @@ function PageFooter({
       </Text>
       {dayIndex != null && totalDays != null ? (
         <Text style={styles.pageIndicator}>
-          DAY {dayIndex} OF {totalDays}
+          {formatPdfMessage(messages.dayOfTotal, {
+            current: dayIndex,
+            total: totalDays,
+          })}
         </Text>
       ) : (
-        <Text style={styles.footerText}>Program overview</Text>
+        <Text style={styles.footerText}>{messages.programOverview}</Text>
       )}
     </View>
   )
@@ -512,12 +546,14 @@ function SessionDayPage({
   safetyNotes,
   dateLabel,
   totalDays,
+  messages,
 }: {
   session: WeeklySession
   progressionInstructions: string
   safetyNotes: string | null
   dateLabel: string
   totalDays: number
+  messages: PdfMessages
 }) {
   return (
     <Page
@@ -532,12 +568,14 @@ function SessionDayPage({
           <View style={styles.sessionDayRow}>
             <View style={styles.sessionDayPill}>
               <Text style={styles.sessionDayPillText}>
-                TRAINING DAY {session.order}
+                {formatPdfMessage(messages.trainingDay, { number: session.order })}
               </Text>
             </View>
             <View style={styles.sessionDurationPill}>
               <Text style={styles.sessionDurationText}>
-                ~{session.estimatedMinutes} min
+                {formatPdfMessage(messages.approxMin, {
+                  count: session.estimatedMinutes,
+                })}
               </Text>
             </View>
           </View>
@@ -549,10 +587,10 @@ function SessionDayPage({
 
         <View style={styles.sessionBody}>
           {session.warmup != null && session.warmup.length > 0 && (
-            <ListSection title="Warm-up" lines={session.warmup} />
+            <ListSection title={messages.warmUp} lines={session.warmup} />
           )}
 
-          <Text style={styles.sectionLabel}>MAIN WORK</Text>
+          <Text style={styles.sectionLabel}>{messages.mainWork}</Text>
           {session.exercises.map((ex, i) => (
             <ExerciseCard
               key={`${session.order}-ex-${i}`}
@@ -561,14 +599,15 @@ function SessionDayPage({
               repsOrDuration={ex.repsOrDuration}
               restSeconds={ex.restSeconds}
               coachingCue={ex.coachingCue}
+              messages={messages}
             />
           ))}
 
           {session.cooldown != null && session.cooldown.length > 0 && (
-            <ListSection title="Cool-down" lines={session.cooldown} />
+            <ListSection title={messages.coolDown} lines={session.cooldown} />
           )}
 
-          <Text style={styles.sectionLabel}>PROGRESSION</Text>
+          <Text style={styles.sectionLabel}>{messages.progression}</Text>
           <View style={styles.progressionBoxCompact} wrap={false}>
             <Text style={styles.progressionTextCompact}>
               {progressionInstructions}
@@ -577,9 +616,9 @@ function SessionDayPage({
 
           {safetyNotes != null && safetyNotes !== '' && (
             <>
-              <Text style={styles.sectionLabel}>SAFETY NOTES</Text>
+              <Text style={styles.sectionLabel}>{messages.safetyNotes}</Text>
               <View style={styles.notesBox} wrap={false}>
-                <Text style={styles.notesTitle}>Limitations</Text>
+                <Text style={styles.notesTitle}>{messages.limitationsTitle}</Text>
                 <Text style={styles.notesText}>{safetyNotes}</Text>
               </View>
             </>
@@ -590,6 +629,7 @@ function SessionDayPage({
           dateLabel={dateLabel}
           dayIndex={session.order}
           totalDays={totalDays}
+          messages={messages}
         />
       </View>
     </Page>
@@ -601,20 +641,24 @@ function CoverPage({
   profile,
   sortedSessions,
   dateLabel,
+  locale,
+  messages,
 }: {
   plan: WorkoutPlan
   profile?: OnboardingData | null
   sortedSessions: WeeklySession[]
   dateLabel: string
+  locale: AppLocale
+  messages: PdfMessages
 }) {
   return (
     <Page size={PDF_PAGE_SIZE} style={styles.page} wrap={false}>
       <BrandHeader />
       <Text style={styles.planTitle}>{plan.planTitle}</Text>
       <Text style={styles.planSummary}>{plan.planSummary}</Text>
-      <ProfileMeta profile={profile} />
+      <ProfileMeta profile={profile} locale={locale} messages={messages} />
 
-      <Text style={styles.sectionLabel}>YOUR WEEKLY SPLIT</Text>
+      <Text style={styles.sectionLabel}>{messages.yourWeeklySplit}</Text>
       {sortedSessions.map((session) => (
         <View
           key={`split-${session.order}`}
@@ -628,29 +672,34 @@ function CoverPage({
             <Text style={styles.splitTitle}>{session.name}</Text>
             <Text style={styles.splitSubtitle}>{session.primaryFocus}</Text>
             <Text style={styles.splitMeta}>
-              ~{session.estimatedMinutes} min · {session.exercises.length}{' '}
-              exercises
+              {formatPdfMessage(messages.approxMin, {
+                count: session.estimatedMinutes,
+              })}{' '}
+              ·{' '}
+              {formatPdfMessage(messages.exercisesCount, {
+                count: session.exercises.length,
+              })}
             </Text>
           </View>
         </View>
       ))}
 
-      <Text style={styles.sectionLabel}>PROGRAM PROGRESSION</Text>
+      <Text style={styles.sectionLabel}>{messages.programProgression}</Text>
       <View style={styles.progressionBox} wrap={false}>
         <Text style={styles.progressionText}>{plan.progressionInstructions}</Text>
       </View>
 
       {plan.safetyNotes != null && plan.safetyNotes !== '' && (
         <>
-          <Text style={styles.sectionLabel}>SAFETY & NOTES</Text>
+          <Text style={styles.sectionLabel}>{messages.safetyAndNotes}</Text>
           <View style={styles.notesBox} wrap={false}>
-            <Text style={styles.notesTitle}>Safety & limitations</Text>
+            <Text style={styles.notesTitle}>{messages.safetyLimitationsTitle}</Text>
             <Text style={styles.notesText}>{plan.safetyNotes}</Text>
           </View>
         </>
       )}
 
-      <PageFooter dateLabel={dateLabel} />
+      <PageFooter dateLabel={dateLabel} messages={messages} />
     </Page>
   )
 }
@@ -659,8 +708,12 @@ export function WorkoutPlanPdfDocument({
   plan,
   profile,
   generatedAt = new Date(),
+  locale: localeInput,
 }: WorkoutPlanPdfProps) {
-  const dateLabel = generatedAt.toLocaleDateString(undefined, {
+  const locale = resolvePdfLocale(localeInput)
+  const messages = getPdfMessages(locale)
+  const dateLocale = locale === 'pl' ? 'pl-PL' : 'en-US'
+  const dateLabel = generatedAt.toLocaleDateString(dateLocale, {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -675,13 +728,15 @@ export function WorkoutPlanPdfDocument({
     <Document
       title={plan.planTitle}
       author={BRAND_PDF_AUTHOR}
-      subject="Workout Plan"
+      subject={messages.documentSubject}
     >
       <CoverPage
         plan={plan}
         profile={profile}
         sortedSessions={sortedSessions}
         dateLabel={dateLabel}
+        locale={locale}
+        messages={messages}
       />
 
       {sortedSessions.map((session) => (
@@ -692,6 +747,7 @@ export function WorkoutPlanPdfDocument({
           safetyNotes={plan.safetyNotes}
           dateLabel={dateLabel}
           totalDays={totalDays}
+          messages={messages}
         />
       ))}
     </Document>

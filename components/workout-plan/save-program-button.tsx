@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
+import type { AppLocale } from '@/i18n/routing'
 import { Link, useRouter } from '@/i18n/navigation'
 import {
   getCurrentMagicLinkUser,
@@ -40,7 +41,7 @@ export function SaveProgramButton({
   className,
 }: SaveProgramButtonProps) {
   const router = useRouter()
-  const locale = useLocale()
+  const locale = useLocale() as AppLocale
   const tActions = useTranslations('actions')
   const tAuth = useTranslations('auth')
   const tCommon = useTranslations('common')
@@ -129,7 +130,7 @@ export function SaveProgramButton({
     event.preventDefault()
     setIsSendingLink(true)
     try {
-      writePendingProgramSave(plan, profile)
+      writePendingProgramSave(plan, profile, locale)
       logSaveFlow('client_pending_save_written_browser')
 
       await sendMagicLink(email.trim(), {

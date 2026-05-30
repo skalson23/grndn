@@ -1,16 +1,18 @@
 import type { OnboardingData } from '@/components/onboarding/onboarding-context'
+import type { AppLocale } from '@/i18n/routing'
 
 import type { WorkoutPlan } from './schema'
 
 type ErrorBody = { error?: string; details?: unknown }
 
 export async function requestWorkoutPlan(
-  answers: OnboardingData
+  answers: OnboardingData,
+  locale: AppLocale
 ): Promise<WorkoutPlan> {
   const res = await fetch('/api/workout-plan', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(answers),
+    body: JSON.stringify({ ...answers, locale }),
   })
 
   let body: ErrorBody & { plan?: WorkoutPlan } = {}

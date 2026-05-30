@@ -1,4 +1,5 @@
 import type { OnboardingData } from '@/components/onboarding/onboarding-context'
+import type { AppLocale } from '@/i18n/routing'
 import { saveOnboardingProfileOptional } from '@/lib/supabase/save-onboarding-profile'
 
 import {
@@ -26,6 +27,7 @@ function delay(ms: number) {
  */
 export async function runWorkoutPlanGeneration(
   data: OnboardingData,
+  locale: AppLocale,
   onProgress: (progress: GenerationProgress) => void
 ): Promise<WorkoutPlan> {
   const startedAt = Date.now()
@@ -34,7 +36,7 @@ export async function runWorkoutPlanGeneration(
 
   const apiPromise = (async () => {
     try {
-      plan = await requestWorkoutPlan(data)
+      plan = await requestWorkoutPlan(data, locale)
       void saveOnboardingProfileOptional(data)
     } catch (e) {
       apiError = e instanceof Error ? e : new Error(String(e))
@@ -69,7 +71,7 @@ export async function runWorkoutPlanGeneration(
   try {
     sessionStorage.setItem(
       WORKOUT_PLAN_STORAGE_KEY,
-      JSON.stringify({ plan, profile: data })
+      JSON.stringify({ plan, profile: data, locale })
     )
   } catch {
     throw new Error('Could not store your plan in the browser.')

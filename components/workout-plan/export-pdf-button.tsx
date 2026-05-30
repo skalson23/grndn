@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import { FileDown } from 'lucide-react'
-import { useTranslations } from 'next-intl'
+import type { AppLocale } from '@/i18n/routing'
+import { useLocale, useTranslations } from 'next-intl'
 import { toast } from 'sonner'
 
 import type { OnboardingData } from '@/components/onboarding/onboarding-context'
@@ -19,6 +20,7 @@ type ExportPdfButtonProps = {
 }
 
 export function ExportPdfButton({ plan, profile, className }: ExportPdfButtonProps) {
+  const locale = useLocale() as AppLocale
   const t = useTranslations('workout')
   const tActions = useTranslations('actions')
   const [isExporting, setIsExporting] = useState(false)
@@ -26,7 +28,7 @@ export function ExportPdfButton({ plan, profile, className }: ExportPdfButtonPro
   const handleExport = async () => {
     setIsExporting(true)
     try {
-      await downloadWorkoutPlanPdf(plan, profile)
+      await downloadWorkoutPlanPdf(plan, profile, locale)
       toast.success(t('pdfDownloaded'))
     } catch (e) {
       const message =
