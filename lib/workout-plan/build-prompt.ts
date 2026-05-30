@@ -2,7 +2,7 @@ import type { AppLocale } from '@/i18n/routing'
 import { routing } from '@/i18n/routing'
 import { estimateTdee } from '@/lib/onboarding/tdee'
 
-import { getLanguageRules } from './prompt-language'
+import { getLanguageRules, getLocaleReminder } from './prompt-language'
 import {
   formatPromptProfileContext,
   getPromptActivityLabel,
@@ -13,6 +13,7 @@ import {
 import { buildSystemPrompt } from './prompts'
 import { buildTrainingStyleRules } from './prompts/training-style-rules'
 import type { OnboardingAnswers } from './schema'
+import { logWorkoutGeneration } from './generation-log'
 
 function resolveLocale(locale?: string): AppLocale {
   return routing.locales.includes(locale as AppLocale)
@@ -79,14 +80,44 @@ function buildWeightLossContext(
   ].join('\n')
 }
 
+export function buildWorkoutPlanSystemPrompt(localeInput?: string): string {
+  const locale = resolveLocale(localeInput)
+  const languageRules = getLanguageRules(locale)
+
+  logWorkoutGeneration('prompt_system_built', {
+    locale,
+    languageRulesPreview: languageRules.slice(0, 120),
+  })
+
+  return [
+    languageRules,
+    '',
+    buildSystemPrompt(),
+    '',
+    languageRules,
+  ].join('\n\n')
+}
+
+/** @deprecated Use buildWorkoutPlanSystemPrompt(locale) per request. */
+export const WORKOUT_PLAN_SYSTEM_PROMPT = buildWorkoutPlanSystemPrompt('en')
+
 export function buildWorkoutPlanUserMessage(
   input: OnboardingAnswers,
   localeInput?: string
 ): string {
   const locale = resolveLocale(localeInput)
+  const languageRules = getLanguageRules(locale)
+
+  logWorkoutGeneration('prompt_user_built', {
+    locale,
+    frequency: input.frequency,
+    languageRulesPreview: languageRules.slice(0, 120),
+  })
 
   return [
-    getLanguageRules(locale),
+    `Request locale: ${locale}`,
+    '',
+    languageRules,
     '',
     'Create a one-week strength and conditioning microcycle as JSON matching the provided schema.',
     '',
@@ -102,9 +133,9 @@ export function buildWorkoutPlanUserMessage(
     '',
     'User profile (JSON):',
     JSON.stringify(input, null, 2),
+    '',
+    getLocaleReminder(locale),
   ]
     .filter(Boolean)
     .join('\n')
 }
-
-export const WORKOUT_PLAN_SYSTEM_PROMPT = buildSystemPrompt()

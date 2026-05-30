@@ -4,7 +4,14 @@ import {
   normalizeExerciseName,
 } from '@/lib/exercises'
 import type { ExerciseMetadata } from '@/lib/exercises'
+import type { AppLocale } from '@/i18n/routing'
+import { routing } from '@/i18n/routing'
 
+import {
+  localizeExerciseName,
+  overlapFilterCoachingCue,
+} from './exercise-localizations'
+import { logWorkoutGeneration } from './generation-log'
 import type { WorkoutPlan } from './schema'
 
 type WorkoutSession = WorkoutPlan['weeklySessions'][number]
@@ -25,6 +32,13 @@ const LOW_FATIGUE_PRESSING_REPLACEMENTS = [
   'Cable Pushdown',
 ] as const
 
+function resolveLocale(locale?: string): AppLocale {
+  if (locale && routing.locales.includes(locale as AppLocale)) {
+    return locale as AppLocale
+  }
+  return routing.defaultLocale
+}
+
 function isGeneratedHighPressingCompound(name: string): boolean {
   const standardizedName = normalizeExerciseName(name)
   const metadata = getExerciseByName(standardizedName)
@@ -40,7 +54,8 @@ function isGeneratedHighPressingCompound(name: string): boolean {
 
 function replacementFor(
   duplicateName: string,
-  usedNames: Set<string>
+  usedNames: Set<string>,
+  locale: AppLocale
 ): ExerciseMetadata | null {
   const duplicateMetadata = getExerciseByName(duplicateName)
   const preferred =
@@ -50,7 +65,8 @@ function replacementFor(
       : LOW_FATIGUE_PRESSING_REPLACEMENTS
 
   for (const name of preferred) {
-    if (usedNames.has(name)) continue
+    const displayName = localizeExerciseName(name, locale)
+    if (usedNames.has(displayName)) continue
     const replacement = getExerciseByName(name)
     if (replacement) return replacement
   }
@@ -60,68 +76,86 @@ function replacementFor(
 
 function buildReplacementExercise(
   original: WorkoutExercise,
-  replacement: ExerciseMetadata
+  replacement: ExerciseMetadata,
+  locale: AppLocale
 ): WorkoutExercise {
+  const displayName = localizeExerciseName(replacement.name, locale)
+  const repsOrDuration =
+    locale === 'pl'
+      ? replacement.movement_category === 'triceps_isolation'
+        ? '10-15 powt.'
+        : '12-20 powt.'
+      : replacement.movement_category === 'triceps_isolation'
+        ? '10-15'
+        : '12-20'
+
   return {
     ...original,
-    name: replacement.name,
+    name: displayName,
     sets: Math.min(original.sets, 3),
-    repsOrDuration:
-      replacement.movement_category === 'triceps_isolation' ? '10-15' : '12-20',
+    repsOrDuration,
     restSeconds: Math.min(original.restSeconds ?? 60, 75),
     coachingCue:
       replacement.movement_category === 'shoulder_isolation'
-        ? 'Low-fatigue accessory work to keep pressing volume recoverable.'
-        : 'Low-fatigue accessory chosen to avoid redundant heavy pressing overlap.',
+        ? overlapFilterCoachingCue(locale, 'shoulderIsolation')
+        : overlapFilterCoachingCue(locale, 'genericReplacement'),
   }
 }
 
-function sanitizeSessionExercises(exercises: WorkoutExercise[]): WorkoutExercise[] {
+function sanitizeSessionExercises(
+  exercises: WorkoutExercise[],
+  locale: AppLocale
+): WorkoutExercise[] {
   let hasHighPressingCompound = false
   const usedNames = new Set<string>()
 
   return exercises.map((exercise) => {
-    const standardizedName = normalizeExerciseName(exercise.name)
-    const normalizedExercise = {
-      ...exercise,
-      name: standardizedName,
-    }
+    const matchName = normalizeExerciseName(exercise.name)
+    const displayName = exercise.name.trim()
 
-    if (!isGeneratedHighPressingCompound(standardizedName)) {
-      usedNames.add(standardizedName)
-      return normalizedExercise
+    if (!isGeneratedHighPressingCompound(matchName)) {
+      usedNames.add(displayName)
+      return exercise
     }
 
     if (!hasHighPressingCompound) {
       hasHighPressingCompound = true
-      usedNames.add(standardizedName)
-      return normalizedExercise
+      usedNames.add(displayName)
+      return exercise
     }
 
-    const replacement = replacementFor(standardizedName, usedNames)
+    const replacement = replacementFor(matchName, usedNames, locale)
     if (!replacement) {
-      usedNames.add(standardizedName)
+      usedNames.add(displayName)
       return {
-        ...normalizedExercise,
-        sets: Math.min(normalizedExercise.sets, 2),
-        repsOrDuration: normalizedExercise.repsOrDuration || '8-12',
-        restSeconds: Math.min(normalizedExercise.restSeconds ?? 60, 75),
-        coachingCue:
-          'Volume reduced because this movement overlaps with an earlier heavy press.',
+        ...exercise,
+        sets: Math.min(exercise.sets, 2),
+        restSeconds: Math.min(exercise.restSeconds ?? 60, 75),
+        coachingCue: overlapFilterCoachingCue(locale, 'volumeReduced'),
       }
     }
 
-    usedNames.add(replacement.name)
-    return buildReplacementExercise(normalizedExercise, replacement)
+    usedNames.add(localizeExerciseName(replacement.name, locale))
+    return buildReplacementExercise(exercise, replacement, locale)
   })
 }
 
-export function applyExerciseOverlapFilter(plan: WorkoutPlan): WorkoutPlan {
+export function applyExerciseOverlapFilter(
+  plan: WorkoutPlan,
+  localeInput?: string
+): WorkoutPlan {
+  const locale = resolveLocale(localeInput)
+
+  logWorkoutGeneration('overlap_filter_applied', {
+    locale,
+    sessionCount: plan.weeklySessions.length,
+  })
+
   return {
     ...plan,
     weeklySessions: plan.weeklySessions.map((session) => ({
       ...session,
-      exercises: sanitizeSessionExercises(session.exercises),
+      exercises: sanitizeSessionExercises(session.exercises, locale),
     })),
   }
 }

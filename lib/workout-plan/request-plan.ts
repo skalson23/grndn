@@ -2,6 +2,7 @@ import type { OnboardingData } from '@/components/onboarding/onboarding-context'
 import type { AppLocale } from '@/i18n/routing'
 
 import type { WorkoutPlan } from './schema'
+import { logWorkoutGeneration } from './generation-log'
 
 type ErrorBody = { error?: string; details?: unknown }
 
@@ -9,6 +10,11 @@ export async function requestWorkoutPlan(
   answers: OnboardingData,
   locale: AppLocale
 ): Promise<WorkoutPlan> {
+  logWorkoutGeneration('client_request_start', {
+    locale,
+    frequency: answers.frequency,
+  })
+
   const res = await fetch('/api/workout-plan', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -33,6 +39,12 @@ export async function requestWorkoutPlan(
   if (!body.plan || typeof body.plan !== 'object') {
     throw new Error('Invalid response: missing plan')
   }
+
+  logWorkoutGeneration('client_request_success', {
+    locale,
+    planTitle: body.plan.planTitle,
+    firstSessionName: body.plan.weeklySessions[0]?.name ?? null,
+  })
 
   return body.plan
 }

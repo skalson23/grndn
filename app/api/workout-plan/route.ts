@@ -3,10 +3,11 @@ import { zodResponseFormat } from 'openai/helpers/zod'
 import { NextResponse } from 'next/server'
 
 import {
+  buildWorkoutPlanSystemPrompt,
   buildWorkoutPlanUserMessage,
-  WORKOUT_PLAN_SYSTEM_PROMPT,
 } from '@/lib/workout-plan/build-prompt'
 import { applyExerciseOverlapFilter } from '@/lib/workout-plan/exercise-overlap-filter'
+import { logWorkoutGeneration } from '@/lib/workout-plan/generation-log'
 import {
   onboardingAnswersSchema,
   workoutPlanRequestSchema,
@@ -65,6 +66,22 @@ export async function POST(request: Request) {
   const model =
     process.env.OPENAI_WORKOUT_MODEL?.trim() || 'gpt-4o-mini'
 
+  const systemPrompt = buildWorkoutPlanSystemPrompt(locale)
+  const userMessage = buildWorkoutPlanUserMessage(input, locale)
+
+  logWorkoutGeneration('api_locale_received', {
+    locale,
+    frequency: input.frequency,
+    model,
+  })
+
+  logWorkoutGeneration('api_openai_prompt', {
+    locale,
+    systemPromptHasPolish: systemPrompt.includes('OUTPUT LANGUAGE: POLISH'),
+    userMessageHasLocale: userMessage.includes(`Request locale: ${locale}`),
+    userMessageEndsWithReminder: userMessage.includes('FINAL CHECK'),
+  })
+
   const openai = new OpenAI({ apiKey })
 
   try {
@@ -72,10 +89,10 @@ export async function POST(request: Request) {
       model,
       temperature: 0.4,
       messages: [
-        { role: 'system', content: WORKOUT_PLAN_SYSTEM_PROMPT },
+        { role: 'system', content: systemPrompt },
         {
           role: 'user',
-          content: buildWorkoutPlanUserMessage(input, locale),
+          content: userMessage,
         },
       ],
       response_format: zodResponseFormat(workoutPlanSchema, 'workout_plan'),
@@ -95,7 +112,15 @@ export async function POST(request: Request) {
       })
     }
 
-    const plan = applyExerciseOverlapFilter(message.parsed)
+    const plan = applyExerciseOverlapFilter(message.parsed, locale)
+
+    logWorkoutGeneration('api_plan_generated', {
+      locale,
+      planTitle: plan.planTitle,
+      firstSessionName: plan.weeklySessions[0]?.name ?? null,
+      firstExerciseName: plan.weeklySessions[0]?.exercises[0]?.name ?? null,
+    })
+
     const mismatch = validatePlanMatchesInput(plan, input.frequency)
     if (mismatch) {
       return jsonError('Plan did not match requested frequency.', 422, {

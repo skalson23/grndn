@@ -10,6 +10,7 @@ import {
 import { requestWorkoutPlan } from './request-plan'
 import type { WorkoutPlan } from './schema'
 import { WORKOUT_PLAN_STORAGE_KEY } from './storage'
+import { logWorkoutGeneration } from './generation-log'
 
 export type GenerationProgress = {
   stageIndex: number
@@ -33,6 +34,8 @@ export async function runWorkoutPlanGeneration(
   const startedAt = Date.now()
   let apiError: Error | null = null
   let plan: WorkoutPlan | null = null
+
+  logWorkoutGeneration('generation_start', { locale, frequency: data.frequency })
 
   const apiPromise = (async () => {
     try {
@@ -73,6 +76,10 @@ export async function runWorkoutPlanGeneration(
       WORKOUT_PLAN_STORAGE_KEY,
       JSON.stringify({ plan, profile: data, locale })
     )
+    logWorkoutGeneration('generation_stored', {
+      locale,
+      planTitle: plan.planTitle,
+    })
   } catch {
     throw new Error('Could not store your plan in the browser.')
   }
