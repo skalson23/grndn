@@ -34,13 +34,13 @@ export function DurationScreen() {
   const value = data.duration
 
   return (
-    <div className="flex-1 flex flex-col p-6 pb-10 h-full overflow-hidden">
+    <div className="flex h-full min-h-0 flex-1 flex-col overflow-hidden p-6 pb-10">
       <div className="flex-shrink-0">
         <button
           onClick={goBack}
-          className="flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors mb-6"
+          className="mb-6 flex items-center gap-1 text-muted-foreground transition-colors hover:text-foreground"
         >
-          <ChevronLeft className="w-5 h-5" />
+          <ChevronLeft className="h-5 w-5" />
           <span className="text-sm font-medium">{tCommon('back')}</span>
         </button>
 
@@ -49,12 +49,12 @@ export function DurationScreen() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center">
-              <Clock className="w-5 h-5 text-foreground" />
+          <div className="mb-4 flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-secondary">
+              <Clock className="h-5 w-5 text-foreground" />
             </div>
           </div>
-          <h1 className="text-3xl font-bold tracking-tight mb-2">{t('title')}</h1>
+          <h1 className="mb-2 text-3xl font-bold tracking-tight">{t('title')}</h1>
           <p className="text-muted-foreground">{t('description')}</p>
         </motion.div>
       </div>
@@ -63,9 +63,9 @@ export function DurationScreen() {
         variants={containerVariants}
         initial="hidden"
         animate="show"
-        className="flex-1 flex items-center justify-center py-8"
+        className="-mx-6 min-h-0 flex-1 overflow-y-auto px-6 py-6"
       >
-        <div className="grid grid-cols-2 gap-4 w-full max-w-sm">
+        <div className="mx-auto grid w-full max-w-sm grid-cols-2 gap-4">
           {durations.map((minutes) => {
             const isSelected = value === minutes
             return (
@@ -110,7 +110,7 @@ export function DurationScreen() {
         </div>
       </motion.div>
 
-      <div className="flex-shrink-0 pt-4">
+      <div className="flex-shrink-0 pt-4 pb-[max(0.25rem,env(safe-area-inset-bottom))]">
         <Button
           onClick={goNext}
           size="lg"

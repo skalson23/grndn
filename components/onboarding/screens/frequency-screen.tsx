@@ -18,7 +18,7 @@ export function FrequencyScreen() {
   const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
 
   return (
-    <div className="flex-1 flex flex-col p-6 pb-10 h-full overflow-hidden">
+    <div className="flex h-full min-h-0 flex-1 flex-col overflow-hidden p-6 pb-10">
       <div className="flex-shrink-0">
         <button
           onClick={goBack}
@@ -43,12 +43,12 @@ export function FrequencyScreen() {
         </motion.div>
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center py-8">
+      <div className="-mx-6 min-h-0 flex-1 overflow-y-auto px-6 py-6">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2, duration: 0.5 }}
-          className="text-center"
+          className="mx-auto max-w-sm text-center"
         >
           <div className="flex items-center justify-center gap-6 mb-4">
             <motion.button
@@ -132,7 +132,7 @@ export function FrequencyScreen() {
         </motion.div>
       </div>
 
-      <div className="flex-shrink-0 pt-4">
+      <div className="flex-shrink-0 pt-4 pb-[max(0.25rem,env(safe-area-inset-bottom))]">
         <Button
           onClick={goNext}
           size="lg"
