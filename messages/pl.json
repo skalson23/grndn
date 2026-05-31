@@ -456,17 +456,81 @@
   "generation": {
     "initializing": "Inicjalizacja…",
     "buildingProtocol": "Budowanie protokołu",
+    "analysisTitle": "Inteligencja GRNDN",
+    "analysisHeadline": "Analiza Twojego profilu treningowego",
+    "analysisProgress": "Synteza protokołu",
+    "signalLabel": "Sygnał na żywo",
     "percent": "{percent}%",
     "error": "Nie udało się wygenerować planu treningowego.",
     "poweredBy": "Napędzane {frequency}-dniową inteligencją adaptacyjną",
-    "stages": {
-      "analyzing": "Analizowanie profilu treningowego…",
-      "recovery": "Optymalizacja balansu regeneracji…",
-      "fatigue": "Obliczanie zarządzania zmęczeniem…",
-      "progression": "Budowanie struktury progresji…",
-      "split": "Projektowanie podziału treningowego…",
-      "finalizing": "Finalizowanie protokołu GRNDN…"
+    "steps": {
+      "bodyProfile": "Analiza profilu ciała",
+      "experience": "Ocena doświadczenia treningowego",
+      "recoveryCapacity": "Obliczanie zdolności regeneracji",
+      "fatigueTolerance": "Szacowanie tolerancji zmęczenia",
+      "weeklyVolume": "Balans tygodniowej objętości",
+      "exerciseSelection": "Optymalizacja doboru ćwiczeń",
+      "progressionStructure": "Budowa struktury progresji",
+      "finalizingProtocol": "Finalizacja protokołu treningowego"
+    },
+    "insights": {
+      "muscleEmphasis": "Wykryto nacisk na: {muscle}",
+      "experienceProfile": "Profil treningowy: {level}",
+      "trainingDays": "{count} dni treningowych tygodniowo",
+      "recoveryProfile": "Profil regeneracji obliczony",
+      "maintenanceCalories": "Szacowane kalorie utrzymania: {count}",
+      "trainingStyle": "Wybrano strukturę: {style}",
+      "sessionDuration": "Architektura sesji: {minutes} min"
     }
+  },
+  "analysis": {
+    "whyThisPlan": "Dlaczego ten plan?",
+    "whyIntro": "Na podstawie Twoich odpowiedzi GRNDN priorytetyzuje:",
+    "scorecardTitle": "Karta wyników treningu",
+    "scorecardDisclaimer": "Wskaźniki pewności na podstawie profilu — to nie pomiary kliniczne.",
+    "insightTitle": "GRNDN Insight",
+    "protocolBadge": "Protokół GRNDN",
+    "protocolNames": {
+      "chestPriority": "Protokół priorytetu klatki",
+      "upperDominance": "Blok dominacji górnej partii",
+      "lowerFoundation": "Faza fundamentu dolnej partii",
+      "strengthFoundation": "Faza fundamentu siły",
+      "vTaperSystem": "System rozwoju V-Taper",
+      "performanceBlock": "Plan rekompozycji wydajnościowej",
+      "efficiencyBlock": "Blok treningu efektywności",
+      "recompositionPlan": "Plan rekompozycji wydajnościowej",
+      "adaptiveProtocol": "Adaptacyjny protokół GRNDN"
+    },
+    "whyBullets": {
+      "muscleEmphasis": "Rozwój: {muscle}",
+      "upperVolume": "Objętość górnej partii",
+      "lowerVolume": "Praca strukturalna dolnej partii",
+      "goalFocus": "Zgodność z celem: {goal}",
+      "trainingStyleFocus": "Struktura treningu: {style}",
+      "sustainableRecovery": "Zrównoważona regeneracja",
+      "progressiveOverload": "Progresja obciążenia",
+      "timeEfficiency": "Efektywność czasu",
+      "injuryAware": "Dobór ćwiczeń z uwzględnieniem ograniczeń"
+    },
+    "scorecard": {
+      "goalAlignment": "Zgodność z celem",
+      "recoveryBalance": "Balans regeneracji",
+      "timeEfficiency": "Efektywność czasu",
+      "volumeQuality": "Jakość objętości"
+    },
+    "insights": {
+      "chestVolume": "Program priorytetyzuje objętość klatki, unikając nadmiernego zmęczenia od wyciskania.",
+      "upperFrequency": "Struktura zwiększa częstotliwość górnej partii przy zachowaniu regeneracji.",
+      "lowerBalance": "Wzorce dolnej partii są zbalansowane pod siłę bez nadmiernego obciążenia.",
+      "strengthFoundation": "Siłowe multi-jointy kotwiczą tydzień z kontrolowaną objętością akcesoryjną.",
+      "vTaperFocus": "Nacisk na plecy i barki wspiera V-Taper bez redundantnego wyciskania.",
+      "fatLossRecovery": "Gęstość treningu wspiera redukcję przy zachowaniu siły i regeneracji.",
+      "athleticConditioning": "Elementy mocy i kondycji bez utraty jakości ruchu.",
+      "minimalistEfficiency": "Każda sesja opiera się na ćwiczeniach o wysokim ROI bez zbędnej objętości.",
+      "balancedSplit": "Podział równomiernie rozkłada zmęczenie na {days} dni treningowych.",
+      "fullBodyRhythm": "Rytm full-body utrzymuje częstotliwość przy kontrolowanym obciążeniu sesji."
+    },
+    "viewProtocol": "Zobacz pełny protokół"
   },
   "results": {
     "your_protocol": "Twój protokół",

@@ -17,13 +17,16 @@ import { BrandLogo } from '@/components/brand/brand-logo'
 import { LanguageSwitcher } from '@/components/i18n/language-switcher'
 import type { OnboardingData } from '@/components/onboarding/onboarding-context'
 import { ExportPdfButton } from '@/components/workout-plan/export-pdf-button'
+import { PlanAnalysisReveal } from '@/components/workout-plan/plan-analysis-reveal'
 import { SaveProgramButton } from '@/components/workout-plan/save-program-button'
 import { WorkoutSessionCard } from '@/components/workout-plan/workout-session-card'
 import { Button } from '@/components/ui/button'
 import { useOnboardingLabels } from '@/hooks/use-onboarding-labels'
+import { usePlanAnalysis } from '@/hooks/use-plan-analysis'
 import { Link } from '@/i18n/navigation'
 import { estimateTdee } from '@/lib/onboarding/tdee'
 import type { TrainingStyleId } from '@/lib/onboarding/training-style'
+import { ANALYSIS_REVEAL_SESSION_KEY } from '@/lib/workout-plan/generation-stages'
 import { loadResultsPlan } from '@/lib/workout-plan/load-results-plan'
 import type { WorkoutPlan } from '@/lib/workout-plan/schema'
 
@@ -34,6 +37,7 @@ const fadeUp = {
 
 export default function ResultsPage() {
   const t = useTranslations('results')
+  const tAnalysis = useTranslations('analysis')
   const tCommon = useTranslations('common')
   const tNav = useTranslations('nav')
   const tActions = useTranslations('actions')
@@ -48,6 +52,9 @@ export default function ResultsPage() {
   const [profile, setProfile] = useState<OnboardingData | null>(null)
   const [missing, setMissing] = useState(false)
   const [ready, setReady] = useState(false)
+  const [showFullProtocol, setShowFullProtocol] = useState(false)
+
+  const analysis = usePlanAnalysis(profile, plan)
 
   useEffect(() => {
     let alive = true
@@ -61,12 +68,33 @@ export default function ResultsPage() {
       setPlan(loaded.plan)
       setProfile(loaded.profile)
       setReady(true)
+
+      const shouldReveal =
+        typeof window !== 'undefined' &&
+        sessionStorage.getItem(ANALYSIS_REVEAL_SESSION_KEY) === '1'
+
+      if (shouldReveal) {
+        sessionStorage.removeItem(ANALYSIS_REVEAL_SESSION_KEY)
+        setShowFullProtocol(false)
+      } else {
+        setShowFullProtocol(true)
+      }
     })
 
     return () => {
       alive = false
     }
   }, [])
+
+  useEffect(() => {
+    if (!ready || showFullProtocol || !analysis) return
+
+    const timer = window.setTimeout(() => {
+      setShowFullProtocol(true)
+    }, 3200)
+
+    return () => window.clearTimeout(timer)
+  }, [ready, showFullProtocol, analysis])
 
   const sortedSessions = useMemo(() => {
     if (!plan) return []
@@ -158,32 +186,36 @@ export default function ResultsPage() {
               {t('your_protocol')}
             </p>
             <h1 className="truncate text-base font-semibold leading-tight tracking-tight lg:truncate-none sm:text-lg">
-              {plan.planTitle}
+              {analysis?.protocolName ?? plan.planTitle}
             </h1>
           </div>
 
           <div className="hidden shrink-0 flex-nowrap items-center gap-2 lg:flex lg:gap-2.5">
             <LanguageSwitcher className="shrink-0" />
-            <Button
-              variant="outline"
-              size="icon"
-              className="size-11 shrink-0 rounded-2xl border-border bg-card/80"
-              asChild
-            >
-              <Link href="/my-programs" aria-label={tNav('myPrograms')}>
-                <Library className="size-4" />
-              </Link>
-            </Button>
-            <ExportPdfButton
-              plan={plan}
-              profile={profile}
-              className="shrink-0 whitespace-nowrap"
-            />
-            <SaveProgramButton
-              plan={plan}
-              profile={profile}
-              className="shrink-0 whitespace-nowrap"
-            />
+            {showFullProtocol && (
+              <>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="size-11 shrink-0 rounded-2xl border-border bg-card/80"
+                  asChild
+                >
+                  <Link href="/my-programs" aria-label={tNav('myPrograms')}>
+                    <Library className="size-4" />
+                  </Link>
+                </Button>
+                <ExportPdfButton
+                  plan={plan}
+                  profile={profile}
+                  className="shrink-0 whitespace-nowrap"
+                />
+                <SaveProgramButton
+                  plan={plan}
+                  profile={profile}
+                  className="shrink-0 whitespace-nowrap"
+                />
+              </>
+            )}
           </div>
         </div>
       </header>
@@ -193,22 +225,65 @@ export default function ResultsPage() {
           <div className="flex justify-end">
             <LanguageSwitcher />
           </div>
-          <SaveProgramButton plan={plan} profile={profile} className="w-full" />
-          <div className="grid grid-cols-2 gap-3">
-            <ExportPdfButton plan={plan} profile={profile} className="w-full" />
-            <Button
-              variant="outline"
-              className="h-11 rounded-2xl border-border bg-card/80"
-              asChild
-            >
-              <Link href="/my-programs">
-                <Library className="size-4" />
-                {t('my_programs')}
-              </Link>
-            </Button>
-          </div>
+          {showFullProtocol && (
+            <>
+              <SaveProgramButton plan={plan} profile={profile} className="w-full" />
+              <div className="grid grid-cols-2 gap-3">
+                <ExportPdfButton plan={plan} profile={profile} className="w-full" />
+                <Button
+                  variant="outline"
+                  className="h-11 rounded-2xl border-border bg-card/80"
+                  asChild
+                >
+                  <Link href="/my-programs">
+                    <Library className="size-4" />
+                    {t('my_programs')}
+                  </Link>
+                </Button>
+              </div>
+            </>
+          )}
         </div>
 
+        {analysis && !showFullProtocol && (
+          <>
+            <PlanAnalysisReveal
+              protocolName={analysis.protocolName}
+              protocolBadge={analysis.protocolBadge}
+              whyTitle={analysis.whyTitle}
+              whyIntro={analysis.whyIntro}
+              whyBullets={analysis.whyBullets}
+              scorecardTitle={analysis.scorecardTitle}
+              scorecardDisclaimer={analysis.scorecardDisclaimer}
+              scorecard={analysis.scorecard}
+              insightTitle={analysis.insightTitle}
+              insightText={analysis.insightText}
+            />
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="flex justify-center pb-4"
+            >
+              <Button
+                type="button"
+                size="lg"
+                className="h-12 rounded-2xl px-8 font-semibold"
+                onClick={() => setShowFullProtocol(true)}
+              >
+                {tAnalysis('viewProtocol')}
+              </Button>
+            </motion.div>
+          </>
+        )}
+
+        {showFullProtocol && (
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, ease: [0.32, 0.72, 0, 1] }}
+            className="flex flex-col gap-8"
+          >
         <motion.section
           variants={fadeUp}
           initial="hidden"
@@ -226,7 +301,7 @@ export default function ResultsPage() {
                 {t('overview')}
               </p>
               <h2 className="text-2xl font-semibold leading-[1.08] tracking-[-0.03em] break-words sm:text-4xl">
-                {plan.planTitle}
+                {analysis?.protocolName ?? plan.planTitle}
               </h2>
               <p className="mt-4 text-sm leading-7 text-muted-foreground break-words sm:text-[15px]">
                 {plan.planSummary}
@@ -367,6 +442,23 @@ export default function ResultsPage() {
             </p>
             <p className="text-sm leading-relaxed break-words">{plan.safetyNotes}</p>
           </motion.section>
+        )}
+
+        {analysis && (
+          <motion.section
+            variants={fadeUp}
+            initial="hidden"
+            animate="show"
+            transition={{ delay: 0.18 }}
+            className="rounded-3xl border border-l-[3px] border-border border-l-[oklch(0.52_0.16_25)] bg-card/60 p-5 sm:p-6"
+          >
+            <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-[oklch(0.62_0.17_25)]">
+              {analysis.insightTitle}
+            </p>
+            <p className="text-sm leading-relaxed text-foreground/90">{analysis.insightText}</p>
+          </motion.section>
+        )}
+          </motion.div>
         )}
       </main>
     </motion.div>

@@ -1,16 +1,19 @@
+/** Sequential AI analysis steps shown during plan generation. */
 export const PLAN_GENERATION_STAGE_KEYS = [
-  'analyzing',
-  'recovery',
-  'fatigue',
-  'progression',
-  'split',
-  'finalizing',
+  'bodyProfile',
+  'experience',
+  'recoveryCapacity',
+  'fatigueTolerance',
+  'weeklyVolume',
+  'exerciseSelection',
+  'progressionStructure',
+  'finalizingProtocol',
 ] as const
 
 export type PlanGenerationStageKey = (typeof PLAN_GENERATION_STAGE_KEYS)[number]
 
-/** Minimum time the cinematic loader runs (ms). */
-export const PLAN_GENERATION_MIN_MS = 7200
+/** Time per analysis step (ms). 8 × 950 ≈ 7.6s total sequence. */
+export const PLAN_GENERATION_STAGE_MS = 950
 
-/** Time per stage before advancing (ms). */
-export const PLAN_GENERATION_STAGE_MS = 1200
+/** Session flag: results page should play the analysis reveal sequence. */
+export const ANALYSIS_REVEAL_SESSION_KEY = 'grndn_analysis_reveal_v1'

@@ -456,17 +456,81 @@
   "generation": {
     "initializing": "Initializing…",
     "buildingProtocol": "Building protocol",
+    "analysisTitle": "GRNDN Intelligence",
+    "analysisHeadline": "Analyzing your training profile",
+    "analysisProgress": "Protocol synthesis",
+    "signalLabel": "Live signal",
     "percent": "{percent}%",
     "error": "Could not generate your workout plan.",
     "poweredBy": "Powered by {frequency}-day adaptive intelligence",
-    "stages": {
-      "analyzing": "Analyzing training profile…",
-      "recovery": "Optimizing recovery balance…",
-      "fatigue": "Calculating fatigue management…",
-      "progression": "Building progression structure…",
-      "split": "Designing your training split…",
-      "finalizing": "Finalizing GRNDN protocol…"
+    "steps": {
+      "bodyProfile": "Analyzing body profile",
+      "experience": "Evaluating training experience",
+      "recoveryCapacity": "Calculating recovery capacity",
+      "fatigueTolerance": "Estimating fatigue tolerance",
+      "weeklyVolume": "Balancing weekly volume",
+      "exerciseSelection": "Optimizing exercise selection",
+      "progressionStructure": "Building progression structure",
+      "finalizingProtocol": "Finalizing training protocol"
+    },
+    "insights": {
+      "muscleEmphasis": "{muscle} emphasis detected",
+      "experienceProfile": "{level} training profile",
+      "trainingDays": "{count} training days per week",
+      "recoveryProfile": "Recovery profile calculated",
+      "maintenanceCalories": "Estimated maintenance calories: {count}",
+      "trainingStyle": "{style} structure selected",
+      "sessionDuration": "{minutes}-minute session architecture"
     }
+  },
+  "analysis": {
+    "whyThisPlan": "Why This Plan?",
+    "whyIntro": "Based on your responses, GRNDN prioritized:",
+    "scorecardTitle": "Training Scorecard",
+    "scorecardDisclaimer": "Confidence indicators based on your profile — not clinical measurements.",
+    "insightTitle": "GRNDN Insight",
+    "protocolBadge": "GRNDN Protocol",
+    "protocolNames": {
+      "chestPriority": "Chest Priority Protocol",
+      "upperDominance": "Upper Dominance Block",
+      "lowerFoundation": "Lower Foundation Phase",
+      "strengthFoundation": "Strength Foundation Phase",
+      "vTaperSystem": "V-Taper Development System",
+      "performanceBlock": "Performance Recomposition Plan",
+      "efficiencyBlock": "Efficiency Training Block",
+      "recompositionPlan": "Performance Recomposition Plan",
+      "adaptiveProtocol": "Adaptive GRNDN Protocol"
+    },
+    "whyBullets": {
+      "muscleEmphasis": "{muscle} development",
+      "upperVolume": "Upper body volume",
+      "lowerVolume": "Lower body structural work",
+      "goalFocus": "Alignment with {goal}",
+      "trainingStyleFocus": "{style} training structure",
+      "sustainableRecovery": "Sustainable recovery",
+      "progressiveOverload": "Progressive overload",
+      "timeEfficiency": "Time efficiency",
+      "injuryAware": "Injury-aware exercise selection"
+    },
+    "scorecard": {
+      "goalAlignment": "Goal Alignment",
+      "recoveryBalance": "Recovery Balance",
+      "timeEfficiency": "Time Efficiency",
+      "volumeQuality": "Volume Quality"
+    },
+    "insights": {
+      "chestVolume": "This program prioritizes chest volume while avoiding excessive pressing fatigue.",
+      "upperFrequency": "This structure increases upper-body frequency while preserving recovery capacity.",
+      "lowerBalance": "Lower-body patterns are balanced to drive strength without compromising recovery.",
+      "strengthFoundation": "Compound strength work anchors the week with manageable accessory volume.",
+      "vTaperFocus": "Back and shoulder emphasis supports a strong V-taper without redundant pressing overlap.",
+      "fatLossRecovery": "Training density supports fat loss while keeping strength and recovery sustainable.",
+      "athleticConditioning": "Power and conditioning elements are layered without sacrificing movement quality.",
+      "minimalistEfficiency": "Every session is trimmed to high-return movements with minimal junk volume.",
+      "balancedSplit": "The split distributes fatigue evenly across {days} training days.",
+      "fullBodyRhythm": "Full-body rhythm keeps frequency high with manageable session demand."
+    },
+    "viewProtocol": "View Full Protocol"
   },
   "results": {
     "your_protocol": "Your protocol",
