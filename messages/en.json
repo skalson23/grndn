@@ -435,6 +435,7 @@
         }
       },
       "frequency": {
+        "1": { "label": "Minimum", "description": "One session per week for the busiest schedules" },
         "2": { "label": "Light", "description": "Perfect for maintaining fitness" },
         "3": { "label": "Easy Start", "description": "Great for beginners" },
         "4": { "label": "Balanced", "description": "Ideal for most people" },

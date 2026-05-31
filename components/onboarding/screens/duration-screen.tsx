@@ -5,11 +5,12 @@ import { ChevronLeft, Clock } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
 import { Button } from '@/components/ui/button'
+import { ONBOARDING_DURATION_MINUTES } from '@/lib/i18n/onboarding-message-catalog'
 import { useOnboardingLabels } from '@/hooks/use-onboarding-labels'
 import { cn } from '@/lib/utils'
 import { useOnboarding } from '../onboarding-context'
 
-const durations = [15, 30, 45, 60, 75, 90]
+const durations = [...ONBOARDING_DURATION_MINUTES]
 
 const containerVariants = {
   hidden: { opacity: 0 },

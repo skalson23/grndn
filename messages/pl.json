@@ -435,6 +435,7 @@
         }
       },
       "frequency": {
+        "1": { "label": "Minimalny", "description": "Jedna sesja tygodniowo — idealne przy bardzo napiętym grafiku" },
         "2": { "label": "Lekko", "description": "Idealne do utrzymania formy" },
         "3": { "label": "Łagodny start", "description": "Świetne dla początkujących" },
         "4": { "label": "Zbalansowane", "description": "Idealne dla większości osób" },

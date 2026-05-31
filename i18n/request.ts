@@ -2,6 +2,7 @@ import { getRequestConfig } from 'next-intl/server'
 import { hasLocale } from 'next-intl'
 
 import { routing } from './routing'
+import { assertOnboardingMessagesComplete } from '@/lib/i18n/validate-onboarding-messages'
 
 function deepMerge<T extends Record<string, unknown>>(
   base: T,
@@ -53,6 +54,8 @@ export default getRequestConfig(async ({ requestLocale }) => {
           defaultMessages,
           (await import(`../messages/${locale}.json`)).default
         )
+
+  assertOnboardingMessagesComplete(localeMessages, locale)
 
   return {
     locale,

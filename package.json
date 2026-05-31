@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "validate:i18n": "node scripts/validate-onboarding-i18n.mjs",
+    "build": "npm run validate:i18n && next build",
     "start": "next start",
     "lint": "eslint ."
   },

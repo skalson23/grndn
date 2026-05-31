@@ -2,64 +2,69 @@
 
 import { useTranslations } from 'next-intl'
 
+import { resolveOnboardingOptionTranslation } from '@/lib/i18n/resolve-onboarding-translation'
 import { ACTIVITY_LEVEL_OPTIONS } from '@/lib/onboarding/activity-level'
 import { TRAINING_STYLE_OPTIONS } from '@/lib/onboarding/training-style'
 import { WEIGHT_LOSS_PACE_OPTIONS } from '@/lib/onboarding/weight-loss'
+
+function translateOption(
+  t: ReturnType<typeof useTranslations<'onboarding.options'>>,
+  relativeKey: string
+): string {
+  return resolveOnboardingOptionTranslation(relativeKey, t(relativeKey as never))
+}
 
 export function useOnboardingLabels() {
   const t = useTranslations('onboarding.options')
 
   return {
     activityLevelLabel: (id: string) =>
-      t(`activity.${id}.title` as 'activity.sedentary.title'),
+      translateOption(t, `activity.${id}.title`),
     activityLevelDescription: (id: string) =>
-      t(`activity.${id}.description` as 'activity.sedentary.description'),
+      translateOption(t, `activity.${id}.description`),
     activityLevels: ACTIVITY_LEVEL_OPTIONS.map((option) => ({
       ...option,
-      title: t(`activity.${option.id}.title`),
-      description: t(`activity.${option.id}.description`),
+      title: translateOption(t, `activity.${option.id}.title`),
+      description: translateOption(t, `activity.${option.id}.description`),
     })),
     experienceLabel: (id: string) =>
-      t(`experience.${id}.title` as 'experience.beginner.title'),
+      translateOption(t, `experience.${id}.title`),
     experienceDescription: (id: string) =>
-      t(`experience.${id}.description` as 'experience.beginner.description'),
-    goalLabel: (id: string) =>
-      t(`goal.${id}.title` as 'goal.lose-weight.title'),
+      translateOption(t, `experience.${id}.description`),
+    goalLabel: (id: string) => translateOption(t, `goal.${id}.title`),
     goalDescription: (id: string) =>
-      t(`goal.${id}.description` as 'goal.lose-weight.description'),
+      translateOption(t, `goal.${id}.description`),
     weightLossPaceLabel: (id: string) =>
-      t(`weightLossPace.${id}.title` as 'weightLossPace.aggressive.title'),
+      translateOption(t, `weightLossPace.${id}.title`),
     weightLossPaceDescription: (id: string) =>
-      t(`weightLossPace.${id}.description` as 'weightLossPace.aggressive.description'),
+      translateOption(t, `weightLossPace.${id}.description`),
     weightLossPaces: WEIGHT_LOSS_PACE_OPTIONS.map((option) => ({
       ...option,
-      title: t(`weightLossPace.${option.id}.title`),
-      description: t(`weightLossPace.${option.id}.description`),
+      title: translateOption(t, `weightLossPace.${option.id}.title`),
+      description: translateOption(t, `weightLossPace.${option.id}.description`),
     })),
     trainingStyleLabel: (id: string) =>
-      t(`trainingStyle.${id}.title` as 'trainingStyle.hypertrophy.title'),
+      translateOption(t, `trainingStyle.${id}.title`),
     trainingStyleDescription: (id: string) =>
-      t(`trainingStyle.${id}.description` as 'trainingStyle.hypertrophy.description'),
+      translateOption(t, `trainingStyle.${id}.description`),
     trainingStyles: TRAINING_STYLE_OPTIONS.map((option) => ({
       ...option,
-      title: t(`trainingStyle.${option.id}.title`),
-      description: t(`trainingStyle.${option.id}.description`),
+      title: translateOption(t, `trainingStyle.${option.id}.title`),
+      description: translateOption(t, `trainingStyle.${option.id}.description`),
     })),
     muscleGroupLabel: (id: string) =>
-      t(`muscleGroup.${id}` as 'muscleGroup.chest'),
-    equipmentLabel: (id: string) =>
-      t(`equipment.${id}` as 'equipment.none'),
-    injuryTitle: (id: string) =>
-      t(`injury.${id}.title` as 'injury.none.title'),
+      translateOption(t, `muscleGroup.${id}`),
+    equipmentLabel: (id: string) => translateOption(t, `equipment.${id}`),
+    injuryTitle: (id: string) => translateOption(t, `injury.${id}.title`),
     injuryDescription: (id: string) =>
-      t(`injury.${id}.description` as 'injury.none.description'),
+      translateOption(t, `injury.${id}.description`),
     frequencyLabel: (days: number) =>
-      t(`frequency.${days}.label` as 'frequency.2.label'),
+      translateOption(t, `frequency.${days}.label`),
     frequencyDescription: (days: number) =>
-      t(`frequency.${days}.description` as 'frequency.2.description'),
+      translateOption(t, `frequency.${days}.description`),
     durationLabel: (minutes: number) =>
-      t(`duration.${minutes}.label` as 'duration.15.label'),
+      translateOption(t, `duration.${minutes}.label`),
     durationDescription: (minutes: number) =>
-      t(`duration.${minutes}.description` as 'duration.15.description'),
+      translateOption(t, `duration.${minutes}.description`),
   }
 }
