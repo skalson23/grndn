@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server'
 
-import { createAdminClient, isAdminSupabaseConfigured } from '@/lib/supabase/admin'
+import { isValidWaitlistEmail } from '@/lib/waitlist/validate-email'
+import { sendWaitlistNotification } from '@/lib/waitlist/send-notification'
+import { isSupabaseConfigured } from '@/lib/supabase/config'
+import { createServerSupabaseClient } from '@/lib/supabase/server'
 
 export async function POST(request: Request) {
-  if (!isAdminSupabaseConfigured()) {
-    return NextResponse.json(
-      { error: 'Waitlist is not configured yet.' },
-      { status: 503 }
-    )
+  if (!isSupabaseConfigured()) {
+    return NextResponse.json({ error: 'unavailable' }, { status: 503 })
   }
 
   let email: string
@@ -17,25 +17,30 @@ export async function POST(request: Request) {
       .trim()
       .toLowerCase()
   } catch {
-    return NextResponse.json({ error: 'Invalid request body.' }, { status: 400 })
+    return NextResponse.json({ error: 'invalid' }, { status: 400 })
   }
 
-  if (!email) {
-    return NextResponse.json({ error: 'Email is required.' }, { status: 400 })
+  if (!email || !isValidWaitlistEmail(email)) {
+    return NextResponse.json({ error: 'invalid' }, { status: 400 })
   }
 
-  const admin = createAdminClient()
-  const { error } = await admin.from('waitlist_signups').insert({
-    email,
-    source: 'closed_beta_landing',
-  })
+  try {
+    const supabase = await createServerSupabaseClient()
+    const { error } = await supabase.from('waitlist').insert({ email })
 
-  if (error) {
-    if (error.code === '23505') {
-      return NextResponse.json({ ok: true })
+    if (error) {
+      if (error.code === '23505') {
+        return NextResponse.json({ ok: true, status: 'duplicate' })
+      }
+      console.error('[GRNDN waitlist] Insert failed', error)
+      return NextResponse.json({ error: 'failed' }, { status: 500 })
     }
-    return NextResponse.json({ error: error.message }, { status: 500 })
-  }
 
-  return NextResponse.json({ ok: true })
+    void sendWaitlistNotification(email)
+
+    return NextResponse.json({ ok: true, status: 'created' })
+  } catch (error) {
+    console.error('[GRNDN waitlist] Unexpected error', error)
+    return NextResponse.json({ error: 'failed' }, { status: 500 })
+  }
 }

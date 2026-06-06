@@ -142,8 +142,9 @@
     },
     "errors": {
       "invalidAccessCode": "Nieprawidłowy kod dostępu do bety.",
-      "waitlistJoined": "Jesteś na liście.",
-      "waitlistFailed": "Nie udało się dołączyć do listy oczekujących."
+      "waitlistJoined": "Jesteś na liście oczekujących.",
+      "waitlistDuplicate": "Już jesteś na liście oczekujących.",
+      "waitlistFailed": "Coś poszło nie tak. Spróbuj ponownie."
     }
   },
   "welcome": {

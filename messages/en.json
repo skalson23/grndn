@@ -142,8 +142,9 @@
     },
     "errors": {
       "invalidAccessCode": "Invalid beta access code.",
-      "waitlistJoined": "You're on the list.",
-      "waitlistFailed": "Could not join the waitlist."
+      "waitlistJoined": "You're on the waitlist.",
+      "waitlistDuplicate": "You're already on the waitlist.",
+      "waitlistFailed": "Something went wrong. Please try again."
     }
   },
   "welcome": {

@@ -78,13 +78,15 @@ export default function Home() {
     setIsJoiningWaitlist(true)
 
     try {
-      await joinWaitlist(waitlistEmail)
+      const status = await joinWaitlist(waitlistEmail)
       setWaitlistJoined(true)
-      toast.success(tErrors('waitlistJoined'))
-    } catch (e) {
-      const message =
-        e instanceof Error ? e.message : tErrors('waitlistFailed')
-      toast.error(message)
+      toast.success(
+        status === 'duplicate'
+          ? tErrors('waitlistDuplicate')
+          : tErrors('waitlistJoined')
+      )
+    } catch {
+      toast.error(tErrors('waitlistFailed'))
     } finally {
       setIsJoiningWaitlist(false)
     }

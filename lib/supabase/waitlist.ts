@@ -1,10 +1,6 @@
-import { isSupabaseConfigured } from '@/lib/supabase/config'
+export type WaitlistStatus = 'created' | 'duplicate'
 
-export async function joinWaitlist(email: string): Promise<void> {
-  if (!isSupabaseConfigured()) {
-    throw new Error('Waitlist is not configured yet.')
-  }
-
+export async function joinWaitlist(email: string): Promise<WaitlistStatus> {
   const res = await fetch('/api/waitlist', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -12,13 +8,9 @@ export async function joinWaitlist(email: string): Promise<void> {
   })
 
   if (!res.ok) {
-    let message = 'Could not join the waitlist.'
-    try {
-      const body = (await res.json()) as { error?: string }
-      if (body.error) message = body.error
-    } catch {
-      // ignore parse errors
-    }
-    throw new Error(message)
+    throw new Error('WAITLIST_FAILED')
   }
+
+  const body = (await res.json()) as { status?: WaitlistStatus }
+  return body.status === 'duplicate' ? 'duplicate' : 'created'
 }
