@@ -3,6 +3,8 @@ import { NextResponse, type NextRequest } from 'next/server'
 
 import { completePendingProgramSave } from '@/lib/programs/complete-pending-save'
 import { logSaveFlow, logSaveFlowError, logSaveFlowWarn } from '@/lib/programs/save-flow-log'
+import { BETA_ACCESS_COOKIE } from '@/lib/billing/constants'
+import { syncBetaAccessFromCookie } from '@/lib/billing/subscriptions'
 import { defaultLocaleResultsPath } from '@/i18n/routing'
 import { getSupabasePublicEnv } from '@/lib/supabase/config'
 
@@ -58,16 +60,21 @@ export async function GET(request: NextRequest) {
     return response
   }
 
-  if (save === '1') {
-    const {
-      data: { user },
-      error: userError,
-    } = await supabase.auth.getUser()
+  const {
+    data: { user: sessionUser },
+  } = await supabase.auth.getUser()
 
-    if (userError || !user?.email) {
-      logSaveFlowWarn('auth_callback_save_skipped_no_user', {
-        message: userError?.message,
-      })
+  if (sessionUser?.email) {
+    const hasBetaCookie =
+      request.cookies.get(BETA_ACCESS_COOKIE)?.value === 'true'
+    await syncBetaAccessFromCookie(sessionUser.id, sessionUser.email, hasBetaCookie)
+  }
+
+  if (save === '1') {
+    const user = sessionUser
+
+    if (!user?.email) {
+      logSaveFlowWarn('auth_callback_save_skipped_no_user', {})
       return response
     }
 

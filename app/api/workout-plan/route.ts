@@ -2,6 +2,8 @@ import OpenAI from 'openai'
 import { zodResponseFormat } from 'openai/helpers/zod'
 import { NextResponse } from 'next/server'
 
+import { assertPremiumApiAccess } from '@/lib/billing/guard-api-access'
+import { isPaymentsEnabled } from '@/lib/billing/config'
 import {
   buildWorkoutPlanSystemPrompt,
   buildWorkoutPlanUserMessage,
@@ -42,6 +44,13 @@ function validatePlanMatchesInput(
 }
 
 export async function POST(request: Request) {
+  if (isPaymentsEnabled()) {
+    const access = await assertPremiumApiAccess(request)
+    if (!access.allowed) {
+      return jsonError('Premium access required.', 403, { reason: access.reason })
+    }
+  }
+
   const apiKey = process.env.OPENAI_API_KEY
   if (!apiKey) {
     return jsonError(

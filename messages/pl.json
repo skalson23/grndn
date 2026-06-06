@@ -573,6 +573,40 @@
     "savedProgram": "Zapisany program",
     "sessionsCount": "{count} sesji"
   },
+  "billing": {
+    "pricing": {
+      "eyebrow": "Dostęp GRNDN",
+      "title": "Trenuj z inteligencją",
+      "subtitle": "Pełna generacja protokołów AI, zapisane programy i eksport PDF.",
+      "price": "79 zł",
+      "period": "/ mies.",
+      "features": {
+        "aiProtocols": "Nielimitowane protokoły AI",
+        "personalizedPlans": "Spersonalizowane pod profil i cele",
+        "pdfExport": "Eksport PDF premium",
+        "savedPrograms": "Programy w chmurze",
+        "progression": "Struktura progresji na poziomie trenera"
+      },
+      "cta": "Subskrybuj GRNDN",
+      "redirecting": "Przekierowanie do płatności…",
+      "checkoutFailed": "Nie udało się rozpocząć płatności.",
+      "footnote": "Anuluj w dowolnym momencie w portalu rozliczeń.",
+      "backHome": "Wróć na stronę główną",
+      "subscriptionRequired": "Wymagana aktywna subskrypcja lub dostęp beta."
+    },
+    "success": {
+      "title": "Witaj w GRNDN",
+      "description": "Twoja subskrypcja jest aktywna. Protokoły są gotowe.",
+      "sessionNote": "Płatność potwierdzona. Synchronizacja dostępu może chwilę potrwać.",
+      "viewResults": "Zobacz protokół"
+    },
+    "cancel": {
+      "title": "Płatność anulowana",
+      "description": "Nie pobrano opłaty. Możesz subskrybować, kiedy będziesz gotowy.",
+      "backHome": "Wróć na stronę główną",
+      "tryAgain": "Zobacz cennik"
+    }
+  },
   "auth": {
     "save_title": "Zapisz swój protokół GRNDN",
     "save_description": "Podaj email, a wyślemy bezpieczny magiczny link. Bez hasła i bez skomplikowanej rejestracji.",

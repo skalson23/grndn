@@ -9,9 +9,11 @@ import { DesktopLanding } from '@/components/landing/desktop-landing'
 import { MobileLanding } from '@/components/landing/mobile-landing'
 import { MobileStickyCta } from '@/components/landing/mobile-sticky-cta'
 import { OnboardingFlow } from '@/components/onboarding/onboarding-flow'
+import { persistBetaAccessCookie } from '@/lib/billing/beta-access-cookie'
+import { BETA_ACCESS_STORAGE_KEY } from '@/lib/billing/constants'
 import { joinWaitlist } from '@/lib/supabase/waitlist'
 
-const ACCESS_STORAGE_KEY = 'grndn_closed_beta_access'
+const ACCESS_STORAGE_KEY = BETA_ACCESS_STORAGE_KEY
 const ACCESS_CODE_HASH =
   '6331d4d5255ba9f19ed2fae41990f7495459fcad25c37ba80c0b43a887c69605'
 
@@ -36,7 +38,11 @@ export default function Home() {
   const [isJoiningWaitlist, setIsJoiningWaitlist] = useState(false)
 
   useEffect(() => {
-    setAccessGranted(localStorage.getItem(ACCESS_STORAGE_KEY) === 'true')
+    const granted = localStorage.getItem(ACCESS_STORAGE_KEY) === 'true'
+    setAccessGranted(granted)
+    if (granted) {
+      persistBetaAccessCookie()
+    }
   }, [])
 
   const enterOnboarding = () => {
@@ -59,6 +65,7 @@ export default function Home() {
       }
 
       localStorage.setItem(ACCESS_STORAGE_KEY, 'true')
+      persistBetaAccessCookie()
       setAccessGranted(true)
       enterOnboarding()
     } finally {

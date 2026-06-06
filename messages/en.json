@@ -573,6 +573,40 @@
     "savedProgram": "Saved Program",
     "sessionsCount": "{count} sessions"
   },
+  "billing": {
+    "pricing": {
+      "eyebrow": "GRNDN Access",
+      "title": "Train with intelligence",
+      "subtitle": "Full AI protocol generation, saved programs, and PDF export.",
+      "price": "$19",
+      "period": "/ month",
+      "features": {
+        "aiProtocols": "Unlimited AI training protocols",
+        "personalizedPlans": "Personalized to your profile and goals",
+        "pdfExport": "Premium PDF export",
+        "savedPrograms": "Cloud saved programs",
+        "progression": "Coach-level progression structure"
+      },
+      "cta": "Subscribe to GRNDN",
+      "redirecting": "Redirecting to checkout…",
+      "checkoutFailed": "Could not start checkout.",
+      "footnote": "Cancel anytime from the billing portal.",
+      "backHome": "Back to home",
+      "subscriptionRequired": "An active subscription or beta access is required to view this page."
+    },
+    "success": {
+      "title": "Welcome to GRNDN",
+      "description": "Your subscription is active. Your protocols are ready.",
+      "sessionNote": "Payment confirmed. It may take a moment for access to sync.",
+      "viewResults": "View your protocol"
+    },
+    "cancel": {
+      "title": "Checkout cancelled",
+      "description": "No charge was made. You can subscribe whenever you're ready.",
+      "backHome": "Back to home",
+      "tryAgain": "View pricing"
+    }
+  },
   "auth": {
     "save_title": "Save your GRNDN protocol",
     "save_description": "Enter your email and we'll send a secure magic link. No password, no account setup.",
