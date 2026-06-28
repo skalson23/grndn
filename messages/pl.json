@@ -27,6 +27,7 @@
     "unlock_grndn": "Odblokuj GRNDN",
     "unlocking": "Odblokowywanie…",
     "entering": "Wchodzenie…",
+    "startingJourney": "Rozpoczynanie…",
     "joining": "Dołączanie…",
     "sending": "Wysyłanie…",
     "saving": "Zapisywanie…",
@@ -41,21 +42,22 @@
   },
   "landing": {
     "hero": {
-      "eyebrow": "Platforma treningowa AI",
-      "headline": "Trenuj mądrzej. Progresuj szybciej.",
-      "subheadline": "GRNDN tworzy spersonalizowane plany treningowe oparte na AI — dopasowane do Twoich celów, doświadczenia i dostępnego sprzętu, aby każda sesja przybliżała Cię do celu.",
-      "startFree": "Zacznij za darmo",
-      "viewPricing": "Zobacz cennik"
+      "eyebrow": "Premium trening AI",
+      "headlineLine1": "Trenuj z inteligencją.",
+      "headlineLine2": "Zbudowany dla realnego progresu.",
+      "subheadline": "GRNDN tworzy spersonalizowane programy treningowe AI, które ewoluują wraz z Twoim progresem, celami i wydajnością.",
+      "startJourney": "Rozpocznij swoją podróż",
+      "viewPlans": "Zobacz plany"
     },
     "socialProof": {
-      "aiPowered": "Napędzane AI",
-      "personalized": "Spersonalizowane",
-      "progressiveOverload": "Progresywne obciążenie",
-      "fastSetup": "Szybka konfiguracja"
+      "aiPowered": "Inteligentne programowanie",
+      "personalized": "Precyzyjna personalizacja",
+      "progressiveOverload": "Adaptacyjna progresja",
+      "fastSetup": "Gotowość do wydajności"
     },
     "howItWorks": {
-      "title": "Jak to działa",
-      "subtitle": "Od profilu do progresu w kilka minut — bez tygodni zgadywania.",
+      "title": "Jak działa GRNDN",
+      "subtitle": "Dopracowana ścieżka od profilu do wydajności — zaprojektowana, nie improwizowana.",
       "steps": {
         "profile": {
           "title": "Utwórz swój profil",
@@ -72,8 +74,8 @@
       }
     },
     "features": {
-      "title": "Zbudowane dla poważnego treningu",
-      "subtitle": "Wszystko, czego potrzebujesz, by trenować z celem — nie losowe treningi.",
+      "title": "Zaprojektowane dla wydajności",
+      "subtitle": "Każda funkcja jest stworzona dla sportowców, którzy wymagają inteligentnego treningu — nie generycznych planów.",
       "items": {
         "aiGeneration": {
           "title": "Generowanie treningów AI",
@@ -102,13 +104,13 @@
       }
     },
     "pricing": {
-      "title": "Wybierz plan",
-      "subtitle": "Dwa proste plany subskrypcji. Anuluj w dowolnym momencie.",
+      "title": "Członkostwo",
+      "subtitle": "Wybierz plan dopasowany do Twojego zaangażowania. Anuluj w dowolnym momencie.",
       "monthly": {
-        "name": "Miesięcznie",
+        "name": "Plan miesięczny",
         "price": "9,99 USD",
         "period": "/ miesiąc",
-        "cta": "Ulepsz — miesięcznie",
+        "cta": "Zacznij miesięcznie",
         "features": {
           "monthlyPlan": "1 nowy spersonalizowany plan treningowy AI co miesiąc",
           "exerciseSwaps": "Nielimitowane wymiany ćwiczeń",
@@ -118,12 +120,12 @@
         }
       },
       "quarterly": {
-        "name": "Kwartalnie",
+        "name": "Plan kwartalny",
         "price": "25,99 USD",
         "period": "co 3 miesiące",
         "bestValueBadge": "Najlepsza wartość",
         "savings": "Oszczędzasz około 13%.",
-        "cta": "Ulepsz — kwartalnie",
+        "cta": "Zacznij kwartalnie",
         "features": {
           "monthlyPlan": "1 nowy spersonalizowany plan treningowy AI co miesiąc",
           "threePlansTotal": "Łącznie 3 spersonalizowane plany treningowe w okresie subskrypcji",
@@ -160,7 +162,8 @@
       }
     },
     "finalCta": {
-      "headline": "Zacznij budować swoją najsilniejszą wersję już dziś."
+      "headline": "Twój kolejny poziom treningu zaczyna się tutaj.",
+      "subheadline": "Dołącz do GRNDN i trenuj z programem stworzonym wyłącznie dla Ciebie."
     },
     "footer": {
       "privacy": "Polityka prywatności",
@@ -606,7 +609,7 @@
   "billing": {
     "pricing": {
       "title": "Wybierz plan",
-      "subtitle": "Wybierz subskrypcję i zacznij trenować z GRNDN.",
+      "subtitle": "Wybierz członkostwo i zacznij trenować z GRNDN.",
       "redirecting": "Przekierowanie do płatności…",
       "checkoutFailed": "Nie udało się rozpocząć płatności.",
       "footnote": "Anuluj w dowolnym momencie w portalu rozliczeń.",

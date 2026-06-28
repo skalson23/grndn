@@ -27,6 +27,7 @@
     "unlock_grndn": "Unlock GRNDN",
     "unlocking": "Unlocking…",
     "entering": "Entering…",
+    "startingJourney": "Starting…",
     "joining": "Joining…",
     "sending": "Sending…",
     "saving": "Saving…",
@@ -41,21 +42,22 @@
   },
   "landing": {
     "hero": {
-      "eyebrow": "AI Training Platform",
-      "headline": "Train Smarter. Progress Faster.",
-      "subheadline": "GRNDN creates AI-powered personalized workout plans based on your goals, experience level, and available equipment—so every session moves you forward.",
-      "startFree": "Start Free",
-      "viewPricing": "View Pricing"
+      "eyebrow": "Premium AI Performance Training",
+      "headlineLine1": "Train with intelligence.",
+      "headlineLine2": "Built for real progress.",
+      "subheadline": "GRNDN creates personalized AI workout programs that evolve with your progress, goals and performance.",
+      "startJourney": "Start Your Journey",
+      "viewPlans": "View Plans"
     },
     "socialProof": {
-      "aiPowered": "AI Powered",
-      "personalized": "Personalized",
-      "progressiveOverload": "Progressive Overload",
-      "fastSetup": "Fast Setup"
+      "aiPowered": "Intelligent Programming",
+      "personalized": "Precision Personalization",
+      "progressiveOverload": "Adaptive Progression",
+      "fastSetup": "Performance Ready"
     },
     "howItWorks": {
-      "title": "How it works",
-      "subtitle": "From profile to progress in minutes—not weeks of guesswork.",
+      "title": "How GRNDN works",
+      "subtitle": "A refined path from profile to performance—engineered, not improvised.",
       "steps": {
         "profile": {
           "title": "Create your profile",
@@ -72,8 +74,8 @@
       }
     },
     "features": {
-      "title": "Built for serious training",
-      "subtitle": "Everything you need to train with purpose—not random workouts.",
+      "title": "Engineered for performance",
+      "subtitle": "Every capability is designed for athletes who demand intelligent training—not generic workouts.",
       "items": {
         "aiGeneration": {
           "title": "AI Workout Generation",
@@ -102,13 +104,13 @@
       }
     },
     "pricing": {
-      "title": "Choose your plan",
-      "subtitle": "Two simple subscriptions. Cancel anytime.",
+      "title": "Membership",
+      "subtitle": "Select the plan that matches your commitment. Cancel anytime.",
       "monthly": {
-        "name": "Monthly",
+        "name": "Monthly Plan",
         "price": "$9.99",
         "period": "/ month",
-        "cta": "Upgrade Monthly",
+        "cta": "Start Monthly",
         "features": {
           "monthlyPlan": "1 new AI personalized workout plan every month",
           "exerciseSwaps": "Unlimited exercise swaps",
@@ -118,12 +120,12 @@
         }
       },
       "quarterly": {
-        "name": "Quarterly",
+        "name": "Quarterly Plan",
         "price": "$25.99",
         "period": "every 3 months",
         "bestValueBadge": "Best Value",
         "savings": "Save approximately 13%.",
-        "cta": "Upgrade Quarterly",
+        "cta": "Start Quarterly",
         "features": {
           "monthlyPlan": "1 new AI personalized workout plan every month",
           "threePlansTotal": "Total of 3 personalized workout plans during the subscription",
@@ -160,7 +162,8 @@
       }
     },
     "finalCta": {
-      "headline": "Start building your strongest version today."
+      "headline": "Your next level of training starts here.",
+      "subheadline": "Join GRNDN and train with a program built exclusively for you."
     },
     "footer": {
       "privacy": "Privacy Policy",
@@ -606,7 +609,7 @@
   "billing": {
     "pricing": {
       "title": "Choose your plan",
-      "subtitle": "Choose a subscription and start training with GRNDN.",
+      "subtitle": "Choose a membership and begin training with GRNDN.",
       "redirecting": "Redirecting to checkout…",
       "checkoutFailed": "Could not start checkout.",
       "footnote": "Cancel anytime from the billing portal.",

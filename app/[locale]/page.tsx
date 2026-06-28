@@ -31,7 +31,7 @@ export default function Home() {
       transition={{ duration: 0.42, ease: [0.32, 0.72, 0, 1] }}
       className="relative min-h-screen overflow-x-hidden bg-background pb-24 text-foreground lg:pb-0"
     >
-      <SaasLanding onStartFree={enterOnboarding} isUnlocking={isUnlocking} />
+      <SaasLanding onStartJourney={enterOnboarding} isUnlocking={isUnlocking} />
     </motion.main>
   )
 }

@@ -33,11 +33,11 @@ const stagger = {
 }
 
 type SaasLandingProps = {
-  onStartFree: () => void
+  onStartJourney: () => void
   isUnlocking: boolean
 }
 
-export function SaasLanding({ onStartFree, isUnlocking }: SaasLandingProps) {
+export function SaasLanding({ onStartJourney, isUnlocking }: SaasLandingProps) {
   const t = useTranslations('landing')
   const tActions = useTranslations('actions')
 
@@ -65,15 +65,15 @@ export function SaasLanding({ onStartFree, isUnlocking }: SaasLandingProps) {
               className="hidden rounded-xl sm:inline-flex"
               onClick={scrollToPricing}
             >
-              {t('hero.viewPricing')}
+              {t('hero.viewPlans')}
             </Button>
             <Button
               type="button"
               disabled={isUnlocking}
-              onClick={onStartFree}
+              onClick={onStartJourney}
               className={cn(primaryButtonClass, 'h-10 px-4 text-sm')}
             >
-              {isUnlocking ? tActions('entering') : t('hero.startFree')}
+              {isUnlocking ? tActions('startingJourney') : t('hero.startJourney')}
             </Button>
           </div>
         </div>
@@ -108,7 +108,8 @@ export function SaasLanding({ onStartFree, isUnlocking }: SaasLandingProps) {
             variants={fadeUp}
             className="text-balance text-4xl font-semibold leading-[0.95] tracking-[-0.04em] sm:text-6xl lg:text-7xl"
           >
-            {t('hero.headline')}
+            <span className="block">{t('hero.headlineLine1')}</span>
+            <span className="mt-1 block">{t('hero.headlineLine2')}</span>
           </motion.h1>
           <motion.p
             variants={fadeUp}
@@ -124,10 +125,10 @@ export function SaasLanding({ onStartFree, isUnlocking }: SaasLandingProps) {
               type="button"
               size="lg"
               disabled={isUnlocking}
-              onClick={onStartFree}
+              onClick={onStartJourney}
               className={cn(primaryButtonClass, 'h-14 w-full sm:w-auto sm:min-w-[180px]')}
             >
-              {isUnlocking ? tActions('entering') : t('hero.startFree')}
+              {isUnlocking ? tActions('startingJourney') : t('hero.startJourney')}
               <ArrowRight className="size-5" />
             </Button>
             <Button
@@ -137,7 +138,7 @@ export function SaasLanding({ onStartFree, isUnlocking }: SaasLandingProps) {
               onClick={scrollToPricing}
               className="h-14 w-full rounded-2xl border-border bg-card/50 sm:w-auto sm:min-w-[180px]"
             >
-              {t('hero.viewPricing')}
+              {t('hero.viewPlans')}
             </Button>
           </motion.div>
         </motion.div>
@@ -303,17 +304,20 @@ export function SaasLanding({ onStartFree, isUnlocking }: SaasLandingProps) {
           <h2 className="relative text-balance text-3xl font-semibold tracking-[-0.03em] sm:text-4xl">
             {t('finalCta.headline')}
           </h2>
+          <p className="relative mx-auto mt-4 max-w-lg text-muted-foreground">
+            {t('finalCta.subheadline')}
+          </p>
           <Button
             type="button"
             size="lg"
             disabled={isUnlocking}
-            onClick={onStartFree}
+            onClick={onStartJourney}
             className={cn(
               'relative mt-8 h-14 min-w-[200px] rounded-2xl',
               primaryButtonClass
             )}
           >
-            {isUnlocking ? tActions('entering') : t('hero.startFree')}
+            {isUnlocking ? tActions('startingJourney') : t('hero.startJourney')}
             <ArrowRight className="size-5" />
           </Button>
         </motion.div>
@@ -349,10 +353,10 @@ export function SaasLanding({ onStartFree, isUnlocking }: SaasLandingProps) {
           <Button
             type="button"
             disabled={isUnlocking}
-            onClick={onStartFree}
+            onClick={onStartJourney}
             className={cn(primaryButtonClass, 'h-14 w-full')}
           >
-            {isUnlocking ? tActions('entering') : t('hero.startFree')}
+            {isUnlocking ? tActions('startingJourney') : t('hero.startJourney')}
             <ArrowRight className="size-5" />
           </Button>
         </div>
