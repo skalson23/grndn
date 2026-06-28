@@ -15,7 +15,10 @@ STRIPE_SECRET_KEY=sk_test_...
 STRIPE_PUBLISHABLE_KEY=pk_test_...
 STRIPE_WEBHOOK_SECRET=whsec_...
 
-# Subscription price ID from Stripe Dashboard → Products
+# Subscription price IDs from Stripe Dashboard → Products
+STRIPE_PRICE_ID_MONTHLY=price_...   # $9.99 / month
+STRIPE_PRICE_ID_QUARTERLY=price_... # $25.99 every 3 months
+# Optional legacy alias for monthly
 STRIPE_PRICE_ID=price_...
 
 # Optional: admin endpoint to grandfather beta users when payments are enabled
@@ -28,7 +31,9 @@ BILLING_ADMIN_SECRET=your-long-random-secret
 | `STRIPE_SECRET_KEY` | Payments enabled | Server-side Stripe API key |
 | `STRIPE_PUBLISHABLE_KEY` | Future client use | Publishable key (reserved for Elements) |
 | `STRIPE_WEBHOOK_SECRET` | Webhooks | Signing secret from Stripe webhook endpoint |
-| `STRIPE_PRICE_ID` | Checkout | Recurring price ID for GRNDN subscription |
+| `STRIPE_PRICE_ID_MONTHLY` | Checkout | Recurring price ID — Pro Monthly ($9.99/mo) |
+| `STRIPE_PRICE_ID_QUARTERLY` | Checkout | Recurring price ID — Pro Quarterly ($25.99/3mo) |
+| `STRIPE_PRICE_ID` | Checkout | Optional legacy alias for monthly price |
 | `BILLING_ADMIN_SECRET` | Admin grant | Protects `POST /api/billing/grant-beta` |
 
 ## Database migration
@@ -48,8 +53,10 @@ Creates `public.user_subscriptions` with:
 ## Stripe test mode configuration
 
 1. Create a [Stripe account](https://dashboard.stripe.com/register) and stay in **Test mode**.
-2. **Products** → Create product “GRNDN Access” → Add recurring price (monthly).
-3. Copy the **Price ID** → `STRIPE_PRICE_ID`.
+2. **Products** → Create product “GRNDN Pro” with two recurring prices:
+   - **Monthly:** $9.99/month → `STRIPE_PRICE_ID_MONTHLY`
+   - **Quarterly:** $25.99 every 3 months → `STRIPE_PRICE_ID_QUARTERLY`
+3. Copy each **Price ID** to the matching env var.
 4. **Developers** → **API keys** → copy test secret + publishable keys.
 5. **Developers** → **Webhooks** → Add endpoint:
    - **Local:** use [Stripe CLI](#local-webhook-forwarding)

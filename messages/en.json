@@ -102,23 +102,36 @@
       }
     },
     "pricing": {
-      "title": "Simple pricing",
-      "subtitle": "Start free. Upgrade when you're ready for the full GRNDN experience.",
-      "upgrade": "Upgrade",
-      "free": {
-        "name": "Free",
-        "price": "$0",
-        "period": "forever",
-        "description": "Get started with AI-powered training at no cost.",
+      "title": "Choose your plan",
+      "subtitle": "Two simple subscriptions. Cancel anytime.",
+      "monthly": {
+        "name": "Monthly",
+        "price": "$9.99",
+        "period": "/ month",
+        "cta": "Upgrade Monthly",
         "features": {
-          "onboarding": "Full onboarding and profile setup",
-          "singlePlan": "Generate your first AI training plan",
-          "basicTracking": "View and follow your protocol"
+          "monthlyPlan": "1 new AI personalized workout plan every month",
+          "exerciseSwaps": "Unlimited exercise swaps",
+          "progressTracking": "Progress tracking",
+          "personalizedProgression": "Personalized progression",
+          "premiumSupport": "Premium support"
         }
       },
-      "pro": {
-        "name": "Pro",
-        "description": "Unlimited protocols, saved programs, and premium export."
+      "quarterly": {
+        "name": "Quarterly",
+        "price": "$25.99",
+        "period": "every 3 months",
+        "bestValueBadge": "Best Value",
+        "savings": "Save approximately 13%.",
+        "cta": "Upgrade Quarterly",
+        "features": {
+          "monthlyPlan": "1 new AI personalized workout plan every month",
+          "threePlansTotal": "Total of 3 personalized workout plans during the subscription",
+          "exerciseSwaps": "Unlimited exercise swaps",
+          "progressTracking": "Progress tracking",
+          "personalizedProgression": "Personalized progression",
+          "premiumSupport": "Premium support"
+        }
       }
     },
     "faq": {
@@ -592,24 +605,13 @@
   },
   "billing": {
     "pricing": {
-      "eyebrow": "GRNDN Access",
-      "title": "Train with intelligence",
-      "subtitle": "Full AI protocol generation, saved programs, and PDF export.",
-      "price": "$19",
-      "period": "/ month",
-      "features": {
-        "aiProtocols": "Unlimited AI training protocols",
-        "personalizedPlans": "Personalized to your profile and goals",
-        "pdfExport": "Premium PDF export",
-        "savedPrograms": "Cloud saved programs",
-        "progression": "Coach-level progression structure"
-      },
-      "cta": "Subscribe to GRNDN",
+      "title": "Choose your plan",
+      "subtitle": "Choose a subscription and start training with GRNDN.",
       "redirecting": "Redirecting to checkout…",
       "checkoutFailed": "Could not start checkout.",
       "footnote": "Cancel anytime from the billing portal.",
       "backHome": "Back to home",
-      "subscriptionRequired": "An active subscription or beta access is required to view this page."
+      "subscriptionRequired": "An active subscription is required to view this page."
     },
     "success": {
       "title": "Welcome to GRNDN",

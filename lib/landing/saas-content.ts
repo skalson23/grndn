@@ -36,18 +36,21 @@ export const FEATURE_KEYS = [
 
 export const FAQ_KEYS = ['whatIsGrndn', 'howGenerated', 'changeExercises', 'beginnerFriendly', 'needGym'] as const
 
-export const FREE_TIER_FEATURES = [
-  'onboarding',
-  'singlePlan',
-  'basicTracking',
+export const PRO_MONTHLY_FEATURES = [
+  'monthlyPlan',
+  'exerciseSwaps',
+  'progressTracking',
+  'personalizedProgression',
+  'premiumSupport',
 ] as const
 
-export const PRO_TIER_FEATURES = [
-  'aiProtocols',
-  'personalizedPlans',
-  'pdfExport',
-  'savedPrograms',
-  'progression',
+export const PRO_QUARTERLY_FEATURES = [
+  'monthlyPlan',
+  'threePlansTotal',
+  'exerciseSwaps',
+  'progressTracking',
+  'personalizedProgression',
+  'premiumSupport',
 ] as const
 
 export type SocialProofKey = (typeof SOCIAL_PROOF_KEYS)[number]

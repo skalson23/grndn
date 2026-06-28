@@ -102,23 +102,36 @@
       }
     },
     "pricing": {
-      "title": "Prosty cennik",
-      "subtitle": "Zacznij za darmo. Ulepsz, gdy będziesz gotowy na pełne doświadczenie GRNDN.",
-      "upgrade": "Ulepsz",
-      "free": {
-        "name": "Darmowy",
-        "price": "0 zł",
-        "period": "na zawsze",
-        "description": "Zacznij z treningiem opartym na AI bez kosztów.",
+      "title": "Wybierz plan",
+      "subtitle": "Dwa proste plany subskrypcji. Anuluj w dowolnym momencie.",
+      "monthly": {
+        "name": "Miesięcznie",
+        "price": "9,99 USD",
+        "period": "/ miesiąc",
+        "cta": "Ulepsz — miesięcznie",
         "features": {
-          "onboarding": "Pełny onboarding i konfiguracja profilu",
-          "singlePlan": "Wygeneruj swój pierwszy plan treningowy AI",
-          "basicTracking": "Przeglądaj i realizuj swój protokół"
+          "monthlyPlan": "1 nowy spersonalizowany plan treningowy AI co miesiąc",
+          "exerciseSwaps": "Nielimitowane wymiany ćwiczeń",
+          "progressTracking": "Śledzenie postępów",
+          "personalizedProgression": "Spersonalizowana progresja",
+          "premiumSupport": "Wsparcie premium"
         }
       },
-      "pro": {
-        "name": "Pro",
-        "description": "Nielimitowane protokoły, zapisane programy i eksport premium."
+      "quarterly": {
+        "name": "Kwartalnie",
+        "price": "25,99 USD",
+        "period": "co 3 miesiące",
+        "bestValueBadge": "Najlepsza wartość",
+        "savings": "Oszczędzasz około 13%.",
+        "cta": "Ulepsz — kwartalnie",
+        "features": {
+          "monthlyPlan": "1 nowy spersonalizowany plan treningowy AI co miesiąc",
+          "threePlansTotal": "Łącznie 3 spersonalizowane plany treningowe w okresie subskrypcji",
+          "exerciseSwaps": "Nielimitowane wymiany ćwiczeń",
+          "progressTracking": "Śledzenie postępów",
+          "personalizedProgression": "Spersonalizowana progresja",
+          "premiumSupport": "Wsparcie premium"
+        }
       }
     },
     "faq": {
@@ -592,24 +605,13 @@
   },
   "billing": {
     "pricing": {
-      "eyebrow": "Dostęp GRNDN",
-      "title": "Trenuj z inteligencją",
-      "subtitle": "Pełna generacja protokołów AI, zapisane programy i eksport PDF.",
-      "price": "79 zł",
-      "period": "/ mies.",
-      "features": {
-        "aiProtocols": "Nielimitowane protokoły AI",
-        "personalizedPlans": "Spersonalizowane pod profil i cele",
-        "pdfExport": "Eksport PDF premium",
-        "savedPrograms": "Programy w chmurze",
-        "progression": "Struktura progresji na poziomie trenera"
-      },
-      "cta": "Subskrybuj GRNDN",
+      "title": "Wybierz plan",
+      "subtitle": "Wybierz subskrypcję i zacznij trenować z GRNDN.",
       "redirecting": "Przekierowanie do płatności…",
       "checkoutFailed": "Nie udało się rozpocząć płatności.",
       "footnote": "Anuluj w dowolnym momencie w portalu rozliczeń.",
       "backHome": "Wróć na stronę główną",
-      "subscriptionRequired": "Wymagana aktywna subskrypcja lub dostęp beta."
+      "subscriptionRequired": "Wymagana aktywna subskrypcja, aby wyświetlić tę stronę."
     },
     "success": {
       "title": "Witaj w GRNDN",

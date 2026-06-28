@@ -1,10 +1,10 @@
 'use client'
 
-import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowRight, Check, Sparkles } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
+import { PricingPlans } from '@/components/billing/pricing-plans'
 import { BrandLogo } from '@/components/brand/brand-logo'
 import { LanguageSwitcher } from '@/components/i18n/language-switcher'
 import {
@@ -14,14 +14,11 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
-import { Spinner } from '@/components/ui/spinner'
 import { Link } from '@/i18n/navigation'
 import {
   FAQ_KEYS,
   FEATURE_KEYS,
-  FREE_TIER_FEATURES,
   HOW_IT_WORKS_STEPS,
-  PRO_TIER_FEATURES,
   SOCIAL_PROOF_KEYS,
 } from '@/lib/landing/saas-content'
 import { cn } from '@/lib/utils'
@@ -42,34 +39,10 @@ type SaasLandingProps = {
 
 export function SaasLanding({ onStartFree, isUnlocking }: SaasLandingProps) {
   const t = useTranslations('landing')
-  const tBilling = useTranslations('billing.pricing')
   const tActions = useTranslations('actions')
-  const [isCheckoutLoading, setIsCheckoutLoading] = useState(false)
-  const [checkoutError, setCheckoutError] = useState<string | null>(null)
 
   const scrollToPricing = () => {
     document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })
-  }
-
-  const handleCheckout = async () => {
-    setIsCheckoutLoading(true)
-    setCheckoutError(null)
-    try {
-      const res = await fetch('/api/stripe/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({}),
-      })
-      const body = (await res.json()) as { url?: string; error?: string }
-      if (!res.ok || !body.url) {
-        throw new Error(body.error ?? tBilling('checkoutFailed'))
-      }
-      window.location.href = body.url
-    } catch (e) {
-      setCheckoutError(e instanceof Error ? e.message : tBilling('checkoutFailed'))
-    } finally {
-      setIsCheckoutLoading(false)
-    }
   }
 
   const primaryButtonClass = cn(
@@ -281,125 +254,8 @@ export function SaasLanding({ onStartFree, isUnlocking }: SaasLandingProps) {
 
       {/* Pricing */}
       <section id="pricing" className="scroll-mt-20 px-5 py-20 sm:px-8 sm:py-28">
-        <div className="mx-auto max-w-4xl">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-12 text-center"
-          >
-            <h2 className="text-3xl font-semibold tracking-[-0.03em] sm:text-4xl">
-              {t('pricing.title')}
-            </h2>
-            <p className="mx-auto mt-3 max-w-lg text-muted-foreground">
-              {t('pricing.subtitle')}
-            </p>
-          </motion.div>
-
-          <div className="grid gap-6 md:grid-cols-2">
-            {/* Free */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="flex flex-col rounded-[1.75rem] border border-border/80 bg-card/60 p-8 backdrop-blur"
-            >
-              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-                {t('pricing.free.name')}
-              </p>
-              <div className="mt-4 flex items-end gap-1">
-                <span className="text-4xl font-bold tracking-tight">
-                  {t('pricing.free.price')}
-                </span>
-                <span className="mb-1 text-sm text-muted-foreground">
-                  {t('pricing.free.period')}
-                </span>
-              </div>
-              <p className="mt-3 text-sm text-muted-foreground">
-                {t('pricing.free.description')}
-              </p>
-              <ul className="mt-8 flex-1 space-y-3">
-                {FREE_TIER_FEATURES.map((featureKey) => (
-                  <li key={featureKey} className="flex items-start gap-3 text-sm">
-                    <Check className="mt-0.5 size-4 shrink-0 text-[oklch(0.62_0.17_25)]" />
-                    <span>{t(`pricing.free.features.${featureKey}`)}</span>
-                  </li>
-                ))}
-              </ul>
-              <Button
-                type="button"
-                variant="outline"
-                disabled={isUnlocking}
-                onClick={onStartFree}
-                className="mt-8 h-12 w-full rounded-2xl"
-              >
-                {t('hero.startFree')}
-              </Button>
-            </motion.div>
-
-            {/* Pro */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.08 }}
-              className="relative flex flex-col overflow-hidden rounded-[1.75rem] border border-[oklch(0.52_0.16_25)]/35 bg-card/80 p-8 shadow-[0_30px_80px_rgba(127,29,29,0.12)] backdrop-blur"
-            >
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[oklch(0.52_0.16_25)]/12 to-transparent"
-              />
-              <p className="relative text-[11px] font-semibold uppercase tracking-[0.22em] text-[oklch(0.62_0.17_25)]">
-                {t('pricing.pro.name')}
-              </p>
-              <div className="relative mt-4 flex items-end gap-1">
-                <span className="text-4xl font-bold tracking-tight">
-                  {tBilling('price')}
-                </span>
-                <span className="mb-1 text-sm text-muted-foreground">
-                  {tBilling('period')}
-                </span>
-              </div>
-              <p className="relative mt-3 text-sm text-muted-foreground">
-                {t('pricing.pro.description')}
-              </p>
-              <ul className="relative mt-8 flex-1 space-y-3">
-                {PRO_TIER_FEATURES.map((featureKey) => (
-                  <li key={featureKey} className="flex items-start gap-3 text-sm">
-                    <Check className="mt-0.5 size-4 shrink-0 text-[oklch(0.62_0.17_25)]" />
-                    <span>{tBilling(`features.${featureKey}`)}</span>
-                  </li>
-                ))}
-              </ul>
-              {checkoutError && (
-                <p className="relative mt-4 text-sm text-destructive">{checkoutError}</p>
-              )}
-              <Button
-                type="button"
-                disabled={isCheckoutLoading}
-                onClick={handleCheckout}
-                className={cn(
-                  'relative mt-8 h-12 w-full rounded-2xl font-semibold',
-                  primaryButtonClass
-                )}
-              >
-                {isCheckoutLoading ? (
-                  <>
-                    <Spinner className="size-4" />
-                    {tBilling('redirecting')}
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="size-4" />
-                    {t('pricing.upgrade')}
-                  </>
-                )}
-              </Button>
-              <p className="relative mt-3 text-center text-xs text-muted-foreground">
-                {tBilling('footnote')}
-              </p>
-            </motion.div>
-          </div>
+        <div className="mx-auto max-w-6xl">
+          <PricingPlans />
         </div>
       </section>
 

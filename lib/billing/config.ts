@@ -1,3 +1,5 @@
+import { getStripePriceIdForPlan, isStripePlansConfigured } from './stripe-plans'
+
 export function isPaymentsEnabled(): boolean {
   const value = process.env.ENABLE_PAYMENTS?.trim().toLowerCase()
   return value === 'true' || value === '1'
@@ -15,12 +17,13 @@ export function getStripePublishableKey(): string | null {
   return process.env.STRIPE_PUBLISHABLE_KEY?.trim() || null
 }
 
+/** @deprecated Use getStripePriceIdForPlan('monthly') */
 export function getStripePriceId(): string | null {
-  return process.env.STRIPE_PRICE_ID?.trim() || null
+  return getStripePriceIdForPlan('monthly')
 }
 
 export function isStripeConfigured(): boolean {
-  return Boolean(getStripeSecretKey() && getStripePriceId())
+  return Boolean(getStripeSecretKey() && isStripePlansConfigured())
 }
 
 export function getAdminApiSecret(): string | null {

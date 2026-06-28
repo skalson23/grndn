@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server'
 
 import { isPaymentsEnabled, isStripeConfigured } from '@/lib/billing/config'
+import {
+  getStripePriceIdForPlan,
+  type StripeBillingPlan,
+} from '@/lib/billing/stripe-plans'
 import { getUserSubscription, upsertUserSubscription } from '@/lib/billing/subscriptions'
 import { localePath, routing } from '@/i18n/routing'
 import { getStripeClient } from '@/lib/stripe/client'
@@ -10,6 +14,7 @@ import { getAuthRedirectOrigin } from '@/lib/supabase/site-origin'
 
 type CheckoutBody = {
   locale?: string
+  plan?: StripeBillingPlan
 }
 
 export async function POST(request: Request) {
@@ -34,6 +39,17 @@ export async function POST(request: Request) {
     // optional body
   }
 
+  const plan: StripeBillingPlan =
+    body.plan === 'quarterly' ? 'quarterly' : 'monthly'
+  const priceId = getStripePriceIdForPlan(plan)
+
+  if (!priceId) {
+    return NextResponse.json(
+      { error: 'Billing plan is not configured.' },
+      { status: 503 }
+    )
+  }
+
   const locale = routing.locales.includes(body.locale as 'en' | 'pl')
     ? (body.locale as 'en' | 'pl')
     : routing.defaultLocale
@@ -52,7 +68,6 @@ export async function POST(request: Request) {
   }
 
   const stripe = getStripeClient()
-  const priceId = process.env.STRIPE_PRICE_ID!.trim()
   const origin = getAuthRedirectOrigin(request)
 
   let subscription = await getUserSubscription(user.id)
@@ -83,10 +98,12 @@ export async function POST(request: Request) {
     client_reference_id: user.id,
     metadata: {
       supabase_user_id: user.id,
+      billing_plan: plan,
     },
     subscription_data: {
       metadata: {
         supabase_user_id: user.id,
+        billing_plan: plan,
       },
     },
   })
