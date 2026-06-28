@@ -618,9 +618,9 @@
     },
     "success": {
       "title": "Witaj w GRNDN",
-      "description": "Twoja subskrypcja jest aktywna. Protokoły są gotowe.",
+      "description": "Twoje członkostwo jest aktywne. Zbudujmy Twój spersonalizowany profil treningowy.",
       "sessionNote": "Płatność potwierdzona. Synchronizacja dostępu może chwilę potrwać.",
-      "viewResults": "Zobacz protokół"
+      "beginSetup": "Rozpocznij swoją podróż"
     },
     "cancel": {
       "title": "Płatność anulowana",

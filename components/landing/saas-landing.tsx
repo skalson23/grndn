@@ -33,13 +33,11 @@ const stagger = {
 }
 
 type SaasLandingProps = {
-  onStartJourney: () => void
-  isUnlocking: boolean
+  className?: string
 }
 
-export function SaasLanding({ onStartJourney, isUnlocking }: SaasLandingProps) {
+export function SaasLanding({ className }: SaasLandingProps) {
   const t = useTranslations('landing')
-  const tActions = useTranslations('actions')
 
   const scrollToPricing = () => {
     document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })
@@ -52,7 +50,7 @@ export function SaasLanding({ onStartJourney, isUnlocking }: SaasLandingProps) {
   )
 
   return (
-    <div className="relative">
+    <div className={cn('relative', className)}>
       {/* Header */}
       <header className="sticky top-0 z-40 border-b border-white/[0.06] bg-background/80 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8">
@@ -69,11 +67,10 @@ export function SaasLanding({ onStartJourney, isUnlocking }: SaasLandingProps) {
             </Button>
             <Button
               type="button"
-              disabled={isUnlocking}
-              onClick={onStartJourney}
+              onClick={scrollToPricing}
               className={cn(primaryButtonClass, 'h-10 px-4 text-sm')}
             >
-              {isUnlocking ? tActions('startingJourney') : t('hero.startJourney')}
+              {t('hero.startJourney')}
             </Button>
           </div>
         </div>
@@ -124,11 +121,10 @@ export function SaasLanding({ onStartJourney, isUnlocking }: SaasLandingProps) {
             <Button
               type="button"
               size="lg"
-              disabled={isUnlocking}
-              onClick={onStartJourney}
+              onClick={scrollToPricing}
               className={cn(primaryButtonClass, 'h-14 w-full sm:w-auto sm:min-w-[180px]')}
             >
-              {isUnlocking ? tActions('startingJourney') : t('hero.startJourney')}
+              {t('hero.startJourney')}
               <ArrowRight className="size-5" />
             </Button>
             <Button
@@ -310,14 +306,13 @@ export function SaasLanding({ onStartJourney, isUnlocking }: SaasLandingProps) {
           <Button
             type="button"
             size="lg"
-            disabled={isUnlocking}
-            onClick={onStartJourney}
+            onClick={scrollToPricing}
             className={cn(
               'relative mt-8 h-14 min-w-[200px] rounded-2xl',
               primaryButtonClass
             )}
           >
-            {isUnlocking ? tActions('startingJourney') : t('hero.startJourney')}
+            {t('hero.startJourney')}
             <ArrowRight className="size-5" />
           </Button>
         </motion.div>
@@ -352,11 +347,10 @@ export function SaasLanding({ onStartJourney, isUnlocking }: SaasLandingProps) {
         <div className="pointer-events-auto px-4">
           <Button
             type="button"
-            disabled={isUnlocking}
-            onClick={onStartJourney}
+            onClick={scrollToPricing}
             className={cn(primaryButtonClass, 'h-14 w-full')}
           >
-            {isUnlocking ? tActions('startingJourney') : t('hero.startJourney')}
+            {t('hero.startJourney')}
             <ArrowRight className="size-5" />
           </Button>
         </div>

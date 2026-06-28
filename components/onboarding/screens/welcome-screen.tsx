@@ -20,19 +20,19 @@ export function WelcomeScreen() {
   ]
 
   return (
-    <div className="flex-1 flex flex-col justify-between p-6 pb-10">
-      <div className="flex-1 flex flex-col items-center justify-center text-center">
+    <div className="flex min-h-0 flex-1 flex-col px-6 pb-10 pt-[max(1.5rem,env(safe-area-inset-top))]">
+      <div className="flex min-h-0 flex-1 flex-col items-center justify-center text-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.94 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.3, duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
-          className="relative -mt-2 mb-2 flex w-full max-w-lg justify-center sm:-mt-4 sm:mb-0"
+          className="mb-8 flex w-full max-w-lg shrink-0 justify-center sm:mb-10"
         >
           <BrandLogo
             size="stage"
             variant="logotype"
             glow="cinematic"
-            className="relative z-[1] items-center"
+            className="items-center"
           />
         </motion.div>
 
@@ -40,14 +40,14 @@ export function WelcomeScreen() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.6 }}
-          className="relative z-[2] -mt-6 sm:-mt-10"
+          className="w-full max-w-md"
         >
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-4 text-balance">
+          <h1 className="mb-4 text-balance text-4xl font-bold tracking-tight sm:text-5xl">
             {t('headline_line_1')}
             <br />
             <span className="text-muted-foreground">{t('headline_line_2')}</span>
           </h1>
-          <p className="text-muted-foreground text-lg max-w-sm mx-auto text-pretty">
+          <p className="mx-auto max-w-sm text-pretty text-lg text-muted-foreground">
             {t('subtitle')}
           </p>
         </motion.div>
@@ -56,14 +56,14 @@ export function WelcomeScreen() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.6 }}
-          className="flex items-center justify-center gap-6 mt-10"
+          className="mt-10 flex items-center justify-center gap-6"
         >
           {features.map((feature, index) => (
             <div key={index} className="flex flex-col items-center gap-2">
-              <div className="w-12 h-12 rounded-xl bg-secondary flex items-center justify-center">
-                <feature.icon className="w-5 h-5 text-foreground" />
+              <div className="flex size-12 items-center justify-center rounded-xl bg-secondary">
+                <feature.icon className="size-5 text-foreground" />
               </div>
-              <span className="text-xs text-muted-foreground font-medium">
+              <span className="text-xs font-medium text-muted-foreground">
                 {feature.label}
               </span>
             </div>
@@ -75,15 +75,16 @@ export function WelcomeScreen() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.9, duration: 0.6 }}
+        className="shrink-0 pb-[max(0.5rem,env(safe-area-inset-bottom))]"
       >
         <Button
           onClick={goNext}
           size="lg"
-          className="w-full h-14 text-lg font-semibold rounded-2xl"
+          className="h-14 w-full rounded-2xl text-lg font-semibold"
         >
           {tActions('get_started')}
         </Button>
-        <p className="text-center text-xs text-muted-foreground mt-4">
+        <p className="mt-4 text-center text-xs text-muted-foreground">
           {t('setup_time')}
         </p>
       </motion.div>

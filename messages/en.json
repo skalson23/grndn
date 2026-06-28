@@ -618,9 +618,9 @@
     },
     "success": {
       "title": "Welcome to GRNDN",
-      "description": "Your subscription is active. Your protocols are ready.",
+      "description": "Your membership is active. Let's build your personalized training profile.",
       "sessionNote": "Payment confirmed. It may take a moment for access to sync.",
-      "viewResults": "View your protocol"
+      "beginSetup": "Start Your Journey"
     },
     "cancel": {
       "title": "Checkout cancelled",

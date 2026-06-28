@@ -158,20 +158,20 @@ export function PlanGenerationLoader({
         />
       </motion.div>
 
-      <div className="relative flex min-h-0 flex-1 flex-col items-center justify-center px-6 py-10">
+      <div className="relative flex min-h-0 flex-1 flex-col items-center justify-center px-6 pb-10 pt-8 sm:pt-10">
         <div className="flex w-full max-w-lg flex-col items-center">
           <BrandLogo
             size="stage"
             variant="logotype"
             glow="hero"
-            className="mb-8 items-center sm:mb-10"
+            className="mb-10 shrink-0 items-center sm:mb-12"
           />
 
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: stepEase }}
-            className="mb-6 text-center"
+            className="mb-8 w-full text-center"
           >
             <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[oklch(0.62_0.17_25)]">
               {t('analysisTitle')}
