@@ -20,6 +20,8 @@ type BrandLogoProps = {
   className?: string
   variant?: 'mark' | 'logotype' | 'horizontal'
   glow?: BrandLogoGlow
+  /** Horizontal alignment of the mark / wordmark. */
+  align?: 'start' | 'center'
   /** Locale-aware homepage path. Defaults to `/`. */
   href?: string
 }
@@ -111,11 +113,13 @@ export function BrandLogo({
   className,
   variant = 'logotype',
   glow = 'none',
+  align = 'start',
   href = '/',
 }: BrandLogoProps) {
   const s = sizeMap[size]
   const isMark = variant === 'mark'
   const isHorizontal = variant === 'horizontal'
+  const isCentered = align === 'center' || isMark
   const hasGlow = glow !== 'none'
   const glowLayers = hasGlow ? glowMap[glow] : null
 
@@ -161,7 +165,7 @@ export function BrandLogo({
       transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
       className={cn(
         'relative flex min-w-0 flex-col',
-        isMark ? 'items-center' : 'items-start'
+        isCentered ? 'items-center' : 'items-start'
       )}
     >
       {glowLayers && (
@@ -181,7 +185,7 @@ export function BrandLogo({
       className={cn(
         'inline-flex cursor-pointer rounded-sm',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
-        isMark ? 'items-center' : 'items-start',
+        isCentered ? 'items-center justify-center' : isMark ? 'items-center' : 'items-start',
         className
       )}
     >

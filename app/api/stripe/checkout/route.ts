@@ -60,9 +60,9 @@ export async function POST(request: Request) {
     error: userError,
   } = await supabase.auth.getUser()
 
-  if (userError || !user?.email) {
+  if (userError || !user) {
     return NextResponse.json(
-      { error: 'Sign in with email before purchasing.' },
+      { error: 'Could not verify your session. Please try again.' },
       { status: 401 }
     )
   }
@@ -75,14 +75,14 @@ export async function POST(request: Request) {
 
   if (!customerId) {
     const customer = await stripe.customers.create({
-      email: user.email,
+      ...(user.email ? { email: user.email } : {}),
       metadata: { supabase_user_id: user.id },
     })
     customerId = customer.id
 
     subscription = await upsertUserSubscription({
       user_id: user.id,
-      email: user.email,
+      email: user.email ?? '',
       stripe_customer_id: customerId,
       billing_status: subscription?.billing_status ?? 'expired',
       is_beta_grandfathered: subscription?.is_beta_grandfathered ?? false,

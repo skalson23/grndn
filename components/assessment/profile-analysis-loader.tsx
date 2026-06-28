@@ -1,11 +1,12 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Check } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
 import { BrandLogo } from '@/components/brand/brand-logo'
+import { StageLoaderLayout } from '@/components/brand/stage-loader-layout'
 import type { OnboardingData } from '@/components/onboarding/onboarding-context'
 import { useOnboardingLabels } from '@/hooks/use-onboarding-labels'
 import {
@@ -19,11 +20,16 @@ import { cn } from '@/lib/utils'
 type ProfileAnalysisLoaderProps = {
   profile: OnboardingData
   onComplete: () => void
+  progressBar?: ReactNode
 }
 
 const stepEase = [0.32, 0.72, 0, 1] as const
 
-export function ProfileAnalysisLoader({ profile, onComplete }: ProfileAnalysisLoaderProps) {
+export function ProfileAnalysisLoader({
+  profile,
+  onComplete,
+  progressBar,
+}: ProfileAnalysisLoaderProps) {
   const t = useTranslations('assessment.analysis')
   const tGen = useTranslations('generation')
   const labels = useOnboardingLabels()
@@ -114,48 +120,28 @@ export function ProfileAnalysisLoader({ profile, onComplete }: ProfileAnalysisLo
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] flex min-h-svh flex-col overflow-hidden bg-background text-foreground"
-    >
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 overflow-hidden"
-      >
-        <div className="absolute left-1/2 top-[32%] h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-[oklch(0.52_0.16_25)] opacity-[0.12] blur-[120px]" />
-        <motion.div
-          className="absolute left-1/2 top-[36%] h-64 w-64 -translate-x-1/2 rounded-full border border-white/[0.08] bg-foreground/[0.02] shadow-[0_0_140px_rgba(127,29,29,0.22)]"
-          animate={{ scale: [1, 1.05, 1], opacity: [0.45, 0.78, 0.45] }}
-          transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+    <StageLoaderLayout
+      progressBar={progressBar}
+      logo={
+        <BrandLogo
+          size="stage"
+          variant="logotype"
+          glow="hero"
+          align="center"
         />
-      </motion.div>
-
-      <div className="relative flex min-h-0 flex-1 flex-col items-center justify-center px-6 pb-10 pt-8">
-        <div className="flex w-full max-w-lg flex-col items-center">
-          <BrandLogo
-            size="stage"
-            variant="logotype"
-            glow="hero"
-            className="mb-10 shrink-0 items-center sm:mb-12"
-          />
-
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: stepEase }}
-            className="mb-8 w-full text-center"
-          >
-            <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[oklch(0.62_0.17_25)]">
-              {t('eyebrow')}
-            </p>
-            <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em] sm:text-3xl">
-              {t('headline')}
-            </h2>
-          </motion.div>
-
-          <div className="w-full rounded-[2rem] border border-border/80 bg-card/75 p-5 shadow-[0_30px_120px_rgba(0,0,0,0.45)] backdrop-blur sm:p-6">
+      }
+      title={
+        <>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[oklch(0.62_0.17_25)]">
+            {t('eyebrow')}
+          </p>
+          <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em] sm:text-3xl">
+            {t('headline')}
+          </h2>
+        </>
+      }
+    >
+      <div className="w-full rounded-[2rem] border border-border/80 bg-card/75 p-5 shadow-[0_30px_120px_rgba(0,0,0,0.45)] backdrop-blur sm:p-6">
             <div className="mb-4 flex items-center justify-between text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
               <span>{t('progressLabel')}</span>
               <span className="tabular-nums">
@@ -247,8 +233,6 @@ export function ProfileAnalysisLoader({ profile, onComplete }: ProfileAnalysisLo
               </motion.div>
             </AnimatePresence>
           </div>
-        </div>
-      </div>
-    </motion.div>
+    </StageLoaderLayout>
   )
 }

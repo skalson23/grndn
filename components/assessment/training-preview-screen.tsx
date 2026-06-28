@@ -86,7 +86,7 @@ export function TrainingPreviewScreen({
             transition={{ duration: 0.5 }}
             className="mb-8 text-center"
           >
-            <BrandLogo size="md" variant="logotype" glow="soft" className="mb-6 items-center" />
+            <BrandLogo size="md" variant="logotype" glow="soft" align="center" className="mb-6" />
             <h1 className="text-balance text-3xl font-semibold tracking-[-0.03em] sm:text-4xl">
               {t('headline')}
             </h1>

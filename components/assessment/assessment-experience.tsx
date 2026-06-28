@@ -52,18 +52,16 @@ export function AssessmentExperience() {
     <>
       <AnimatePresence mode="wait">
         {phase === 'analysis' && profile && (
-          <>
-            <div className="fixed inset-x-0 top-0 z-[110] bg-background">
+          <ProfileAnalysisLoader
+            profile={profile}
+            progressBar={
               <ProgressBar
                 currentStep={questionnaireSteps + 1}
                 totalSteps={totalSteps}
               />
-            </div>
-            <ProfileAnalysisLoader
-              profile={profile}
-              onComplete={() => setPhase('preview')}
-            />
-          </>
+            }
+            onComplete={() => setPhase('preview')}
+          />
         )}
 
         {phase === 'preview' && profile && (

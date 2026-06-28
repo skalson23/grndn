@@ -32,7 +32,7 @@ export function WelcomeScreen() {
             size="stage"
             variant="logotype"
             glow="cinematic"
-            className="items-center"
+            align="center"
           />
         </motion.div>
 

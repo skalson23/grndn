@@ -55,7 +55,12 @@ export function PricingPlans({
       )}
 
       {error && (
-        <p className="mb-6 text-center text-sm text-destructive">{error}</p>
+        <div
+          role="alert"
+          className="mb-6 rounded-2xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-center text-sm text-destructive"
+        >
+          {error}
+        </div>
       )}
 
       <div className="mx-auto grid max-w-4xl items-stretch gap-5 sm:gap-6 md:grid-cols-2">
