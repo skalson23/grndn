@@ -40,111 +40,127 @@
     "back_to_onboarding": "Back to onboarding"
   },
   "landing": {
-    "mobile": {
-      "closedBeta": "Closed beta · June 2026",
-      "heroLine1": "STAY ON",
-      "heroLine2": "THE GRND.",
-      "heroSubtitle": "AI training for lifters who treat the gym like a mission—not a hobby.",
-      "liveOnGrnd": "Live on the grnd",
-      "builtDifferent": "Built different.",
-      "swipeStack": "Swipe the stack →",
-      "enterBeta": "Enter the closed beta",
-      "limitedSpots": "Limited spots. Serious lifters only.",
-      "accessGranted": "Access granted",
-      "savedOnDevice": "Saved on this device",
-      "wantEarlyAccess": "Want early access?",
-      "onTheList": "You're on the list.",
-      "betaAccessCode": "Beta access code"
+    "hero": {
+      "eyebrow": "AI Training Platform",
+      "headline": "Train Smarter. Progress Faster.",
+      "subheadline": "GRNDN creates AI-powered personalized workout plans based on your goals, experience level, and available equipment—so every session moves you forward.",
+      "startFree": "Start Free",
+      "viewPricing": "View Pricing"
     },
-    "desktop": {
-      "closedBeta": "Closed Beta",
-      "closedBetaLaunch": "Closed Beta • Launching June 2026",
-      "headline": "Smarter AI Workout Programming.",
-      "subtitle": "Built for lifters who care about recovery, fatigue management and real progression.",
-      "tagRecovery": "Recovery-aware",
-      "tagHypertrophy": "Hypertrophy logic",
-      "tagPremium": "Premium programs",
-      "enterBeta": "Enter the closed beta",
-      "betaDescription": "Early access is limited while GRNDN's programming engine is being refined for serious lifters.",
-      "accessGranted": "Access granted",
-      "accessSavedDevice": "Your beta access is saved on this device.",
-      "accessCodePlaceholder": "Enter Closed Beta Access Code",
-      "wantEarlyAccess": "Want early access?",
-      "waitlistDescription": "Join the waitlist for launch updates and creator beta drops.",
-      "onTheList": "You're on the list.",
-      "seriousLifters": "Built for serious lifters.",
-      "hypertrophyPrinciples": "Designed around real hypertrophy principles.",
-      "footerCopy": "GRNDN is being built for lifters who want intelligent programming, not random workouts. Closed beta access helps us keep quality high while the coaching engine matures."
+    "socialProof": {
+      "aiPowered": "AI Powered",
+      "personalized": "Personalized",
+      "progressiveOverload": "Progressive Overload",
+      "fastSetup": "Fast Setup"
     },
-    "features": {
-      "mobile": {
-        "aiProtocols": {
-          "title": "AI protocols",
-          "line": "Programs built around your body—not random workouts."
+    "howItWorks": {
+      "title": "How it works",
+      "subtitle": "From profile to progress in minutes—not weeks of guesswork.",
+      "steps": {
+        "profile": {
+          "title": "Create your profile",
+          "description": "Tell GRNDN your goals, experience, schedule, equipment, and any limitations."
         },
-        "fatigueAware": {
-          "title": "Fatigue-aware",
-          "line": "Smart volume so you recover and still progress."
+        "generate": {
+          "title": "Generate your personalized training plan",
+          "description": "Our AI builds a structured protocol tailored to your body and training style."
         },
-        "yourStyle": {
-          "title": "Your style",
-          "line": "Hypertrophy, strength, or V-taper. You choose."
-        },
-        "recoveryLogic": {
-          "title": "Recovery logic",
-          "line": "Training that respects sleep, stress, and limits."
-        },
-        "premiumPdfs": {
-          "title": "Premium PDFs",
-          "line": "Export programs that look pro in the gym."
-        }
-      },
-      "desktop": {
-        "aiGeneration": {
-          "title": "AI Workout Generation",
-          "description": "Structured protocols built around your body, goal and schedule."
-        },
-        "fatigueProgramming": {
-          "title": "Fatigue-Aware Programming",
-          "description": "Software guardrails reduce redundant high-fatigue overlap."
-        },
-        "vTaperStrength": {
-          "title": "V-Taper & Strength Styles",
-          "description": "Choose the training philosophy that matches your outcome."
-        },
-        "recoveryLogic": {
-          "title": "Smart Recovery Logic",
-          "description": "Activity, limitations and pace inform recoverable training."
-        },
-        "premiumPdf": {
-          "title": "Premium PDF Programs",
-          "description": "Export clean, polished training programs built for real use."
+        "track": {
+          "title": "Track progress and improve every workout",
+          "description": "Follow your plan, swap exercises when needed, and progress with intelligent overload."
         }
       }
     },
-    "social": {
-      "onStreak": "On a streak",
-      "sessionsToday": "Sessions today",
-      "prsWeek": "PRs this week",
-      "hitStreak": "hit a 5-day streak",
-      "finishedPushA": "finished Push A",
-      "unlockedProtocol": "unlocked new protocol"
+    "features": {
+      "title": "Built for serious training",
+      "subtitle": "Everything you need to train with purpose—not random workouts.",
+      "items": {
+        "aiGeneration": {
+          "title": "AI Workout Generation",
+          "description": "Structured protocols built around your body, goal, and schedule."
+        },
+        "progressiveOverload": {
+          "title": "Progressive Overload",
+          "description": "Coach-level progression built into every block and training phase."
+        },
+        "exerciseSwaps": {
+          "title": "Exercise Swaps",
+          "description": "Adapt movements to your equipment, preferences, and limitations."
+        },
+        "smartTracking": {
+          "title": "Smart Progress Tracking",
+          "description": "See volume, intensity, and progression at a glance across your program."
+        },
+        "multipleGoals": {
+          "title": "Multiple Goals",
+          "description": "Hypertrophy, strength, V-taper, and more—matched to your outcome."
+        },
+        "mobileFriendly": {
+          "title": "Mobile Friendly",
+          "description": "Train from your phone with a clean, focused interface built for the gym."
+        }
+      }
     },
-    "phonePreview": {
-      "today": "Today",
-      "streak": "{count} streak",
-      "pushWeek": "Push A · Week 3",
-      "benchProgression": "Bench progression",
-      "complete": "{percent}% complete",
-      "volume": "Volume",
-      "rpeAvg": "RPE avg",
-      "recoveryScore": "Recovery score: Optimal"
+    "pricing": {
+      "title": "Simple pricing",
+      "subtitle": "Start free. Upgrade when you're ready for the full GRNDN experience.",
+      "upgrade": "Upgrade",
+      "free": {
+        "name": "Free",
+        "price": "$0",
+        "period": "forever",
+        "description": "Get started with AI-powered training at no cost.",
+        "features": {
+          "onboarding": "Full onboarding and profile setup",
+          "singlePlan": "Generate your first AI training plan",
+          "basicTracking": "View and follow your protocol"
+        }
+      },
+      "pro": {
+        "name": "Pro",
+        "description": "Unlimited protocols, saved programs, and premium export."
+      }
     },
-    "errors": {
-      "invalidAccessCode": "Invalid beta access code.",
-      "waitlistJoined": "You're on the waitlist.",
-      "waitlistDuplicate": "You're already on the waitlist.",
-      "waitlistFailed": "Something went wrong. Please try again."
+    "faq": {
+      "title": "Frequently asked questions",
+      "items": {
+        "whatIsGrndn": {
+          "question": "What is GRNDN?",
+          "answer": "GRNDN is an AI training platform that builds personalized workout programs based on your goals, experience, equipment, and schedule."
+        },
+        "howGenerated": {
+          "question": "How are plans generated?",
+          "answer": "You complete a short onboarding profile, and GRNDN's AI engine creates a structured protocol with exercises, sets, reps, and progression tailored to you."
+        },
+        "changeExercises": {
+          "question": "Can I change exercises?",
+          "answer": "Yes. GRNDN supports exercise swaps so you can adapt movements to your equipment, preferences, or physical limitations."
+        },
+        "beginnerFriendly": {
+          "question": "Is it beginner friendly?",
+          "answer": "Absolutely. GRNDN adapts volume, complexity, and exercise selection to your experience level—from first-time lifters to advanced athletes."
+        },
+        "needGym": {
+          "question": "Do I need a gym?",
+          "answer": "No. Tell GRNDN what equipment you have—full gym, home setup, or bodyweight only—and your plan is built around it."
+        }
+      }
+    },
+    "finalCta": {
+      "headline": "Start building your strongest version today."
+    },
+    "footer": {
+      "privacy": "Privacy Policy",
+      "terms": "Terms",
+      "contact": "Contact",
+      "copyright": "© {year} GRNDN. All rights reserved."
+    },
+    "legal": {
+      "privacyTitle": "Privacy Policy",
+      "privacyBody": "GRNDN collects information you provide during onboarding and account creation to generate personalized training plans. We do not sell your personal data. Workout data is stored securely and used only to improve your training experience. Contact us at grndnapp@gmail.com with any privacy questions.",
+      "termsTitle": "Terms of Service",
+      "termsBody": "GRNDN provides AI-generated workout programming for informational and fitness purposes. Always consult a physician before starting a new training program. GRNDN is not a substitute for professional medical or coaching advice. By using GRNDN, you agree to use the platform responsibly and at your own risk.",
+      "backHome": "Back to home"
     }
   },
   "welcome": {

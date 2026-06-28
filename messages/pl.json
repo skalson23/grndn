@@ -40,111 +40,127 @@
     "back_to_onboarding": "Wróć do konfiguracji"
   },
   "landing": {
-    "mobile": {
-      "closedBeta": "Zamknięta beta · czerwiec 2026",
-      "heroLine1": "STAY ON",
-      "heroLine2": "THE GRND.",
-      "heroSubtitle": "Trening AI dla tych, którzy traktują siłownię jak misję — nie hobby.",
-      "liveOnGrnd": "Na grndzie na żywo",
-      "builtDifferent": "Zbudowane inaczej.",
-      "swipeStack": "Przesuń stos →",
-      "enterBeta": "Wejdź do zamkniętej bety",
-      "limitedSpots": "Ograniczona liczba miejsc. Tylko poważni lifterzy.",
-      "accessGranted": "Dostęp przyznany",
-      "savedOnDevice": "Zapisano na tym urządzeniu",
-      "wantEarlyAccess": "Chcesz wcześniejszy dostęp?",
-      "onTheList": "Jesteś na liście.",
-      "betaAccessCode": "Kod dostępu do bety"
+    "hero": {
+      "eyebrow": "Platforma treningowa AI",
+      "headline": "Trenuj mądrzej. Progresuj szybciej.",
+      "subheadline": "GRNDN tworzy spersonalizowane plany treningowe oparte na AI — dopasowane do Twoich celów, doświadczenia i dostępnego sprzętu, aby każda sesja przybliżała Cię do celu.",
+      "startFree": "Zacznij za darmo",
+      "viewPricing": "Zobacz cennik"
     },
-    "desktop": {
-      "closedBeta": "Zamknięta beta",
-      "closedBetaLaunch": "Zamknięta beta • start czerwiec 2026",
-      "headline": "Inteligentniejsze programowanie treningów AI.",
-      "subtitle": "Dla lifterów, którym zależy na regeneracji, zarządzaniu zmęczeniem i realnym progresie.",
-      "tagRecovery": "Świadoma regeneracji",
-      "tagHypertrophy": "Logika hipertrofii",
-      "tagPremium": "Programy premium",
-      "enterBeta": "Wejdź do zamkniętej bety",
-      "betaDescription": "Wczesny dostęp jest ograniczony, gdy silnik programowania GRNDN jest dopracowywany dla poważnych lifterów.",
-      "accessGranted": "Dostęp przyznany",
-      "accessSavedDevice": "Twój dostęp do bety jest zapisany na tym urządzeniu.",
-      "accessCodePlaceholder": "Wprowadź kod dostępu do bety",
-      "wantEarlyAccess": "Chcesz wcześniejszy dostęp?",
-      "waitlistDescription": "Dołącz do listy oczekujących po aktualizacje startu i zaproszenia do bety.",
-      "onTheList": "Jesteś na liście.",
-      "seriousLifters": "Dla poważnych lifterów.",
-      "hypertrophyPrinciples": "Zaprojektowane wokół realnych zasad hipertrofii.",
-      "footerCopy": "GRNDN powstaje dla lifterów, którzy chcą inteligentnego programowania, a nie losowych treningów. Zamknięta beta pomaga utrzymać jakość, gdy silnik coachingu dojrzewa."
+    "socialProof": {
+      "aiPowered": "Napędzane AI",
+      "personalized": "Spersonalizowane",
+      "progressiveOverload": "Progresywne obciążenie",
+      "fastSetup": "Szybka konfiguracja"
+    },
+    "howItWorks": {
+      "title": "Jak to działa",
+      "subtitle": "Od profilu do progresu w kilka minut — bez tygodni zgadywania.",
+      "steps": {
+        "profile": {
+          "title": "Utwórz swój profil",
+          "description": "Powiedz GRNDN o swoich celach, doświadczeniu, grafiku, sprzęcie i ograniczeniach."
+        },
+        "generate": {
+          "title": "Wygeneruj spersonalizowany plan treningowy",
+          "description": "Nasze AI buduje strukturalny protokół dopasowany do Twojego ciała i stylu treningu."
+        },
+        "track": {
+          "title": "Śledź progres i poprawiaj każdy trening",
+          "description": "Realizuj plan, wymieniaj ćwiczenia w razie potrzeby i progresuj dzięki inteligentnemu obciążeniu."
+        }
+      }
     },
     "features": {
-      "mobile": {
-        "aiProtocols": {
-          "title": "Protokoły AI",
-          "line": "Programy dopasowane do Twojego ciała — nie losowe treningi."
-        },
-        "fatigueAware": {
-          "title": "Świadome zmęczenia",
-          "line": "Inteligentna objętość, żebyś regenerował się i nadal progresował."
-        },
-        "yourStyle": {
-          "title": "Twój styl",
-          "line": "Hipertrofia, siła lub V-taper. Ty wybierasz."
-        },
-        "recoveryLogic": {
-          "title": "Logika regeneracji",
-          "line": "Trening, który respektuje sen, stres i ograniczenia."
-        },
-        "premiumPdfs": {
-          "title": "Premium PDF",
-          "line": "Eksportuj programy wyglądające profesjonalnie na siłowni."
-        }
-      },
-      "desktop": {
+      "title": "Zbudowane dla poważnego treningu",
+      "subtitle": "Wszystko, czego potrzebujesz, by trenować z celem — nie losowe treningi.",
+      "items": {
         "aiGeneration": {
           "title": "Generowanie treningów AI",
           "description": "Strukturalne protokoły dopasowane do ciała, celu i grafiku."
         },
-        "fatigueProgramming": {
-          "title": "Programowanie świadome zmęczenia",
-          "description": "Zabezpieczenia oprogramowania redukują redundantne nakładanie wysokiego zmęczenia."
+        "progressiveOverload": {
+          "title": "Progresywne obciążenie",
+          "description": "Progresja na poziomie coacha wbudowana w każdy blok i fazę treningu."
         },
-        "vTaperStrength": {
-          "title": "Style V-Taper i siła",
-          "description": "Wybierz filozofię treningu pasującą do Twojego celu."
+        "exerciseSwaps": {
+          "title": "Wymiana ćwiczeń",
+          "description": "Dostosuj ruchy do sprzętu, preferencji i ograniczeń."
         },
-        "recoveryLogic": {
-          "title": "Inteligentna logika regeneracji",
-          "description": "Aktywność, ograniczenia i tempo informują o regenerowalnym treningu."
+        "smartTracking": {
+          "title": "Inteligentne śledzenie progresu",
+          "description": "Objętość, intensywność i progresja w jednym miejscu w całym programie."
         },
-        "premiumPdf": {
-          "title": "Programy PDF premium",
-          "description": "Eksportuj czyste, dopracowane programy treningowe do realnego użycia."
+        "multipleGoals": {
+          "title": "Wiele celów",
+          "description": "Hipertrofia, siła, V-taper i więcej — dopasowane do Twojego wyniku."
+        },
+        "mobileFriendly": {
+          "title": "Przyjazne dla mobile",
+          "description": "Trenuj z telefonu dzięki czystemu, skupionemu interfejsowi na siłownię."
         }
       }
     },
-    "social": {
-      "onStreak": "Na serii",
-      "sessionsToday": "Sesje dziś",
-      "prsWeek": "PR w tym tygodniu",
-      "hitStreak": "osiągnął 5-dniową serię",
-      "finishedPushA": "ukończył Push A",
-      "unlockedProtocol": "odblokował nowy protokół"
+    "pricing": {
+      "title": "Prosty cennik",
+      "subtitle": "Zacznij za darmo. Ulepsz, gdy będziesz gotowy na pełne doświadczenie GRNDN.",
+      "upgrade": "Ulepsz",
+      "free": {
+        "name": "Darmowy",
+        "price": "0 zł",
+        "period": "na zawsze",
+        "description": "Zacznij z treningiem opartym na AI bez kosztów.",
+        "features": {
+          "onboarding": "Pełny onboarding i konfiguracja profilu",
+          "singlePlan": "Wygeneruj swój pierwszy plan treningowy AI",
+          "basicTracking": "Przeglądaj i realizuj swój protokół"
+        }
+      },
+      "pro": {
+        "name": "Pro",
+        "description": "Nielimitowane protokoły, zapisane programy i eksport premium."
+      }
     },
-    "phonePreview": {
-      "today": "Dziś",
-      "streak": "Seria {count}",
-      "pushWeek": "Push A · Tydzień 3",
-      "benchProgression": "Progresja w wyciskaniu",
-      "complete": "{percent}% ukończone",
-      "volume": "Objętość",
-      "rpeAvg": "Śr. RPE",
-      "recoveryScore": "Wynik regeneracji: Optymalny"
+    "faq": {
+      "title": "Często zadawane pytania",
+      "items": {
+        "whatIsGrndn": {
+          "question": "Czym jest GRNDN?",
+          "answer": "GRNDN to platforma treningowa AI, która buduje spersonalizowane programy treningowe na podstawie celów, doświadczenia, sprzętu i grafiku."
+        },
+        "howGenerated": {
+          "question": "Jak generowane są plany?",
+          "answer": "Wypełniasz krótki profil onboardingowy, a silnik AI GRNDN tworzy strukturalny protokół z ćwiczeniami, seriami, powtórzeniami i progresją dopasowaną do Ciebie."
+        },
+        "changeExercises": {
+          "question": "Czy mogę zmieniać ćwiczenia?",
+          "answer": "Tak. GRNDN obsługuje wymianę ćwiczeń, aby dostosować ruchy do sprzętu, preferencji lub ograniczeń fizycznych."
+        },
+        "beginnerFriendly": {
+          "question": "Czy to jest przyjazne dla początkujących?",
+          "answer": "Zdecydowanie. GRNDN dostosowuje objętość, złożoność i dobór ćwiczeń do poziomu doświadczenia — od pierwszych treningów po zaawansowanych sportowców."
+        },
+        "needGym": {
+          "question": "Czy potrzebuję siłowni?",
+          "answer": "Nie. Powiedz GRNDN, jaki masz sprzęt — pełna siłownia, domowy zestaw lub tylko masa ciała — a plan zostanie zbudowany wokół tego."
+        }
+      }
     },
-    "errors": {
-      "invalidAccessCode": "Nieprawidłowy kod dostępu do bety.",
-      "waitlistJoined": "Jesteś na liście oczekujących.",
-      "waitlistDuplicate": "Już jesteś na liście oczekujących.",
-      "waitlistFailed": "Coś poszło nie tak. Spróbuj ponownie."
+    "finalCta": {
+      "headline": "Zacznij budować swoją najsilniejszą wersję już dziś."
+    },
+    "footer": {
+      "privacy": "Polityka prywatności",
+      "terms": "Regulamin",
+      "contact": "Kontakt",
+      "copyright": "© {year} GRNDN. Wszelkie prawa zastrzeżone."
+    },
+    "legal": {
+      "privacyTitle": "Polityka prywatności",
+      "privacyBody": "GRNDN zbiera informacje podane podczas onboardingu i tworzenia konta, aby generować spersonalizowane plany treningowe. Nie sprzedajemy Twoich danych osobowych. Dane treningowe są przechowywane bezpiecznie i używane wyłącznie do poprawy Twojego doświadczenia treningowego. W sprawach prywatności napisz na grndnapp@gmail.com.",
+      "termsTitle": "Regulamin",
+      "termsBody": "GRNDN dostarcza programowanie treningowe generowane przez AI w celach informacyjnych i fitnessowych. Zawsze skonsultuj się z lekarzem przed rozpoczęciem nowego programu treningowego. GRNDN nie zastępuje profesjonalnej porady medycznej ani coachingowej. Korzystając z GRNDN, zgadzasz się używać platformy odpowiedzialnie i na własne ryzyko.",
+      "backHome": "Wróć na stronę główną"
     }
   },
   "welcome": {
