@@ -82,7 +82,7 @@ export function WelcomeScreen() {
           size="lg"
           className="h-14 w-full rounded-2xl text-lg font-semibold"
         >
-          {tActions('get_started')}
+          {tActions('startAssessment')}
         </Button>
         <p className="mt-4 text-center text-xs text-muted-foreground">
           {t('setup_time')}

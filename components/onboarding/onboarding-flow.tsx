@@ -32,9 +32,10 @@ export {
   useOnboarding,
   defaultOnboardingData,
   ONBOARDING_STEP_COUNT,
+  getOnboardingStepCount,
 } from './onboarding-context'
 
-function OnboardingFlowInner() {
+export function OnboardingFlowInner() {
   const { currentStep, direction, data } = useOnboarding()
 
   const screens = [
@@ -141,9 +142,13 @@ function OnboardingFlowInner() {
   )
 }
 
-export function OnboardingFlow() {
+export function OnboardingFlow({
+  onQuestionnaireComplete,
+}: {
+  onQuestionnaireComplete?: (data: import('./onboarding-context').OnboardingData) => void
+} = {}) {
   return (
-    <OnboardingProvider>
+    <OnboardingProvider onQuestionnaireComplete={onQuestionnaireComplete}>
       <OnboardingFlowInner />
     </OnboardingProvider>
   )

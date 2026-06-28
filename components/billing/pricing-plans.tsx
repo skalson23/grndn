@@ -16,6 +16,7 @@ import { cn } from '@/lib/utils'
 type PricingPlansProps = {
   showHeader?: boolean
   className?: string
+  variant?: 'default' | 'preview'
 }
 
 const primaryButtonClass = cn(
@@ -24,8 +25,13 @@ const primaryButtonClass = cn(
   'border border-white/20 shadow-[0_12px_40px_rgba(0,0,0,0.35)]'
 )
 
-export function PricingPlans({ showHeader = true, className }: PricingPlansProps) {
+export function PricingPlans({
+  showHeader = true,
+  className,
+  variant = 'default',
+}: PricingPlansProps) {
   const t = useTranslations('landing.pricing')
+  const tPreview = useTranslations('assessment.preview.pricing')
   const tBilling = useTranslations('billing.pricing')
   const locale = useLocale()
   const { checkout, loadingPlan, error } = useStripeCheckout()
@@ -63,14 +69,14 @@ export function PricingPlans({ showHeader = true, className }: PricingPlansProps
           className="flex flex-col rounded-[1.75rem] border border-border/80 bg-card/60 p-6 backdrop-blur sm:p-8"
         >
           <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-            {t('monthly.name')}
+            {variant === 'preview' ? tPreview('monthly.name') : t('monthly.name')}
           </p>
           <div className="mt-4 flex items-end gap-1">
             <span className="text-4xl font-bold tracking-tight">
-              {t('monthly.price')}
+              {variant === 'preview' ? tPreview('monthly.price') : t('monthly.price')}
             </span>
             <span className="mb-1 text-sm text-muted-foreground">
-              {t('monthly.period')}
+              {variant === 'preview' ? tPreview('monthly.period') : t('monthly.period')}
             </span>
           </div>
           <ul className="mt-8 flex-1 space-y-2.5">
@@ -93,6 +99,8 @@ export function PricingPlans({ showHeader = true, className }: PricingPlansProps
                 <Spinner className="size-4" />
                 {tBilling('redirecting')}
               </>
+            ) : variant === 'preview' ? (
+              tPreview('monthly.cta')
             ) : (
               t('monthly.cta')
             )}
@@ -124,25 +132,27 @@ export function PricingPlans({ showHeader = true, className }: PricingPlansProps
 
           <div className="relative mb-4 flex flex-wrap items-center justify-between gap-2">
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[oklch(0.62_0.17_25)]">
-              {t('quarterly.name')}
+              {variant === 'preview' ? tPreview('quarterly.name') : t('quarterly.name')}
             </p>
             <span className="inline-flex items-center gap-1 rounded-full border border-[oklch(0.52_0.16_25)]/40 bg-[oklch(0.52_0.16_25)]/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[oklch(0.72_0.17_25)]">
               <Star className="size-3 fill-current" />
-              {t('quarterly.bestValueBadge')}
+              {variant === 'preview'
+                ? tPreview('quarterly.bestValueBadge')
+                : t('quarterly.bestValueBadge')}
             </span>
           </div>
 
           <div className="relative flex items-end gap-1">
             <span className="text-4xl font-bold tracking-tight">
-              {t('quarterly.price')}
+              {variant === 'preview' ? tPreview('quarterly.price') : t('quarterly.price')}
             </span>
             <span className="mb-1 text-sm text-muted-foreground">
-              {t('quarterly.period')}
+              {variant === 'preview' ? tPreview('quarterly.period') : t('quarterly.period')}
             </span>
           </div>
 
           <p className="relative mt-3 text-sm font-medium text-[oklch(0.72_0.14_25)]">
-            {t('quarterly.savings')}
+            {variant === 'preview' ? tPreview('quarterly.plansIncluded') : t('quarterly.savings')}
           </p>
 
           <ul className="relative mt-8 flex-1 space-y-2.5">
@@ -164,6 +174,11 @@ export function PricingPlans({ showHeader = true, className }: PricingPlansProps
               <>
                 <Spinner className="size-4" />
                 {tBilling('redirecting')}
+              </>
+            ) : variant === 'preview' ? (
+              <>
+                <Sparkles className="size-4" />
+                {tPreview('quarterly.cta')}
               </>
             ) : (
               <>

@@ -38,7 +38,9 @@
     "go_to_my_programs": "Go to My Programs",
     "open_program": "Open Program",
     "create_program": "Create a program",
-    "back_to_onboarding": "Back to onboarding"
+    "back_to_onboarding": "Back to onboarding",
+    "continueToAnalysis": "Analyze My Profile",
+    "startAssessment": "Start Assessment"
   },
   "landing": {
     "hero": {
@@ -47,7 +49,8 @@
       "headlineLine2": "Built for real progress.",
       "subheadline": "GRNDN creates personalized AI workout programs that evolve with your progress, goals and performance.",
       "startJourney": "Start Your Journey",
-      "viewPlans": "View Plans"
+      "startAssessment": "Start Assessment",
+      "viewPlans": "See How It Works"
     },
     "socialProof": {
       "aiPowered": "Intelligent Programming",
@@ -486,6 +489,74 @@
       }
     }
   },
+  "assessment": {
+    "analysis": {
+      "eyebrow": "GRNDN Intelligence",
+      "headline": "Analyzing your training profile",
+      "progressLabel": "Profile synthesis"
+    },
+    "preview": {
+      "headline": "Your training profile is ready.",
+      "subtitle": "GRNDN Intelligence analyzed your profile and prepared your personalized training strategy.",
+      "planPreviewTitle": "Workout Plan Preview",
+      "unlockMessage": "Unlock your complete personalized AI workout plan.",
+      "pricingTitle": "Choose your membership",
+      "pricingSubtitle": "Unlock your full AI training system and start progressing today.",
+      "dayLabel": "Day {day}",
+      "summary": {
+        "frequency": "Recommended training frequency",
+        "primaryGoal": "Primary goal",
+        "experience": "Experience level",
+        "recovery": "Recovery profile",
+        "weeklyVolume": "Weekly training volume",
+        "trainingSplit": "Training split recommendation",
+        "sessionDuration": "Estimated session duration"
+      },
+      "values": {
+        "frequencyDays": "{count} days per week",
+        "durationMin": "{count} min per session"
+      },
+      "splits": {
+        "fullBodyRhythm": "Full-body rhythm",
+        "twoDayFullBody": "2-day full-body split",
+        "threeDaySplit": "3-day upper / lower / full-body",
+        "fourDayUpperLower": "4-day upper / lower split",
+        "fiveDayStrength": "5-day strength-focused split",
+        "fiveDayHypertrophy": "5-day hypertrophy split",
+        "adaptiveSplit": "Adaptive periodized split"
+      },
+      "volume": {
+        "high": "High — optimized for advanced adaptation",
+        "moderate": "Moderate — balanced stimulus and recovery",
+        "focused": "Focused — efficient weekly stimulus"
+      },
+      "recovery": {
+        "strong": "Strong recovery capacity",
+        "balanced": "Balanced recovery profile",
+        "managed": "Managed load with strategic deloads"
+      },
+      "pricing": {
+        "monthly": {
+          "name": "Monthly",
+          "price": "$9.99",
+          "period": "/ month",
+          "cta": "Start Monthly"
+        },
+        "quarterly": {
+          "name": "Quarterly",
+          "price": "$25.99",
+          "period": "every 3 months",
+          "bestValueBadge": "Best Value",
+          "plansIncluded": "Includes 3 personalized workout plans — one brand-new AI plan every month",
+          "cta": "Start Quarterly"
+        }
+      }
+    },
+    "postPayment": {
+      "eyebrow": "GRNDN Intelligence",
+      "headline": "Generating your personalized training system…"
+    }
+  },
   "generation": {
     "initializing": "Initializing…",
     "buildingProtocol": "Building protocol",
@@ -620,7 +691,10 @@
       "title": "Welcome to GRNDN",
       "description": "Your membership is active. Let's build your personalized training profile.",
       "sessionNote": "Payment confirmed. It may take a moment for access to sync.",
-      "beginSetup": "Start Your Journey"
+      "beginSetup": "Start Your Journey",
+      "missingProfileTitle": "Complete your assessment first",
+      "missingProfileDescription": "We couldn't find your training profile. Start the assessment so GRNDN can generate your personalized plan after payment.",
+      "missingProfileCta": "Start Assessment"
     },
     "cancel": {
       "title": "Checkout cancelled",

@@ -4,7 +4,6 @@ import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
-import { PricingPlans } from '@/components/billing/pricing-plans'
 import { BrandLogo } from '@/components/brand/brand-logo'
 import { LanguageSwitcher } from '@/components/i18n/language-switcher'
 import {
@@ -39,8 +38,8 @@ type SaasLandingProps = {
 export function SaasLanding({ className }: SaasLandingProps) {
   const t = useTranslations('landing')
 
-  const scrollToPricing = () => {
-    document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })
+  const scrollToHowItWorks = () => {
+    document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })
   }
 
   const primaryButtonClass = cn(
@@ -61,16 +60,15 @@ export function SaasLanding({ className }: SaasLandingProps) {
               type="button"
               variant="ghost"
               className="hidden rounded-xl sm:inline-flex"
-              onClick={scrollToPricing}
+              onClick={scrollToHowItWorks}
             >
               {t('hero.viewPlans')}
             </Button>
             <Button
-              type="button"
-              onClick={scrollToPricing}
+              asChild
               className={cn(primaryButtonClass, 'h-10 px-4 text-sm')}
             >
-              {t('hero.startJourney')}
+              <Link href="/assessment">{t('hero.startAssessment')}</Link>
             </Button>
           </div>
         </div>
@@ -119,19 +117,20 @@ export function SaasLanding({ className }: SaasLandingProps) {
             className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row"
           >
             <Button
-              type="button"
+              asChild
               size="lg"
-              onClick={scrollToPricing}
               className={cn(primaryButtonClass, 'h-14 w-full sm:w-auto sm:min-w-[180px]')}
             >
-              {t('hero.startJourney')}
-              <ArrowRight className="size-5" />
+              <Link href="/assessment">
+                {t('hero.startAssessment')}
+                <ArrowRight className="size-5" />
+              </Link>
             </Button>
             <Button
               type="button"
               size="lg"
               variant="outline"
-              onClick={scrollToPricing}
+              onClick={scrollToHowItWorks}
               className="h-14 w-full rounded-2xl border-border bg-card/50 sm:w-auto sm:min-w-[180px]"
             >
               {t('hero.viewPlans')}
@@ -161,7 +160,7 @@ export function SaasLanding({ className }: SaasLandingProps) {
       </section>
 
       {/* How it works */}
-      <section className="px-5 py-20 sm:px-8 sm:py-28">
+      <section id="how-it-works" className="scroll-mt-20 px-5 py-20 sm:px-8 sm:py-28">
         <div className="mx-auto max-w-6xl">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -249,13 +248,6 @@ export function SaasLanding({ className }: SaasLandingProps) {
         </div>
       </section>
 
-      {/* Pricing */}
-      <section id="pricing" className="scroll-mt-20 px-5 py-20 sm:px-8 sm:py-28">
-        <div className="mx-auto max-w-6xl">
-          <PricingPlans />
-        </div>
-      </section>
-
       {/* FAQ */}
       <section className="border-t border-white/[0.06] bg-card/20 px-5 py-20 sm:px-8 sm:py-28">
         <div className="mx-auto max-w-2xl">
@@ -304,16 +296,17 @@ export function SaasLanding({ className }: SaasLandingProps) {
             {t('finalCta.subheadline')}
           </p>
           <Button
-            type="button"
+            asChild
             size="lg"
-            onClick={scrollToPricing}
             className={cn(
               'relative mt-8 h-14 min-w-[200px] rounded-2xl',
               primaryButtonClass
             )}
           >
-            {t('hero.startJourney')}
-            <ArrowRight className="size-5" />
+            <Link href="/assessment">
+              {t('hero.startAssessment')}
+              <ArrowRight className="size-5" />
+            </Link>
           </Button>
         </motion.div>
       </section>
@@ -346,12 +339,13 @@ export function SaasLanding({ className }: SaasLandingProps) {
       <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 border-t border-white/8 bg-background/85 backdrop-blur-xl pb-[max(1rem,env(safe-area-inset-bottom))] pt-3 lg:hidden">
         <div className="pointer-events-auto px-4">
           <Button
-            type="button"
-            onClick={scrollToPricing}
+            asChild
             className={cn(primaryButtonClass, 'h-14 w-full')}
           >
-            {t('hero.startJourney')}
-            <ArrowRight className="size-5" />
+            <Link href="/assessment">
+              {t('hero.startAssessment')}
+              <ArrowRight className="size-5" />
+            </Link>
           </Button>
         </div>
       </div>

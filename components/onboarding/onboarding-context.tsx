@@ -76,11 +76,18 @@ export type OnboardingContextValue = {
   direction: 1 | -1
   goNext: () => void
   goBack: () => void
+  onQuestionnaireComplete?: (data: OnboardingData) => void
 }
 
 const OnboardingContext = createContext<OnboardingContextValue | null>(null)
 
-export function OnboardingProvider({ children }: { children: ReactNode }) {
+export function OnboardingProvider({
+  children,
+  onQuestionnaireComplete,
+}: {
+  children: ReactNode
+  onQuestionnaireComplete?: (data: OnboardingData) => void
+}) {
   const [currentStep, setCurrentStep] = useState(0)
   const [direction, setDirection] = useState<1 | -1>(1)
   const [data, setData] = useState<OnboardingData>(defaultOnboardingData)
@@ -116,8 +123,18 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
       direction,
       goNext,
       goBack,
+      onQuestionnaireComplete,
     }),
-    [data, updateData, resetData, currentStep, direction, goNext, goBack]
+    [
+      data,
+      updateData,
+      resetData,
+      currentStep,
+      direction,
+      goNext,
+      goBack,
+      onQuestionnaireComplete,
+    ]
   )
 
   return (

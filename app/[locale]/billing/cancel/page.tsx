@@ -25,7 +25,7 @@ export default function BillingCancelPage() {
             <Link href="/">{t('backHome')}</Link>
           </Button>
           <Button asChild className="rounded-2xl">
-            <Link href="/pricing">{t('tryAgain')}</Link>
+            <Link href="/assessment">{t('tryAgain')}</Link>
           </Button>
         </div>
       </motion.div>

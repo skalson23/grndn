@@ -22,7 +22,8 @@ import { cn } from '@/lib/utils'
 type PlanGenerationLoaderProps = {
   data: OnboardingData
   onComplete: () => void
-  onCancel: () => void
+  onCancel?: () => void
+  variant?: 'default' | 'postPayment'
 }
 
 const stepEase = [0.32, 0.72, 0, 1] as const
@@ -31,9 +32,11 @@ export function PlanGenerationLoader({
   data,
   onComplete,
   onCancel,
+  variant = 'default',
 }: PlanGenerationLoaderProps) {
   const locale = useLocale() as AppLocale
   const t = useTranslations('generation')
+  const tPost = useTranslations('assessment.postPayment')
   const tActions = useTranslations('actions')
   const labels = useOnboardingLabels()
   const insightSignals = buildAnalysisInsightSignals(data)
@@ -174,10 +177,10 @@ export function PlanGenerationLoader({
             className="mb-8 w-full text-center"
           >
             <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[oklch(0.62_0.17_25)]">
-              {t('analysisTitle')}
+              {variant === 'postPayment' ? tPost('eyebrow') : t('analysisTitle')}
             </p>
             <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em] sm:text-3xl">
-              {t('analysisHeadline')}
+              {variant === 'postPayment' ? tPost('headline') : t('analysisHeadline')}
             </h2>
           </motion.div>
 
@@ -199,9 +202,11 @@ export function PlanGenerationLoader({
             {error ? (
               <div className="flex flex-col items-center gap-4 py-4 text-center">
                 <p className="text-sm text-destructive">{error}</p>
-                <Button type="button" variant="outline" className="rounded-xl" onClick={onCancel}>
-                  {tActions('go_back')}
-                </Button>
+                {onCancel && (
+                  <Button type="button" variant="outline" className="rounded-xl" onClick={onCancel}>
+                    {tActions('go_back')}
+                  </Button>
+                )}
               </div>
             ) : (
               <>

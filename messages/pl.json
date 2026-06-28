@@ -38,7 +38,9 @@
     "go_to_my_programs": "Przejdź do moich programów",
     "open_program": "Otwórz program",
     "create_program": "Utwórz program",
-    "back_to_onboarding": "Wróć do konfiguracji"
+    "back_to_onboarding": "Wróć do konfiguracji",
+    "continueToAnalysis": "Analizuj mój profil",
+    "startAssessment": "Rozpocznij ocenę"
   },
   "landing": {
     "hero": {
@@ -47,7 +49,8 @@
       "headlineLine2": "Zbudowany dla realnego progresu.",
       "subheadline": "GRNDN tworzy spersonalizowane programy treningowe AI, które ewoluują wraz z Twoim progresem, celami i wydajnością.",
       "startJourney": "Rozpocznij swoją podróż",
-      "viewPlans": "Zobacz plany"
+      "startAssessment": "Rozpocznij ocenę",
+      "viewPlans": "Zobacz jak to działa"
     },
     "socialProof": {
       "aiPowered": "Inteligentne programowanie",
@@ -486,6 +489,74 @@
       }
     }
   },
+  "assessment": {
+    "analysis": {
+      "eyebrow": "GRNDN Intelligence",
+      "headline": "Analizujemy Twój profil treningowy",
+      "progressLabel": "Synteza profilu"
+    },
+    "preview": {
+      "headline": "Twój profil treningowy jest gotowy.",
+      "subtitle": "GRNDN Intelligence przeanalizowało Twój profil i przygotowało spersonalizowaną strategię treningową.",
+      "planPreviewTitle": "Podgląd planu treningowego",
+      "unlockMessage": "Odblokuj kompletny spersonalizowany plan treningowy AI.",
+      "pricingTitle": "Wybierz członkostwo",
+      "pricingSubtitle": "Odblokuj pełny system treningowy AI i zacznij robić postępy już dziś.",
+      "dayLabel": "Dzień {day}",
+      "summary": {
+        "frequency": "Zalecana częstotliwość treningów",
+        "primaryGoal": "Główny cel",
+        "experience": "Poziom doświadczenia",
+        "recovery": "Profil regeneracji",
+        "weeklyVolume": "Tygodniowa objętość treningowa",
+        "trainingSplit": "Rekomendowany podział treningowy",
+        "sessionDuration": "Szacowany czas sesji"
+      },
+      "values": {
+        "frequencyDays": "{count} dni w tygodniu",
+        "durationMin": "{count} min na sesję"
+      },
+      "splits": {
+        "fullBodyRhythm": "Rytm full-body",
+        "twoDayFullBody": "2-dniowy split full-body",
+        "threeDaySplit": "3-dniowy góra / dół / full-body",
+        "fourDayUpperLower": "4-dniowy split góra / dół",
+        "fiveDayStrength": "5-dniowy split siłowy",
+        "fiveDayHypertrophy": "5-dniowy split hipertroficzny",
+        "adaptiveSplit": "Adaptacyjny split periodyzowany"
+      },
+      "volume": {
+        "high": "Wysoka — zoptymalizowana pod zaawansowaną adaptację",
+        "moderate": "Umiarkowana — zrównoważony bodziec i regeneracja",
+        "focused": "Skupiona — efektywny tygodniowy bodziec"
+      },
+      "recovery": {
+        "strong": "Silna zdolność regeneracji",
+        "balanced": "Zrównoważony profil regeneracji",
+        "managed": "Zarządzany wolumen ze strategicznymi deloadami"
+      },
+      "pricing": {
+        "monthly": {
+          "name": "Miesięczny",
+          "price": "$9.99",
+          "period": "/ miesiąc",
+          "cta": "Wybierz miesięczny"
+        },
+        "quarterly": {
+          "name": "Kwartalny",
+          "price": "$25.99",
+          "period": "co 3 miesiące",
+          "bestValueBadge": "Najlepsza wartość",
+          "plansIncluded": "Obejmuje 3 spersonalizowane plany — nowy plan AI co miesiąc",
+          "cta": "Wybierz kwartalny"
+        }
+      }
+    },
+    "postPayment": {
+      "eyebrow": "GRNDN Intelligence",
+      "headline": "Generujemy Twój spersonalizowany system treningowy…"
+    }
+  },
   "generation": {
     "initializing": "Inicjalizacja…",
     "buildingProtocol": "Budowanie protokołu",
@@ -620,7 +691,10 @@
       "title": "Witaj w GRNDN",
       "description": "Twoje członkostwo jest aktywne. Zbudujmy Twój spersonalizowany profil treningowy.",
       "sessionNote": "Płatność potwierdzona. Synchronizacja dostępu może chwilę potrwać.",
-      "beginSetup": "Rozpocznij swoją podróż"
+      "beginSetup": "Rozpocznij swoją podróż",
+      "missingProfileTitle": "Najpierw ukończ ocenę",
+      "missingProfileDescription": "Nie znaleźliśmy Twojego profilu treningowego. Rozpocznij ocenę, aby GRNDN mógł wygenerować spersonalizowany plan po płatności.",
+      "missingProfileCta": "Rozpocznij ocenę"
     },
     "cancel": {
       "title": "Płatność anulowana",

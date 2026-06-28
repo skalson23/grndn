@@ -1,7 +1,6 @@
 'use client'
 
-import { useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import {
   ChevronLeft,
   Target,
@@ -19,14 +18,13 @@ import {
   Ruler,
   Activity,
   Goal,
+  ArrowRight,
 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
 import { BrandLogo } from '@/components/brand/brand-logo'
-import { PlanGenerationLoader } from '@/components/workout-plan/plan-generation-loader'
 import { Button } from '@/components/ui/button'
 import { useOnboardingLabels } from '@/hooks/use-onboarding-labels'
-import { useRouter } from '@/i18n/navigation'
 import { estimateTdee } from '@/lib/onboarding/tdee'
 import { cn } from '@/lib/utils'
 
@@ -53,14 +51,12 @@ const itemVariants = {
 }
 
 export function SummaryScreen() {
-  const router = useRouter()
-  const { data, goBack } = useOnboarding()
+  const { data, goBack, onQuestionnaireComplete } = useOnboarding()
   const t = useTranslations('onboarding.summary')
   const tCommon = useTranslations('common')
   const tActions = useTranslations('actions')
   const tSex = useTranslations('onboarding.sex')
   const labels = useOnboardingLabels()
-  const [isGenerating, setIsGenerating] = useState(false)
 
   const getGoalsDisplay = () => {
     if (data.goals.length === 0) return tCommon('notSet')
@@ -178,126 +174,116 @@ export function SummaryScreen() {
     },
   ]
 
+  const handleContinue = () => {
+    onQuestionnaireComplete?.(data)
+  }
+
   return (
-    <>
-      <AnimatePresence>
-        {isGenerating && (
-          <PlanGenerationLoader
-            data={data}
-            onComplete={() => router.push('/results')}
-            onCancel={() => setIsGenerating(false)}
-          />
-        )}
-      </AnimatePresence>
-
-      <div className="flex min-h-0 flex-1 flex-col p-6 pb-10">
-        <div className="flex-shrink-0">
-          <button
-            type="button"
-            onClick={goBack}
-            disabled={isGenerating}
-            className="mb-6 flex items-center gap-1 text-muted-foreground transition-colors hover:text-foreground disabled:opacity-40"
-          >
-            <ChevronLeft className="h-5 w-5" />
-            <span className="text-sm font-medium">{tCommon('back')}</span>
-          </button>
-
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="mb-6 text-center"
-          >
-            <div className="mb-6 flex justify-center">
-              <BrandLogo size="lg" variant="logotype" glow="soft" className="items-center" />
-            </div>
-            <h1 className="mb-2 text-3xl font-bold tracking-tight">{t('title')}</h1>
-            <p className="text-muted-foreground">{t('description')}</p>
-          </motion.div>
-        </div>
-
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="show"
-          className="-mx-6 min-h-0 flex-1 overflow-y-auto px-6"
+    <div className="flex min-h-0 flex-1 flex-col p-6 pb-10">
+      <div className="flex-shrink-0">
+        <button
+          type="button"
+          onClick={goBack}
+          className="mb-6 flex items-center gap-1 text-muted-foreground transition-colors hover:text-foreground"
         >
-          <motion.div className="space-y-1 rounded-3xl border border-border bg-card p-5">
-            {summaryItems.map((item) => (
-              <motion.div
-                key={item.label}
-                variants={itemVariants}
-                className="flex items-center justify-between gap-3 border-b border-border py-4 last:border-0"
-              >
-                <div className="flex min-w-0 items-center gap-3">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary">
-                    <item.icon className="h-5 w-5 text-foreground" />
-                  </div>
-                  <span className="truncate font-medium text-muted-foreground">
-                    {item.label}
-                  </span>
-                </div>
-                <span className="shrink-0 text-right font-semibold text-foreground">
-                  {item.value}
-                </span>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          <motion.div
-            variants={itemVariants}
-            className="mt-6 rounded-2xl border border-border bg-secondary/50 p-5"
-          >
-            <div className="flex items-start gap-3">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-foreground shadow-[0_0_20px_rgba(127,29,29,0.24)]">
-                <Sparkles className="h-4 w-4 text-background" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="mb-1 text-sm font-medium text-foreground">
-                  {t('readyTitle')}
-                </p>
-                <p className="text-sm leading-relaxed text-muted-foreground break-words">
-                  {t('readyDescription', {
-                    height: data.heightCm,
-                    weight: data.weightKg,
-                    age: data.age,
-                    frequency: data.frequency,
-                    duration: data.duration,
-                  })}
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        </motion.div>
+          <ChevronLeft className="h-5 w-5" />
+          <span className="text-sm font-medium">{tCommon('back')}</span>
+        </button>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="w-full max-w-full flex-shrink-0 space-y-2 pt-6 sm:mx-auto sm:max-w-lg"
+          transition={{ duration: 0.4 }}
+          className="mb-6 text-center"
         >
-          <Button
-            type="button"
-            onClick={() => setIsGenerating(true)}
-            disabled={isGenerating}
-            size="lg"
-            className={cn(
-              'flex h-14 w-full items-center justify-center gap-2.5 rounded-2xl text-base font-semibold tracking-tight',
-              'bg-gradient-to-b from-neutral-100 to-neutral-300 text-neutral-950',
-              'shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_12px_40px_rgba(0,0,0,0.55)]',
-              'border border-white/20 ring-1 ring-black/50',
-              'transition-all duration-200 hover:from-white hover:to-neutral-200 active:scale-[0.99]',
-              'disabled:pointer-events-none disabled:opacity-50'
-            )}
-          >
-            <Sparkles className="size-5 shrink-0" />
-            <span>{tActions('generate_plan')}</span>
-          </Button>
-          <p className="mt-4 text-center text-xs text-muted-foreground">
-            {t('adjustAnytime')}
-          </p>
+          <div className="mb-6 flex justify-center">
+            <BrandLogo size="lg" variant="logotype" glow="soft" className="items-center" />
+          </div>
+          <h1 className="mb-2 text-3xl font-bold tracking-tight">{t('title')}</h1>
+          <p className="text-muted-foreground">{t('description')}</p>
         </motion.div>
       </div>
-    </>
+
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+        className="-mx-6 min-h-0 flex-1 overflow-y-auto px-6"
+      >
+        <motion.div className="space-y-1 rounded-3xl border border-border bg-card p-5">
+          {summaryItems.map((item) => (
+            <motion.div
+              key={item.label}
+              variants={itemVariants}
+              className="flex items-center justify-between gap-3 border-b border-border py-4 last:border-0"
+            >
+              <div className="flex min-w-0 items-center gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary">
+                  <item.icon className="h-5 w-5 text-foreground" />
+                </div>
+                <span className="truncate font-medium text-muted-foreground">
+                  {item.label}
+                </span>
+              </div>
+              <span className="shrink-0 text-right font-semibold text-foreground">
+                {item.value}
+              </span>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        <motion.div
+          variants={itemVariants}
+          className="mt-6 rounded-2xl border border-border bg-secondary/50 p-5"
+        >
+          <div className="flex items-start gap-3">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-foreground shadow-[0_0_20px_rgba(127,29,29,0.24)]">
+              <Sparkles className="h-4 w-4 text-background" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="mb-1 text-sm font-medium text-foreground">
+                {t('readyTitle')}
+              </p>
+              <p className="text-sm leading-relaxed text-muted-foreground break-words">
+                {t('readyDescription', {
+                  height: data.heightCm,
+                  weight: data.weightKg,
+                  age: data.age,
+                  frequency: data.frequency,
+                  duration: data.duration,
+                })}
+              </p>
+            </div>
+          </div>
+        </motion.div>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
+        className="w-full max-w-full flex-shrink-0 space-y-2 pt-6 sm:mx-auto sm:max-w-lg"
+      >
+        <Button
+          type="button"
+          onClick={handleContinue}
+          size="lg"
+          className={cn(
+            'flex h-14 w-full items-center justify-center gap-2.5 rounded-2xl text-base font-semibold tracking-tight',
+            'bg-gradient-to-b from-neutral-100 to-neutral-300 text-neutral-950',
+            'shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_12px_40px_rgba(0,0,0,0.55)]',
+            'border border-white/20 ring-1 ring-black/50',
+            'transition-all duration-200 hover:from-white hover:to-neutral-200 active:scale-[0.99]'
+          )}
+        >
+          <Sparkles className="size-5 shrink-0" />
+          <span>{tActions('continueToAnalysis')}</span>
+          <ArrowRight className="size-5 shrink-0" />
+        </Button>
+        <p className="mt-4 text-center text-xs text-muted-foreground">
+          {t('adjustAnytime')}
+        </p>
+      </motion.div>
+    </div>
   )
 }
