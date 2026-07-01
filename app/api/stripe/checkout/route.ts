@@ -16,6 +16,8 @@ import {
   stripeErrorStatusCode,
 } from '@/lib/billing/stripe-errors'
 
+export const runtime = 'nodejs'
+
 type CheckoutBody = {
   locale?: string
   plan?: StripeBillingPlan

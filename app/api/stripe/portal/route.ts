@@ -9,6 +9,8 @@ import { createServerSupabaseClient } from '@/lib/supabase/server'
 import { isSupabaseConfigured } from '@/lib/supabase/config'
 import { getAuthRedirectOrigin } from '@/lib/supabase/site-origin'
 
+export const runtime = 'nodejs'
+
 type PortalBody = {
   locale?: string
 }
