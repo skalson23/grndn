@@ -2,10 +2,10 @@ import { NextResponse } from 'next/server'
 import type Stripe from 'stripe'
 
 import { getStripeWebhookSecret } from '@/lib/billing/config'
+import { syncCheckoutSession } from '@/lib/billing/sync-checkout-session'
 import {
   mapStripeSubscriptionStatus,
   updateSubscriptionByStripeCustomerId,
-  upsertUserSubscription,
 } from '@/lib/billing/subscriptions'
 import { getStripeClient } from '@/lib/stripe/client'
 
@@ -17,37 +17,13 @@ function periodEndIso(subscription: Stripe.Subscription): string | null {
 }
 
 async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
-  const userId = session.client_reference_id ?? session.metadata?.supabase_user_id
-  const customerId =
-    typeof session.customer === 'string' ? session.customer : session.customer?.id
-  const subscriptionId =
-    typeof session.subscription === 'string'
-      ? session.subscription
-      : session.subscription?.id
-
-  if (!userId || !customerId) {
-    console.error('[GRNDN stripe webhook] checkout.session.completed missing ids')
-    return
+  try {
+    await syncCheckoutSession(session)
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Checkout sync failed.'
+    console.error('[GRNDN stripe webhook] checkout.session.completed sync failed', message)
+    throw error
   }
-
-  const stripe = getStripeClient()
-  let billingStatus = 'active' as const
-  let currentPeriodEnd: string | null = null
-
-  if (subscriptionId) {
-    const sub = await stripe.subscriptions.retrieve(subscriptionId)
-    billingStatus = mapStripeSubscriptionStatus(sub.status, sub.cancel_at_period_end)
-    currentPeriodEnd = periodEndIso(sub)
-  }
-
-  await upsertUserSubscription({
-    user_id: userId,
-    email: session.customer_email ?? session.customer_details?.email ?? '',
-    stripe_customer_id: customerId,
-    stripe_subscription_id: subscriptionId ?? null,
-    billing_status: billingStatus,
-    current_period_end: currentPeriodEnd,
-  })
 }
 
 async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {

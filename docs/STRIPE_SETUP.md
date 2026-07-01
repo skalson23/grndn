@@ -90,6 +90,7 @@ Use any future expiry, any CVC, any postal code.
 | Route | Purpose |
 |-------|---------|
 | `POST /api/stripe/checkout` | Creates Checkout Session + Stripe Customer |
+| `GET /api/stripe/checkout/verify` | Verifies success redirect + activates subscription |
 | `POST /api/stripe/portal` | Billing portal for manage/cancel |
 | `POST /api/stripe/webhook` | Syncs subscription state to Supabase |
 | `GET /api/billing/status` | Current access + subscription row |

@@ -18,6 +18,7 @@ export async function requestWorkoutPlan(
   const res = await fetch('/api/workout-plan', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
     body: JSON.stringify({ ...answers, locale }),
   })
 

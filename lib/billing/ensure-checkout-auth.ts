@@ -19,7 +19,10 @@ export async function ensureCheckoutAuth(): Promise<void> {
   } = await supabase.auth.getUser()
 
   if (userError) {
-    throw new Error('Could not verify your session. Please try again.')
+    if (process.env.NODE_ENV === 'development') {
+      console.error('[GRNDN checkout auth] Supabase getUser failed', userError.message)
+    }
+    throw new Error(`Supabase auth error: ${userError.message}`)
   }
 
   if (user) return

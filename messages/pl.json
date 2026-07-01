@@ -692,6 +692,12 @@
       "description": "Twoje członkostwo jest aktywne. Zbudujmy Twój spersonalizowany profil treningowy.",
       "sessionNote": "Płatność potwierdzona. Synchronizacja dostępu może chwilę potrwać.",
       "beginSetup": "Rozpocznij swoją podróż",
+      "verifyingTitle": "Potwierdzanie płatności…",
+      "verifyingDescription": "Weryfikujemy sesję Stripe Checkout i aktywujemy Twoje członkostwo.",
+      "verifyErrorTitle": "Weryfikacja płatności nie powiodła się",
+      "verifyFailed": "Nie udało się zweryfikować sesji checkout.",
+      "missingSessionId": "Brak parametru session_id po powrocie z checkout.",
+      "retryVerify": "Spróbuj ponownie",
       "missingProfileTitle": "Najpierw ukończ ocenę",
       "missingProfileDescription": "Nie znaleźliśmy Twojego profilu treningowego. Rozpocznij ocenę, aby GRNDN mógł wygenerować spersonalizowany plan po płatności.",
       "missingProfileCta": "Rozpocznij ocenę"
