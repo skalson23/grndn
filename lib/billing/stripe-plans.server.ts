@@ -1,4 +1,6 @@
-export type StripeBillingPlan = 'monthly' | 'quarterly'
+import 'server-only'
+
+import type { StripeBillingPlan } from '@/lib/billing/types'
 
 export function getStripePriceIdForPlan(plan: StripeBillingPlan): string | null {
   if (plan === 'monthly') {

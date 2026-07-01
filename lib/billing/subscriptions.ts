@@ -1,3 +1,5 @@
+import 'server-only'
+
 import { createAdminClient, isAdminSupabaseConfigured } from '@/lib/supabase/admin'
 
 import type { BillingStatus, UserSubscriptionRow } from './types'

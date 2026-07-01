@@ -1,3 +1,5 @@
+import 'server-only'
+
 import type Stripe from 'stripe'
 
 import { getStripeClient } from '@/lib/stripe/client'

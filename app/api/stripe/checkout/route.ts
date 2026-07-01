@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server'
 
-import { isPaymentsEnabled, isStripeConfigured } from '@/lib/billing/config'
-import {
-  getStripePriceIdForPlan,
-  type StripeBillingPlan,
-} from '@/lib/billing/stripe-plans'
+import { isPaymentsEnabled } from '@/lib/billing/config'
+import { isStripeConfigured } from '@/lib/billing/stripe-config.server'
+import { getStripePriceIdForPlan } from '@/lib/billing/stripe-plans.server'
+import type { StripeBillingPlan } from '@/lib/billing/types'
 import { getUserSubscription, upsertUserSubscription } from '@/lib/billing/subscriptions'
 import { localePath, routing } from '@/i18n/routing'
 import { getStripeClient } from '@/lib/stripe/client'

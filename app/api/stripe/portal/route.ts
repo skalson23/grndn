@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 
-import { isPaymentsEnabled, isStripeConfigured } from '@/lib/billing/config'
+import { isPaymentsEnabled } from '@/lib/billing/config'
+import { isStripeConfigured } from '@/lib/billing/stripe-config.server'
 import { getUserSubscription } from '@/lib/billing/subscriptions'
 import { localePath, routing } from '@/i18n/routing'
 import { getStripeClient } from '@/lib/stripe/client'

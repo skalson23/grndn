@@ -1,7 +1,8 @@
 'use client'
 
 import { writePendingCheckout } from '@/lib/assessment/checkout-pending-storage'
-import type { StripeBillingPlan } from '@/lib/billing/stripe-plans'
+import { writeAuthReturnPath } from '@/lib/auth/auth-return-path'
+import type { StripeBillingPlan } from '@/lib/billing/types'
 import { sendMagicLink } from '@/lib/programs/saved-programs'
 
 export async function sendCheckoutMagicLink(
@@ -9,9 +10,10 @@ export async function sendCheckoutMagicLink(
   plan: StripeBillingPlan,
   locale: string
 ): Promise<void> {
-  writePendingCheckout({ plan, locale })
+  const returnPath = `/${locale}/assessment`
 
-  await sendMagicLink(email.trim(), {
-    next: `/${locale}/assessment?resumeCheckout=${plan}`,
-  })
+  writePendingCheckout({ plan, locale })
+  writeAuthReturnPath(returnPath)
+
+  await sendMagicLink(email.trim(), { next: returnPath })
 }

@@ -1,8 +1,7 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence } from 'framer-motion'
-import { useLocale } from 'next-intl'
 import { toast } from 'sonner'
 
 import { ProfileAnalysisLoader } from '@/components/assessment/profile-analysis-loader'
@@ -16,24 +15,19 @@ import {
 import { getOnboardingStepCount } from '@/components/onboarding/onboarding-context'
 import { readPendingCheckout } from '@/lib/assessment/checkout-pending-storage'
 import { readAssessmentProfile, writeAssessmentProfile } from '@/lib/assessment/storage'
-import { getAuthenticatedUser } from '@/lib/auth/authenticated-user'
+import { clearAuthReturnPath } from '@/lib/auth/auth-return-path'
+import { waitForAuthenticatedUser } from '@/lib/auth/authenticated-user'
 import { redirectToStripeCheckout } from '@/lib/billing/redirect-to-stripe-checkout'
-import type { StripeBillingPlan } from '@/lib/billing/stripe-plans'
 
 type AssessmentPhase = 'questionnaire' | 'analysis' | 'preview'
 
 const POST_QUESTIONNAIRE_STEPS = 2
 
-function parseResumeCheckoutPlan(value: string | null): StripeBillingPlan | null {
-  if (value === 'monthly' || value === 'quarterly') return value
-  return null
-}
-
 export function AssessmentExperience() {
-  const locale = useLocale()
   const [phase, setPhase] = useState<AssessmentPhase>('questionnaire')
   const [profile, setProfile] = useState<OnboardingData | null>(null)
   const [totalSteps, setTotalSteps] = useState(17)
+  const resumeAttemptedRef = useRef(false)
 
   useEffect(() => {
     const saved = readAssessmentProfile()
@@ -44,29 +38,29 @@ export function AssessmentExperience() {
   }, [])
 
   const resumeCheckoutAfterAuth = useCallback(async () => {
-    const params = new URLSearchParams(window.location.search)
-    const resumePlan = parseResumeCheckoutPlan(params.get('resumeCheckout'))
-    if (!resumePlan) return
-
-    const user = await getAuthenticatedUser()
-    if (!user) return
-
     const pending = readPendingCheckout()
-    const plan = pending?.plan ?? resumePlan
-    const checkoutLocale = pending?.locale ?? locale
+    if (!pending) return
 
-    const url = new URL(window.location.href)
-    url.searchParams.delete('resumeCheckout')
-    window.history.replaceState({}, '', `${url.pathname}${url.search}`)
+    const user = await waitForAuthenticatedUser()
+    if (!user) {
+      resumeAttemptedRef.current = false
+      return
+    }
 
     try {
-      await redirectToStripeCheckout(plan, checkoutLocale)
+      clearAuthReturnPath()
+      await redirectToStripeCheckout(pending.plan, pending.locale)
     } catch (error) {
+      resumeAttemptedRef.current = false
       toast.error(error instanceof Error ? error.message : 'Could not start checkout.')
     }
-  }, [locale])
+  }, [])
 
   useEffect(() => {
+    if (resumeAttemptedRef.current) return
+    if (!readPendingCheckout()) return
+
+    resumeAttemptedRef.current = true
     void resumeCheckoutAfterAuth()
   }, [resumeCheckoutAfterAuth])
 

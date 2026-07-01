@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 
-import { getAdminApiSecret } from '@/lib/billing/config'
+import { getAdminApiSecret } from '@/lib/billing/stripe-config.server'
 import { grantBetaAccess } from '@/lib/billing/subscriptions'
 import { isAdminSupabaseConfigured } from '@/lib/supabase/admin'
 

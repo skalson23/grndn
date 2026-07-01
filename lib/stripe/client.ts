@@ -1,6 +1,8 @@
+import 'server-only'
+
 import Stripe from 'stripe'
 
-import { getStripeSecretKey } from '@/lib/billing/config'
+import { getStripeSecretKey } from '@/lib/billing/stripe-config.server'
 
 let stripeClient: Stripe | null = null
 

@@ -1,7 +1,8 @@
 'use client'
 
+import { clearPendingCheckout } from '@/lib/assessment/checkout-pending-storage'
 import { ensureCheckoutAuth } from '@/lib/billing/ensure-checkout-auth'
-import type { StripeBillingPlan } from '@/lib/billing/stripe-plans'
+import type { StripeBillingPlan } from '@/lib/billing/types'
 
 function logCheckoutError(message: string, details?: unknown) {
   if (process.env.NODE_ENV === 'development') {
@@ -36,5 +37,6 @@ export async function redirectToStripeCheckout(
     throw new Error(message)
   }
 
+  clearPendingCheckout()
   window.location.assign(body.url)
 }

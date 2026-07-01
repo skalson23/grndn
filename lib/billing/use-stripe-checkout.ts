@@ -8,9 +8,10 @@ import {
   readPendingCheckout,
   writePendingCheckout,
 } from '@/lib/assessment/checkout-pending-storage'
+import { writeAuthReturnPath } from '@/lib/auth/auth-return-path'
 import { getAuthenticatedUser } from '@/lib/auth/authenticated-user'
 import { redirectToStripeCheckout } from '@/lib/billing/redirect-to-stripe-checkout'
-import type { StripeBillingPlan } from '@/lib/billing/stripe-plans'
+import type { StripeBillingPlan } from '@/lib/billing/types'
 
 export function useStripeCheckout() {
   const t = useTranslations('billing.pricing')
@@ -42,6 +43,7 @@ export function useStripeCheckout() {
     async (plan: StripeBillingPlan, locale?: string) => {
       const resolvedLocale = locale ?? 'en'
       writePendingCheckout({ plan, locale: resolvedLocale })
+      writeAuthReturnPath(`/${resolvedLocale}/assessment`)
 
       const user = await getAuthenticatedUser()
       if (!user) {

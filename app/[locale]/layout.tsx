@@ -4,6 +4,7 @@ import { getMessages, setRequestLocale } from 'next-intl/server'
 import { Analytics } from '@vercel/analytics/next'
 import { Toaster } from 'sonner'
 
+import { AuthCodeHandler } from '@/components/auth/auth-code-handler'
 import { routing } from '@/i18n/routing'
 
 type LocaleLayoutProps = {
@@ -32,6 +33,7 @@ export default async function LocaleLayout({
     <html lang={locale} className="bg-background">
       <body className="font-sans antialiased">
         <NextIntlClientProvider messages={messages}>
+          <AuthCodeHandler />
           {children}
         </NextIntlClientProvider>
         <Toaster theme="dark" position="top-center" richColors />

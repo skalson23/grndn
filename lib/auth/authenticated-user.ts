@@ -20,3 +20,18 @@ export async function getAuthenticatedUser(): Promise<User | null> {
 
   return user
 }
+
+/** Polls briefly after magic-link redirect while session cookies sync. */
+export async function waitForAuthenticatedUser(
+  options: { attempts?: number; delayMs?: number } = {}
+): Promise<User | null> {
+  const { attempts = 10, delayMs = 400 } = options
+
+  for (let attempt = 0; attempt < attempts; attempt += 1) {
+    const user = await getAuthenticatedUser()
+    if (user) return user
+    await new Promise((resolve) => setTimeout(resolve, delayMs))
+  }
+
+  return null
+}

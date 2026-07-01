@@ -17,7 +17,8 @@ import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { writePendingCheckout } from '@/lib/assessment/checkout-pending-storage'
-import type { StripeBillingPlan } from '@/lib/billing/stripe-plans'
+import { writeAuthReturnPath } from '@/lib/auth/auth-return-path'
+import type { StripeBillingPlan } from '@/lib/billing/types'
 import { signInWithPassword, signUpWithPassword } from '@/lib/auth/password-auth'
 import { sendCheckoutMagicLink } from '@/lib/auth/send-checkout-magic-link'
 import { isSupabaseConfigured } from '@/lib/supabase/client'
@@ -78,6 +79,7 @@ export function CheckoutAuthModal({
     setIsSubmitting(true)
     try {
       writePendingCheckout({ plan, locale })
+      writeAuthReturnPath(`/${locale}/assessment`)
       await sendCheckoutMagicLink(email, plan, locale)
       setMagicLinkSent(true)
       toast.success(tAuth('magicLinkSent'))
@@ -110,6 +112,7 @@ export function CheckoutAuthModal({
     setIsSubmitting(true)
     try {
       writePendingCheckout({ plan, locale })
+      writeAuthReturnPath(`/${locale}/assessment`)
 
       if (passwordMode === 'signup') {
         await signUpWithPassword(email, password)

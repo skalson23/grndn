@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import type Stripe from 'stripe'
 
-import { getStripeWebhookSecret } from '@/lib/billing/config'
+import { getStripeWebhookSecret } from '@/lib/billing/stripe-config.server'
 import { syncCheckoutSession } from '@/lib/billing/sync-checkout-session'
 import {
   mapStripeSubscriptionStatus,

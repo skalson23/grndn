@@ -5,13 +5,29 @@ import { completePendingProgramSave } from '@/lib/programs/complete-pending-save
 import { logSaveFlow, logSaveFlowError, logSaveFlowWarn } from '@/lib/programs/save-flow-log'
 import { BETA_ACCESS_COOKIE } from '@/lib/billing/constants'
 import { syncBetaAccessFromCookie } from '@/lib/billing/subscriptions'
-import { defaultLocaleResultsPath } from '@/i18n/routing'
+import { defaultLocaleResultsPath, routing } from '@/i18n/routing'
 import { getSupabasePublicEnv } from '@/lib/supabase/config'
+
+function sanitizeNextPath(raw: string | null): string {
+  const fallback = defaultLocaleResultsPath
+
+  if (!raw) return fallback
+
+  const trimmed = raw.trim()
+  if (!trimmed.startsWith('/') || trimmed.startsWith('//')) return fallback
+
+  const localeMatch = trimmed.match(/^\/(en|pl)(\/|$)/)
+  if (!localeMatch || !routing.locales.includes(localeMatch[1] as (typeof routing.locales)[number])) {
+    return fallback
+  }
+
+  return trimmed
+}
 
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url)
   const code = requestUrl.searchParams.get('code')
-  const next = requestUrl.searchParams.get('next') || defaultLocaleResultsPath
+  const next = sanitizeNextPath(requestUrl.searchParams.get('next'))
   const save = requestUrl.searchParams.get('save')
   const redirectUrl = new URL(next, request.url)
 

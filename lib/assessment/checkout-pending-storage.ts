@@ -1,4 +1,4 @@
-import type { StripeBillingPlan } from '@/lib/billing/stripe-plans'
+import type { StripeBillingPlan } from '@/lib/billing/types'
 
 export const CHECKOUT_PENDING_KEY = 'grndn_checkout_pending_v1'
 

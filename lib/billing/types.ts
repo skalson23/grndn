@@ -2,6 +2,8 @@ export const BILLING_STATUSES = ['beta', 'active', 'cancelled', 'expired'] as co
 
 export type BillingStatus = (typeof BILLING_STATUSES)[number]
 
+export type StripeBillingPlan = 'monthly' | 'quarterly'
+
 export type UserSubscriptionRow = {
   user_id: string
   email: string
