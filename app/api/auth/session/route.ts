@@ -15,7 +15,7 @@ export async function GET() {
       error,
     } = await supabase.auth.getUser()
 
-    if (error || !user?.email) {
+    if (error || !user?.email || user.is_anonymous) {
       return NextResponse.json({ user: null })
     }
 

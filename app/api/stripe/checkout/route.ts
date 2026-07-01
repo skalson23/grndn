@@ -77,7 +77,14 @@ export async function POST(request: Request) {
 
   if (!user) {
     return NextResponse.json(
-      { error: 'No authenticated user. Refresh the page and try checkout again.' },
+      { error: 'Sign in with your account before purchasing.' },
+      { status: 401 }
+    )
+  }
+
+  if (!user.email || user.is_anonymous) {
+    return NextResponse.json(
+      { error: 'A verified account email is required before checkout.' },
       { status: 401 }
     )
   }

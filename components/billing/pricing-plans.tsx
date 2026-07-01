@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from 'next-intl'
 
 import { Button } from '@/components/ui/button'
 import { Spinner } from '@/components/ui/spinner'
+import { CheckoutAuthModal } from '@/components/billing/checkout-auth-modal'
 import { useStripeCheckout } from '@/lib/billing/use-stripe-checkout'
 import {
   PRO_MONTHLY_FEATURES,
@@ -34,7 +35,15 @@ export function PricingPlans({
   const tPreview = useTranslations('assessment.preview.pricing')
   const tBilling = useTranslations('billing.pricing')
   const locale = useLocale()
-  const { checkout, loadingPlan, error } = useStripeCheckout()
+  const {
+    checkout,
+    loadingPlan,
+    error,
+    authModalOpen,
+    pendingPlan,
+    handleAuthenticated,
+    onAuthModalOpenChange,
+  } = useStripeCheckout()
 
   return (
     <div className={className}>
@@ -197,6 +206,14 @@ export function PricingPlans({
           </p>
         </motion.div>
       </div>
+
+      <CheckoutAuthModal
+        open={authModalOpen}
+        onOpenChange={onAuthModalOpenChange}
+        plan={pendingPlan}
+        locale={locale}
+        onAuthenticated={handleAuthenticated}
+      />
     </div>
   )
 }

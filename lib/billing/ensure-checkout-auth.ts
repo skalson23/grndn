@@ -1,36 +1,27 @@
 'use client'
 
-import { createClient } from '@/lib/supabase/client'
+import type { User } from '@supabase/supabase-js'
+
+import { getAuthenticatedUser } from '@/lib/auth/authenticated-user'
 import { isSupabaseConfigured } from '@/lib/supabase/config'
 
-/**
- * Ensures a Supabase session exists before Stripe Checkout.
- * Creates an anonymous session when the user has not signed in yet.
- */
-export async function ensureCheckoutAuth(): Promise<void> {
+export class CheckoutAuthRequiredError extends Error {
+  constructor() {
+    super('Authentication required before checkout.')
+    this.name = 'CheckoutAuthRequiredError'
+  }
+}
+
+/** Requires a real Supabase account (email). Never creates anonymous sessions. */
+export async function ensureCheckoutAuth(): Promise<User> {
   if (!isSupabaseConfigured()) {
     throw new Error('Billing is not configured.')
   }
 
-  const supabase = createClient()
-  const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser()
-
-  if (userError) {
-    if (process.env.NODE_ENV === 'development') {
-      console.error('[GRNDN checkout auth] Supabase getUser failed', userError.message)
-    }
-    throw new Error(`Supabase auth error: ${userError.message}`)
+  const user = await getAuthenticatedUser()
+  if (!user) {
+    throw new CheckoutAuthRequiredError()
   }
 
-  if (user) return
-
-  const { error: signInError } = await supabase.auth.signInAnonymously()
-  if (signInError) {
-    throw new Error(
-      'Could not start checkout. Enable Anonymous sign-ins in Supabase, then try again.'
-    )
-  }
+  return user
 }

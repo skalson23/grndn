@@ -687,6 +687,27 @@
       "backHome": "Back to home",
       "subscriptionRequired": "An active subscription is required to view this page."
     },
+    "checkoutAuth": {
+      "title": "Create your GRNDN account",
+      "description": "Sign in to continue to secure checkout for the {plan}.",
+      "planMonthly": "Monthly plan",
+      "planQuarterly": "Quarterly plan",
+      "tabMagicLink": "Magic link",
+      "tabPassword": "Password",
+      "magicLinkInbox": "Open the link on this device — you'll return here and continue to Stripe Checkout automatically.",
+      "magicLinkFailed": "Could not send magic link.",
+      "createAccount": "Create account",
+      "signIn": "Sign in",
+      "passwordPlaceholder": "Password (8+ characters)",
+      "confirmPasswordPlaceholder": "Confirm password",
+      "passwordMismatch": "Passwords do not match.",
+      "passwordTooShort": "Password must be at least 8 characters.",
+      "authFailed": "Could not sign in. Check your credentials and try again.",
+      "confirmEmailTitle": "Confirm your email",
+      "confirmEmailDescription": "We sent a confirmation link. After confirming, return here and select your plan again.",
+      "continuing": "Continuing…",
+      "continueToCheckout": "Continue to checkout"
+    },
     "success": {
       "title": "Welcome to GRNDN",
       "description": "Your membership is active. Let's build your personalized training profile.",

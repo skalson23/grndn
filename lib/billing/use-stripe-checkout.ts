@@ -4,54 +4,33 @@ import { useCallback, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { toast } from 'sonner'
 
-import { ensureCheckoutAuth } from '@/lib/billing/ensure-checkout-auth'
+import {
+  readPendingCheckout,
+  writePendingCheckout,
+} from '@/lib/assessment/checkout-pending-storage'
+import { getAuthenticatedUser } from '@/lib/auth/authenticated-user'
+import { redirectToStripeCheckout } from '@/lib/billing/redirect-to-stripe-checkout'
 import type { StripeBillingPlan } from '@/lib/billing/stripe-plans'
-
-function logCheckoutError(message: string, details?: unknown) {
-  if (process.env.NODE_ENV === 'development') {
-    console.error('[GRNDN checkout]', message, details)
-  }
-}
 
 export function useStripeCheckout() {
   const t = useTranslations('billing.pricing')
   const [loadingPlan, setLoadingPlan] = useState<StripeBillingPlan | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [authModalOpen, setAuthModalOpen] = useState(false)
+  const [pendingPlan, setPendingPlan] = useState<StripeBillingPlan | null>(null)
 
-  const checkout = useCallback(
-    async (plan: StripeBillingPlan, locale?: string) => {
+  const runCheckout = useCallback(
+    async (plan: StripeBillingPlan, locale: string) => {
       setLoadingPlan(plan)
       setError(null)
 
       try {
-        await ensureCheckoutAuth()
-
-        const res = await fetch('/api/stripe/checkout', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify({ plan, locale }),
-        })
-
-        let body: { url?: string; error?: string } = {}
-        try {
-          body = (await res.json()) as { url?: string; error?: string }
-        } catch {
-          body = {}
-        }
-
-        if (!res.ok || !body.url) {
-          const message = body.error ?? t('checkoutFailed')
-          logCheckoutError(message, { status: res.status, plan, body })
-          throw new Error(message)
-        }
-
-        window.location.assign(body.url)
+        await redirectToStripeCheckout(plan, locale, t('checkoutFailed'))
       } catch (e) {
         const message = e instanceof Error ? e.message : t('checkoutFailed')
         setError(message)
         toast.error(message)
-        logCheckoutError(message, e)
+        throw e
       } finally {
         setLoadingPlan(null)
       }
@@ -59,5 +38,46 @@ export function useStripeCheckout() {
     [t]
   )
 
-  return { checkout, loadingPlan, error, setError }
+  const checkout = useCallback(
+    async (plan: StripeBillingPlan, locale?: string) => {
+      const resolvedLocale = locale ?? 'en'
+      writePendingCheckout({ plan, locale: resolvedLocale })
+
+      const user = await getAuthenticatedUser()
+      if (!user) {
+        setPendingPlan(plan)
+        setAuthModalOpen(true)
+        return
+      }
+
+      await runCheckout(plan, resolvedLocale)
+    },
+    [runCheckout]
+  )
+
+  const handleAuthenticated = useCallback(async () => {
+    const plan = pendingPlan ?? readPendingCheckout()?.plan
+    if (!plan) return
+
+    const locale = readPendingCheckout()?.locale ?? 'en'
+    setPendingPlan(null)
+    setAuthModalOpen(false)
+    await runCheckout(plan, locale)
+  }, [pendingPlan, runCheckout])
+
+  const onAuthModalOpenChange = useCallback((open: boolean) => {
+    setAuthModalOpen(open)
+    if (!open) setPendingPlan(null)
+  }, [])
+
+  return {
+    checkout,
+    loadingPlan,
+    error,
+    setError,
+    authModalOpen,
+    pendingPlan,
+    handleAuthenticated,
+    onAuthModalOpenChange,
+  }
 }

@@ -687,6 +687,27 @@
       "backHome": "Wróć na stronę główną",
       "subscriptionRequired": "Wymagana aktywna subskrypcja, aby wyświetlić tę stronę."
     },
+    "checkoutAuth": {
+      "title": "Utwórz konto GRNDN",
+      "description": "Zaloguj się, aby przejść do bezpiecznej płatności za {plan}.",
+      "planMonthly": "plan miesięczny",
+      "planQuarterly": "plan kwartalny",
+      "tabMagicLink": "Magiczny link",
+      "tabPassword": "Hasło",
+      "magicLinkInbox": "Otwórz link na tym urządzeniu — wrócisz tutaj i automatycznie przejdziesz do Stripe Checkout.",
+      "magicLinkFailed": "Nie udało się wysłać magicznego linku.",
+      "createAccount": "Utwórz konto",
+      "signIn": "Zaloguj się",
+      "passwordPlaceholder": "Hasło (min. 8 znaków)",
+      "confirmPasswordPlaceholder": "Potwierdź hasło",
+      "passwordMismatch": "Hasła nie są identyczne.",
+      "passwordTooShort": "Hasło musi mieć co najmniej 8 znaków.",
+      "authFailed": "Nie udało się zalogować. Sprawdź dane i spróbuj ponownie.",
+      "confirmEmailTitle": "Potwierdź email",
+      "confirmEmailDescription": "Wysłaliśmy link potwierdzający. Po potwierdzeniu wróć tutaj i wybierz plan ponownie.",
+      "continuing": "Kontynuowanie…",
+      "continueToCheckout": "Przejdź do płatności"
+    },
     "success": {
       "title": "Witaj w GRNDN",
       "description": "Twoje członkostwo jest aktywne. Zbudujmy Twój spersonalizowany profil treningowy.",
