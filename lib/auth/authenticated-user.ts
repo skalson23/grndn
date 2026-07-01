@@ -3,7 +3,7 @@
 import type { User } from '@supabase/supabase-js'
 
 import { createClient } from '@/lib/supabase/client'
-import { isSupabaseConfigured } from '@/lib/supabase/config'
+import { isSupabaseConfigured } from '@/lib/supabase/env.public'
 
 /** Returns a signed-in user with a verified email — never anonymous. */
 export async function getAuthenticatedUser(): Promise<User | null> {

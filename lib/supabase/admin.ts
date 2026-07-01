@@ -2,7 +2,7 @@ import 'server-only'
 
 import { createClient } from '@supabase/supabase-js'
 
-import { getSupabasePublicEnv, isSupabaseConfigured } from './config'
+import { getSupabasePublicEnv, isSupabaseConfigured } from './env.public'
 
 /**
  * Server-only admin client (service role). Import only from Route Handlers,

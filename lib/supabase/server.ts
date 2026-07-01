@@ -1,7 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
-import { getSupabasePublicEnv } from './config'
+import { getSupabasePublicEnv } from './env.public'
 
 /** Server-only Supabase client (anon key + request cookies). Never use the service role here. */
 export async function createServerSupabaseClient() {

@@ -3,7 +3,7 @@
 import type { User } from '@supabase/supabase-js'
 
 import { getAuthenticatedUser } from '@/lib/auth/authenticated-user'
-import { isSupabaseConfigured } from '@/lib/supabase/config'
+import { isSupabaseConfigured } from '@/lib/supabase/env.public'
 
 export class CheckoutAuthRequiredError extends Error {
   constructor() {

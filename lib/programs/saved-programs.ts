@@ -1,6 +1,6 @@
 import type { User } from '@supabase/supabase-js'
 
-import { isSupabaseConfigured } from '@/lib/supabase/config'
+import { isSupabaseConfigured } from '@/lib/supabase/env.public'
 
 import type { SaveProgramInput, SavedProgram } from './saved-program-models'
 

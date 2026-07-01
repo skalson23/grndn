@@ -21,7 +21,7 @@ import { writeAuthReturnPath } from '@/lib/auth/auth-return-path'
 import type { StripeBillingPlan } from '@/lib/billing/types'
 import { signInWithPassword, signUpWithPassword } from '@/lib/auth/password-auth'
 import { sendCheckoutMagicLink } from '@/lib/auth/send-checkout-magic-link'
-import { isSupabaseConfigured } from '@/lib/supabase/client'
+import { isSupabaseConfigured } from '@/lib/supabase/env.public'
 import { cn } from '@/lib/utils'
 
 type CheckoutAuthModalProps = {
@@ -122,15 +122,21 @@ export function CheckoutAuthModal({
 
       resetForm()
       onOpenChange(false)
-      await onAuthenticated()
     } catch (error) {
       if (error instanceof Error && error.message === 'confirm_email') {
         toast.message(t('confirmEmailTitle'), { description: t('confirmEmailDescription') })
         return
       }
       toast.error(error instanceof Error ? error.message : t('authFailed'))
+      return
     } finally {
       setIsSubmitting(false)
+    }
+
+    try {
+      await onAuthenticated()
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : t('authFailed'))
     }
   }
 
